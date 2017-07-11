@@ -1,7 +1,9 @@
 package tool.xfy9326.floatpicture.Methods;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -12,6 +14,13 @@ import tool.xfy9326.floatpicture.Utils.Config;
 import tool.xfy9326.floatpicture.Utils.PictureData;
 
 public class ManageMethods {
+
+    public static void SelectPicture(Activity mActivity) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        mActivity.startActivityForResult(intent, Config.REQUEST_CODE_ACTIVITY_PICTURE_SETTINGS_GET_PICTURE);
+    }
 
     public static void RunWin(Context mContext) {
         if (PermissionMethods.checkPermission(mContext, PermissionMethods.StoragePermission)) {

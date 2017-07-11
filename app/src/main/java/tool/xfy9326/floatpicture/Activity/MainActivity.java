@@ -1,12 +1,16 @@
 package tool.xfy9326.floatpicture.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -23,7 +27,14 @@ import tool.xfy9326.floatpicture.Utils.Config;
 import tool.xfy9326.floatpicture.View.ManageListAdapter;
 
 public class MainActivity extends AppCompatActivity {
+    private final static String APPLICATION_STARTED = "APPLICATION_STARTED";
     private ManageListAdapter manageListAdapter;
+
+    public static void SnackShow(Activity mActivity, int resourceId) {
+        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) mActivity.findViewById(R.id.main_layout_content);
+        Snackbar.make(coordinatorLayout, mActivity.getString(resourceId), Snackbar.LENGTH_SHORT).show();
+        System.gc();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
         PermissionMethods.askOverlayPermission(this, Config.REQUEST_CODE_PERMISSION_OVERLAY);
         PermissionMethods.askPermission(this, PermissionMethods.StoragePermission, Config.REQUEST_CODE_PERMISSION_STORAGE);
         ViewSet();
-        ManageMethods.RunWin(this);
+        if (savedInstanceState == null) {
+            ManageMethods.RunWin(this);
+        }
     }
 
     private void ViewSet() {
@@ -48,28 +61,36 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                startActivityForResult(intent, Config.REQUEST_CODE_ACTIVITY_PICTURE_SETTINGS_GET_PICTURE);
+                ManageMethods.SelectPicture(MainActivity.this);
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        outState.putBoolean(APPLICATION_STARTED, true);
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Config.REQUEST_CODE_ACTIVITY_PICTURE_SETTINGS_ADD) {
             manageListAdapter.updateData();
-            if(manageListAdapter.getItemCount() == 1){
-                manageListAdapter.notifyDataSetChanged();
-            } else {
-                manageListAdapter.notifyItemInserted(manageListAdapter.getItemCount());
+            if (manageListAdapter.getItemCount() != 0) {
+                if (manageListAdapter.getItemCount() == 1) {
+                    manageListAdapter.notifyDataSetChanged();
+                } else {
+                    manageListAdapter.notifyItemInserted(manageListAdapter.getItemCount());
+                }
+                SnackShow(this, R.string.action_add_window);
             }
         } else if (requestCode == Config.REQUEST_CODE_ACTIVITY_PICTURE_SETTINGS_CHANGE) {
-            int position = data.getIntExtra(Config.INTENT_PICTURE_EDIT_POSITION, -1);
-            if (position >= 0) {
-                manageListAdapter.updateData();
-                manageListAdapter.notifyItemChanged(position);
+            if (data != null) {
+                int position = data.getIntExtra(Config.INTENT_PICTURE_EDIT_POSITION, -1);
+                if (position >= 0) {
+                    manageListAdapter.updateData();
+                    manageListAdapter.notifyItemChanged(position);
+                }
             }
         } else if (requestCode == Config.REQUEST_CODE_ACTIVITY_PICTURE_SETTINGS_GET_PICTURE) {
             if (data != null) {
@@ -85,7 +106,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         if (requestCode == Config.REQUEST_CODE_PERMISSION_STORAGE) {
             boolean run = true;
             for (int i = 0; i < grantResults.length; i++) {

@@ -18,7 +18,7 @@
     <string name="settings_picture_control">Picture Control Settings</string>
     <string name="settings_picture_resize">Resize the picture</string>
     <string name="settings_picture_resize_sum">Scaling the size of window and picture.</string>
-    <string name="settings_picture_resize_warn">Please input a correct picture size</string>
+    <string name="settings_picture_resize_warn">Please input a correct picture size!</string>
     <string name="settings_picture_resize_size">Size:</string>
     <string name="settings_window">Window Settings</string>
     <string name="settings_picture_position_sum">Move the window</string>
@@ -26,4 +26,8 @@
     <string name="settings_picture_position_warn">Please input a correct picture position!</string>
     <string name="settings_picture_position_x">Position X:</string>
     <string name="settings_picture_position_y">Position Y:</string>
+    <string name="action_warn_edit_hided_window">You can\'t edit a hided window!</string>
+    <string name="action_delete_window">Delete window success!</string>
+    <string name="action_add_window">Add window success!</string>
+    <string name="new_picture_name">New Picture</string>
 </resources>

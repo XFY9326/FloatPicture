@@ -4,5 +4,5 @@
     <color name="colorPrimaryDark">#1565C0</color>
     <color name="colorAccent">#1e1ac6</color>
     <color name="colorFloatingActionButtonBackGround">#40c4ff</color>
-    <color name="colorImageViewBackground">#00ffffff</color>
+    <color name="colorImageViewEditBackground">#789e9e9e</color>
 </resources>

@@ -77,7 +77,9 @@
                         android:id="@+id/adapter_picture_delete"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:layout_alignParentStart="true"
+                        android:layout_alignParentStart="false"
+                        android:layout_marginEnd="8dp"
+                        android:layout_toStartOf="@+id/adapter_picture_edit"
                         android:background="@drawable/ic_delete" />
 
                     <Button

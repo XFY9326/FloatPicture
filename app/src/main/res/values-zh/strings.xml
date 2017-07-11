@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FloatPicture</string>
+    <string name="adapter_image_description">图片预览</string>
+    <string name="done">确认</string>
+    <string name="cancel">取消</string>
+    <string name="permission_warn">权限警告</string>
+    <string name="permission_warn_explanation">本应用程序需要这个权限才能正常运行！</string>
+    <string name="permission_warn_overlay_explanation">本应用程序需要悬浮窗权限才能显示图片！</string>
+    <string name="permission_warn_overlay_intent">请授予应用悬浮窗权限！</string>
+    <string name="permission_warn_storage_intent">请授予应用储存权限！</string>
+    <string name="save">保存</string>
+    <string name="settings_general">通用设置</string>
+    <string name="settings_label">图片设置</string>
+    <string name="settings_picture_control">图片控制设置</string>
+    <string name="settings_picture_id_sum">图片唯一识别码</string>
+    <string name="settings_picture_name">图片名称</string>
+    <string name="settings_picture_name_sum">使用不同的名称区分图片</string>
+    <string name="settings_picture_name_warn">请输入一个正确的图片名称</string>
+    <string name="settings_picture_position">设置窗口位置</string>
+    <string name="settings_picture_position_sum">移动窗口</string>
+    <string name="settings_picture_position_warn">请输入一个正确的窗口位置！</string>
+    <string name="settings_picture_position_x">X 坐标:</string>
+    <string name="settings_picture_position_y">Y 坐标:</string>
+    <string name="settings_picture_resize">设定图片大小</string>
+    <string name="settings_picture_resize_size">大小:</string>
+    <string name="settings_picture_resize_sum">等比例缩放窗口与图片</string>
+    <string name="settings_picture_resize_warn">请输入一个正确的图片大小！</string>
+    <string name="settings_window">窗口设置</string>
+    <string name="action_warn_edit_hided_window">你不能编辑一个已经隐藏的窗口！</string>
+    <string name="action_delete_window">成功删除窗口！</string>
+    <string name="action_add_window">成功添加窗口！</string>
+    <string name="new_picture_name">新图片</string>
+</resources>

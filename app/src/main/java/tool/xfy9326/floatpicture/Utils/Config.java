@@ -20,13 +20,10 @@ public class Config {
     public final static String DATA_PICTURE_POSITION_X = "POSITION_X";
     public final static String DATA_PICTURE_POSITION_Y = "POSITION_Y";
     public final static String DATA_PICTURE_ZOOM = "ZOOM";
-    public final static String DATA_PICTURE_IS_GIF = "IS_GIF";
 
     public final static boolean DATA_DEFAULT_PICTURE_SHOW_ENABLED = true;
-    public final static String DATA_DEFAULT_PICTURE_NAME = "New Picture";
     public final static int DATA_DEFAULT_PICTURE_POSITION_X = 100;
     public final static int DATA_DEFAULT_PICTURE_POSITION_Y = 100;
-    public final static boolean DATA_DEFAULT_PICTURE_IS_GIF = false;
 
     public final static String PREFERENCE_PICTURE_NAME = "settings_picture_name";
     public final static String PREFERENCE_PICTURE_ID = "settings_picture_id";

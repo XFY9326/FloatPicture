@@ -3,7 +3,9 @@ package tool.xfy9326.floatpicture.Methods;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.PixelFormat;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -33,6 +35,7 @@ public class WindowsMethods {
         layoutParams.gravity = Gravity.START | Gravity.TOP;
         layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        layoutParams.format = PixelFormat.TRANSLUCENT;
         return layoutParams;
     }
 
@@ -48,11 +51,21 @@ public class WindowsMethods {
         ImageView imageView = new ImageView(mContext);
         imageView.setImageBitmap(resizeBitmap(bitmap, zoom));
         //noinspection deprecation
-        imageView.setBackgroundColor(mContext.getResources().getColor(R.color.colorImageViewBackground));
+        imageView.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
+        imageView.getBackground().setAlpha(0);
         return imageView;
     }
 
-    private static Bitmap resizeBitmap(Bitmap bitmap, float zoom) {
+    public static Bitmap getEditBitmap(Context mContext, Bitmap bitmap) {
+        Bitmap transparent_bitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(transparent_bitmap);
+        //noinspection deprecation
+        canvas.drawColor(mContext.getResources().getColor(R.color.colorImageViewEditBackground));
+        transparent_bitmap.setHasAlpha(true);
+        return transparent_bitmap;
+    }
+
+    public static Bitmap resizeBitmap(Bitmap bitmap, float zoom) {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         Matrix matrix = new Matrix();
