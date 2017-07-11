@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">FloatPicture</string>
+    <string name="done">Done</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="permission_warn">Permission Warning</string>
+    <string name="permission_warn_explanation">The application need this permission to work properly!</string>
+    <string name="permission_warn_overlay_explanation">The application need overlay permission to show pictures!</string>
+    <string name="permission_warn_storage_intent">Please give storage permission!</string>
+    <string name="permission_warn_overlay_intent">Please give overlay permission!</string>
+    <string name="adapter_image_description">Picture Preview</string>
+    <string name="settings_label">Picture Settings</string>
+    <string name="settings_general">General Settings</string>
+    <string name="settings_picture_name">Picture name</string>
+    <string name="settings_picture_name_warn">Please input a correct picture name!</string>
+    <string name="settings_picture_name_sum">Use a different picture name to identify pictures.</string>
+    <string name="settings_picture_id_sum">The only ID of this picture.</string>
+    <string name="settings_picture_control">Picture Control Settings</string>
+    <string name="settings_picture_resize">Resize the picture</string>
+    <string name="settings_picture_resize_sum">Scaling the size of window and picture.</string>
+    <string name="settings_picture_resize_warn">Please input a correct picture size</string>
+    <string name="settings_picture_resize_size">Size:</string>
+    <string name="settings_window">Window Settings</string>
+    <string name="settings_picture_position_sum">Move the window</string>
+    <string name="settings_picture_position">Set window position.</string>
+    <string name="settings_picture_position_warn">Please input a correct picture position!</string>
+    <string name="settings_picture_position_x">Position X:</string>
+    <string name="settings_picture_position_y">Position Y:</string>
+</resources>
