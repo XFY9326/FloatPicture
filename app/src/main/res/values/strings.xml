@@ -30,4 +30,13 @@
     <string name="action_delete_window">Delete window success!</string>
     <string name="action_add_window">Add window success!</string>
     <string name="new_picture_name">New Picture</string>
+    <string name="settings_global_label">Global Settings</string>
+    <string name="action_warn_double_click_close_application">Double click to close application.</string>
+    <string name="action_back_to_launcher">Back to launcher</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="back_to_launcher">Only back to launcher</string>
+    <string name="exit_application">Exit</string>
+    <string name="settings_global_start_on_boot">Boot auto run</string>
+    <string name="settings_global_start_on_boot_sum">Run application when you boot</string>
 </resources>

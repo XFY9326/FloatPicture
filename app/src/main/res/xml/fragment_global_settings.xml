@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="boot_auto_run"
+        android:summary="@string/settings_global_start_on_boot_sum"
+        android:title="@string/settings_global_start_on_boot" />
+
+</PreferenceScreen>

@@ -15,13 +15,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar"
+        android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
         <activity
-            android:name=".Activity.MainActivity"
+            android:name=".Activities.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:theme="@style/DrawerActivity"
             tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,12 +30,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.PictureSettingsActivity"
+            android:name=".Activities.PictureSettingsActivity"
             android:label="@string/settings_label"
             tools:ignore="InnerclassSeparator">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activity.MainActivity" />
+                android:value=".Activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Activities.GlobalSettingsActivity"
+            android:label="@string/settings_global_label"
+            tools:ignore="InnerclassSeparator">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
         </activity>
 
         <receiver

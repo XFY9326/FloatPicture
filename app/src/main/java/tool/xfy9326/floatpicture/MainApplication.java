@@ -5,17 +5,24 @@ import android.view.View;
 
 import java.util.HashMap;
 
+import tool.xfy9326.floatpicture.Tools.CrashHandler;
+
 public class MainApplication extends Application {
     private HashMap<String, View> ViewRegister;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        CrashHandler.get().Catch(this);
         this.ViewRegister = new HashMap<>();
     }
 
     public void registerView(String id, View mView) {
         ViewRegister.put(id, mView);
+    }
+
+    public HashMap<String, View> getRegister() {
+        return ViewRegister;
     }
 
     public View getRegisteredView(String id) {

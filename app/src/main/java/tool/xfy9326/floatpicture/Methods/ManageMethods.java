@@ -5,11 +5,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+import tool.xfy9326.floatpicture.MainApplication;
 import tool.xfy9326.floatpicture.Utils.Config;
 import tool.xfy9326.floatpicture.Utils.PictureData;
 
@@ -60,6 +63,17 @@ public class ManageMethods {
         }
         pictureData.remove();
         ImageMethods.clearAllTemp(mContext, id);
+    }
+
+    static void CloseAllWindows(Context mContext) {
+        HashMap<String, View> hashMap = ((MainApplication) mContext.getApplicationContext()).getRegister();
+        WindowManager windowManager = WindowsMethods.getWindowManager(mContext);
+        if (hashMap.size() > 0) {
+            for (Object o : hashMap.entrySet()) {
+                HashMap.Entry entry = (HashMap.Entry) o;
+                windowManager.removeView((ImageView) entry.getValue());
+            }
+        }
     }
 
 }

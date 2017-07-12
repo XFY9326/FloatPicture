@@ -1,4 +1,4 @@
-package tool.xfy9326.floatpicture.Activity;
+package tool.xfy9326.floatpicture.Activities;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -19,7 +19,7 @@ public class PictureSettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_picture_settings);
+        setContentView(R.layout.activity_settings);
         ViewSet();
         fragmentSet(savedInstanceState);
         setBackResult();

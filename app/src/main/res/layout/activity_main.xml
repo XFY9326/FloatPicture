@@ -1,31 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_layout_content"
+    android:id="@+id/main_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.MainActivity">
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
 
-    <include layout="@layout/widget_toolbar" />
+    <include layout="@layout/activity_main_content" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/main_list_manage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
-        app:layoutManager="LinearLayoutManager" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/main_button_add"
+    <android.support.design.widget.NavigationView
+        android:id="@+id/main_navigation_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        app:backgroundTint="@color/colorFloatingActionButtonBackGround"
-        app:elevation="6dp"
-        app:fabSize="normal"
-        app:pressedTranslationZ="12dp"
-        app:srcCompat="@drawable/ic_add" />
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/drawer_manage_header"
+        app:menu="@menu/drawer_manage_menu" />
 
-</android.support.design.widget.CoordinatorLayout>
+</android.support.v4.widget.DrawerLayout>

@@ -1,24 +1,28 @@
-package tool.xfy9326.floatpicture.Activity;
+package tool.xfy9326.floatpicture.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import tool.xfy9326.floatpicture.Methods.ApplicationMethods;
 import tool.xfy9326.floatpicture.Methods.ManageMethods;
 import tool.xfy9326.floatpicture.Methods.PermissionMethods;
 import tool.xfy9326.floatpicture.Methods.UriMethods;
@@ -27,8 +31,8 @@ import tool.xfy9326.floatpicture.Utils.Config;
 import tool.xfy9326.floatpicture.View.ManageListAdapter;
 
 public class MainActivity extends AppCompatActivity {
-    private final static String APPLICATION_STARTED = "APPLICATION_STARTED";
     private ManageListAdapter manageListAdapter;
+    private long BackClickTime;
 
     public static void SnackShow(Activity mActivity, int resourceId) {
         CoordinatorLayout coordinatorLayout = (CoordinatorLayout) mActivity.findViewById(R.id.main_layout_content);
@@ -40,10 +44,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        BackClickTime = System.currentTimeMillis();
         PermissionMethods.askOverlayPermission(this, Config.REQUEST_CODE_PERMISSION_OVERLAY);
         PermissionMethods.askPermission(this, PermissionMethods.StoragePermission, Config.REQUEST_CODE_PERMISSION_STORAGE);
         ViewSet();
         if (savedInstanceState == null) {
+            ApplicationMethods.ClearUselessTemp(this);
             ManageMethods.RunWin(this);
         }
     }
@@ -64,12 +70,31 @@ public class MainActivity extends AppCompatActivity {
                 ManageMethods.SelectPicture(MainActivity.this);
             }
         });
-    }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        outState.putBoolean(APPLICATION_STARTED, true);
-        super.onSaveInstanceState(outState, outPersistentState);
+        final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.main_navigation_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                drawerLayout.closeDrawers();
+                switch (item.getItemId()) {
+                    case R.id.menu_global_settings:
+                        startActivity(new Intent(MainActivity.this, GlobalSettingsActivity.class));
+                        break;
+                    case R.id.menu_back_to_launcher:
+                        MainActivity.this.moveTaskToBack(true);
+                        break;
+                    case R.id.menu_exit:
+                        ApplicationMethods.CloseApplication(MainActivity.this);
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -106,8 +131,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == Config.REQUEST_CODE_PERMISSION_STORAGE) {
             boolean run = true;
             for (int i = 0; i < grantResults.length; i++) {
@@ -128,5 +152,16 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onBackPressed() {
+        long BackNowClickTime = System.currentTimeMillis();
+        if ((BackNowClickTime - BackClickTime) < 2200) {
+            ApplicationMethods.DoubleClickCloseSnackBar(this, true);
+        } else {
+            ApplicationMethods.DoubleClickCloseSnackBar(this, false);
+            BackClickTime = System.currentTimeMillis();
+        }
     }
 }

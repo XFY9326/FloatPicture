@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import tool.xfy9326.floatpicture.Activity.MainActivity;
-import tool.xfy9326.floatpicture.Activity.PictureSettingsActivity;
+import tool.xfy9326.floatpicture.Activities.MainActivity;
+import tool.xfy9326.floatpicture.Activities.PictureSettingsActivity;
 import tool.xfy9326.floatpicture.Methods.ImageMethods;
 import tool.xfy9326.floatpicture.Methods.ManageMethods;
 import tool.xfy9326.floatpicture.Methods.WindowsMethods;

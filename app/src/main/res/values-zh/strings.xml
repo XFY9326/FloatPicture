@@ -31,4 +31,13 @@
     <string name="action_delete_window">成功删除窗口！</string>
     <string name="action_add_window">成功添加窗口！</string>
     <string name="new_picture_name">新图片</string>
+    <string name="settings_global_label">全局设置</string>
+    <string name="action_back_to_launcher">返回桌面</string>
+    <string name="action_warn_double_click_close_application">双击以退出应用</string>
+    <string name="close">关闭</string>
+    <string name="open">开启</string>
+    <string name="exit_application">退出</string>
+    <string name="back_to_launcher">仅返回桌面</string>
+    <string name="settings_global_start_on_boot">开机自启动</string>
+    <string name="settings_global_start_on_boot_sum">开机时自动运行应用</string>
 </resources>
