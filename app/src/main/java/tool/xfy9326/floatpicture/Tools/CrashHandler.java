@@ -50,24 +50,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             cause = cause.getCause();
         }
         printWriter.close();
-        String str = writer.toString();
-        String[] errs = str.split("\n");
-        String result = "";
-        for (String err : errs) {
-            if (err.contains("at")) {
-                if (!err.contains(mContext.getPackageName())) {
-                    continue;
-                } else {
-                    err = err.replace(mContext.getPackageName(), "").trim();
-                    StringBuilder sb = new StringBuilder(err);
-                    sb.insert(err.indexOf("("), "\n");
-                    err = sb.toString();
-                }
-            }
-            result += err + "\n";
-        }
-        result = result.substring(0, result.length() - 1);
-        return result;
+        return writer.toString();
     }
 
 }

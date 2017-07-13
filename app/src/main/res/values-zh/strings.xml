@@ -50,4 +50,5 @@
     <string name="imageview_app_icon">应用图标</string>
     <string name="action_warn_manage_list_empty">没有图片正在显示\n点击+按钮新建</string>
     <string name="imageview_list_is_empty">管理列表现在是空的</string>
+    <string name="imageview_collapsing_toolbar_head">收缩状态栏</string>
 </resources>

@@ -49,4 +49,5 @@
     <string name="imageview_app_icon">Application Icon</string>
     <string name="action_warn_manage_list_empty">No Picture is showing now.\nClick + Button to create one.</string>
     <string name="imageview_list_is_empty">Manage list is empty now</string>
+    <string name="imageview_collapsing_toolbar_head">Collapsing Toolbar</string>
 </resources>
