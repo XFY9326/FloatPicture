@@ -55,7 +55,7 @@ public class ManageMethods {
     public static void DeleteWin(Context mContext, String id) {
         PictureData pictureData = new PictureData();
         pictureData.setDataControl(id);
-        if(pictureData.getBoolean(Config.DATA_PICTURE_SHOW_ENABLED, Config.DATA_DEFAULT_PICTURE_SHOW_ENABLED)) {
+        if (pictureData.getBoolean(Config.DATA_PICTURE_SHOW_ENABLED, Config.DATA_DEFAULT_PICTURE_SHOW_ENABLED)) {
             ImageView imageView = ImageMethods.getImageViewById(mContext, id);
             if (imageView != null) {
                 WindowsMethods.getWindowManager(mContext).removeView(imageView);

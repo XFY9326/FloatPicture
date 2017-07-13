@@ -34,6 +34,7 @@ public class MainApplication extends Application {
         return null;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public boolean unregisterView(String id) {
         if (ViewRegister.containsKey(id)) {
             ViewRegister.remove(id);

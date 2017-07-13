@@ -1,5 +1,7 @@
 package tool.xfy9326.floatpicture.Methods;
 
+import android.content.Context;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,6 +12,22 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 public class IOMethods {
+
+    public static String readAssetText(Context mContext, String path) {
+        try {
+            String result = "";
+            InputStreamReader inputReader = new InputStreamReader(mContext.getResources().getAssets().open(path));
+            BufferedReader bufReader = new BufferedReader(inputReader);
+            String line;
+            while ((line = bufReader.readLine()) != null) {
+                result += line + "\n";
+            }
+            return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     private static boolean createPath(File file) {
         if (file.getParent().trim().length() != 1) {

@@ -3,6 +3,8 @@ package tool.xfy9326.floatpicture.Methods;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.CoordinatorLayout;
@@ -18,6 +20,16 @@ import tool.xfy9326.floatpicture.Utils.Config;
 
 public class ApplicationMethods {
     private static boolean waitDoubleClick;
+
+    public static String getApplicationVersion(Context mContext) {
+        try {
+            PackageInfo packageInfo = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), PackageManager.GET_CONFIGURATIONS);
+            return packageInfo.versionName + " (" + packageInfo.versionCode + ")";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static void CloseApplication(Activity mActivity) {
         ManageMethods.CloseAllWindows(mActivity);

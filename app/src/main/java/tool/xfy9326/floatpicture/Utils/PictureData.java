@@ -29,6 +29,7 @@ public class PictureData {
         this.detailObject = getDetailObject(this.id);
     }
 
+    @SuppressWarnings("SameParameterValue")
     public void put(String name, boolean value) {
         try {
             detailObject.put(name, value);
@@ -37,6 +38,7 @@ public class PictureData {
         }
     }
 
+    @SuppressWarnings("unused")
     public void put(String name, String value) {
         try {
             detailObject.put(name, CodeMethods.unicodeEncode(value));
@@ -53,6 +55,7 @@ public class PictureData {
         }
     }
 
+    @SuppressWarnings("SameParameterValue")
     public void put(String name, float value) {
         try {
             detailObject.put(name, (double) value);
@@ -61,6 +64,7 @@ public class PictureData {
         }
     }
 
+    @SuppressWarnings("SameParameterValue")
     public boolean getBoolean(String name, boolean defaultValue) {
         if (detailObject.has(name)) {
             try {
@@ -72,6 +76,7 @@ public class PictureData {
         return defaultValue;
     }
 
+    @SuppressWarnings("unused")
     public String getString(String name, String defaultValue) {
         if (detailObject.has(name)) {
             try {
@@ -94,6 +99,7 @@ public class PictureData {
         return defaultValue;
     }
 
+    @SuppressWarnings("SameParameterValue")
     public float getFloat(String name, float defaultValue) {
         if (detailObject.has(name)) {
             try {
@@ -105,30 +111,25 @@ public class PictureData {
         return defaultValue;
     }
 
-    public boolean commit(String pictureName) {
+    public void commit(String pictureName) {
         try {
             if (pictureName != null) {
                 listObject.put(id, pictureName);
             }
             dataObject.put(id, detailObject);
-            boolean result1 = setJSONFile(ListFileName, listObject);
-            boolean result2 = setJSONFile(DataFileName, dataObject);
-            return result1 && result2;
+            setJSONFile(ListFileName, listObject);
+            setJSONFile(DataFileName, dataObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
-    public boolean remove() {
+    public void remove() {
         if (listObject.has(id)) {
             listObject.remove(id);
             dataObject.remove(id);
             setJSONFile(ListFileName, listObject);
             setJSONFile(DataFileName, dataObject);
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -174,6 +175,7 @@ public class PictureData {
         return new JSONObject();
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     private boolean setJSONFile(String FileName, JSONObject jsonObject) {
         return IOMethods.writeFile(jsonObject.toString(), Config.DEFAULT_DATA_DIR + FileName);
     }

@@ -6,6 +6,10 @@
             android:id="@+id/menu_global_settings"
             android:icon="@drawable/ic_settings"
             android:title="@string/settings_global_label" />
+        <item
+            android:id="@+id/menu_about"
+            android:icon="@drawable/ic_about"
+            android:title="@string/about" />
     </group>
 
     <group android:id="@+id/menu_group_application">

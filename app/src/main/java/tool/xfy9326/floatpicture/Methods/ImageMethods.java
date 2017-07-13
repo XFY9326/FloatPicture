@@ -47,13 +47,13 @@ public class ImageMethods {
         return (ImageView) mainApplication.getRegisteredView(id);
     }
 
-    public static boolean clearAllTemp(Context mContext, String id) {
+    public static void clearAllTemp(Context mContext, String id) {
         MainApplication mainApplication = (MainApplication) mContext.getApplicationContext();
-        boolean result = mainApplication.unregisterView(id);
+        mainApplication.unregisterView(id);
         File imageFile = new File(Config.DEFAULT_PICTURE_DIR + id);
         if (imageFile.exists()) {
-            result = imageFile.delete();
+            //noinspection ResultOfMethodCallIgnored
+            imageFile.delete();
         }
-        return result;
     }
 }

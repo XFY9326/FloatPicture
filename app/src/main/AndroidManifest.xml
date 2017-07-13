@@ -45,6 +45,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.MainActivity" />
         </activity>
+        <activity
+            android:name=".Activities.AboutActivity"
+            android:label="@string/about"
+            tools:ignore="InnerclassSeparator">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Activities.LicenseActivity"
+            android:label="@string/open_source_license"
+            tools:ignore="InnerclassSeparator">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.AboutActivity" />
+        </activity>
 
         <receiver
             android:name=".Receiver.BootCompleteReceiver"

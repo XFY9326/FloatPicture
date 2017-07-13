@@ -39,4 +39,12 @@
     <string name="exit_application">Exit</string>
     <string name="settings_global_start_on_boot">Boot auto run</string>
     <string name="settings_global_start_on_boot_sum">Run application when you boot</string>
+    <string name="about">About</string>
+    <string name="application_version">Version:</string>
+    <string name="author">XFY9326（ClareX）</string>
+    <string name="website">https://github.com/XFY9326/FloatPicture</string>
+    <string name="application_author">Author:</string>
+    <string name="open_source_license">Open Source License</string>
+    <string name="copyright">Copyright © 2017 XFY9326.\nAll rights reserved.</string>
+    <string name="imageview_app_icon">Application Icon</string>
 </resources>

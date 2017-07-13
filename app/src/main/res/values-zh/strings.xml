@@ -40,4 +40,12 @@
     <string name="back_to_launcher">仅返回桌面</string>
     <string name="settings_global_start_on_boot">开机自启动</string>
     <string name="settings_global_start_on_boot_sum">开机时自动运行应用</string>
+    <string name="application_version">版本：</string>
+    <string name="about">关于</string>
+    <string name="author">XFY9326（逸雪飞扬）</string>
+    <string name="website">https://github.com/XFY9326/FloatPicture</string>
+    <string name="application_author">作者：</string>
+    <string name="open_source_license">开源协议</string>
+    <string name="copyright">版权所有 © 2017 XFY9326\n保留所有权利</string>
+    <string name="imageview_app_icon">应用图标</string>
 </resources>

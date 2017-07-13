@@ -85,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.menu_global_settings:
                         startActivity(new Intent(MainActivity.this, GlobalSettingsActivity.class));
                         break;
+                    case R.id.menu_about:
+                        startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                        break;
                     case R.id.menu_back_to_launcher:
                         MainActivity.this.moveTaskToBack(true);
                         break;

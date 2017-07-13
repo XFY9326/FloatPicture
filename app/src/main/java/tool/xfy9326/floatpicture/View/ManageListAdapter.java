@@ -23,8 +23,8 @@ import tool.xfy9326.floatpicture.Utils.Config;
 import tool.xfy9326.floatpicture.Utils.PictureData;
 
 public class ManageListAdapter extends RecyclerView.Adapter<ManageListViewHolder> {
-    private Activity mActivity;
-    private PictureData pictureData;
+    private final Activity mActivity;
+    private final PictureData pictureData;
     private LinkedHashMap<String, String> pictureInfo;
     private ArrayList<String> PictureId_Array;
     private ArrayList<String> PictureName_Array;

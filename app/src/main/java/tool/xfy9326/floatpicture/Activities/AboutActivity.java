@@ -1,24 +1,24 @@
 package tool.xfy9326.floatpicture.Activities;
 
-import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.TextView;
 
+import tool.xfy9326.floatpicture.Methods.ApplicationMethods;
 import tool.xfy9326.floatpicture.R;
-import tool.xfy9326.floatpicture.View.GlobalSettingsFragment;
 
-
-public class GlobalSettingsActivity extends AppCompatActivity {
+public class AboutActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_about);
         ViewSet();
-        fragmentSet(savedInstanceState);
     }
 
     private void ViewSet() {
@@ -29,15 +29,17 @@ public class GlobalSettingsActivity extends AppCompatActivity {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-    }
 
-    private void fragmentSet(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            GlobalSettingsFragment mGlobalSettingsFragment = new GlobalSettingsFragment();
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.layout_picture_settings_content, mGlobalSettingsFragment);
-            fragmentTransaction.commit();
-        }
+        TextView version = (TextView) findViewById(R.id.textview_about_version);
+        version.setText(ApplicationMethods.getApplicationVersion(this));
+
+        TextView open_source = (TextView) findViewById(R.id.textview_about_open_source);
+        open_source.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AboutActivity.this, LicenseActivity.class));
+            }
+        });
     }
 
 }

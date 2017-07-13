@@ -29,7 +29,7 @@ public class PermissionMethods {
         }
     }
 
-    public static boolean checkPermission(Context mContext, String[] permissions) {
+    static boolean checkPermission(Context mContext, String[] permissions) {
         boolean result = false;
         for (String permission : permissions) {
             if (ContextCompat.checkSelfPermission(mContext, permission) == PackageManager.PERMISSION_GRANTED) {
@@ -41,6 +41,7 @@ public class PermissionMethods {
     }
 
     @TargetApi(Build.VERSION_CODES.M)
+    @SuppressWarnings("SameParameterValue")
     public static void askOverlayPermission(final Activity mActivity, final int requestCode) {
         if (!Settings.canDrawOverlays(mActivity)) {
             AlertDialog.Builder overlayPermission = new AlertDialog.Builder(mActivity);
@@ -82,6 +83,7 @@ public class PermissionMethods {
         }
     }
 
+    @SuppressWarnings("SameParameterValue")
     public static void explainPermission(final Activity mActivity, final String[] permissions, final int requestCode) {
         AlertDialog.Builder permissionExplanation = new AlertDialog.Builder(mActivity);
         permissionExplanation.setTitle(R.string.permission_warn);
