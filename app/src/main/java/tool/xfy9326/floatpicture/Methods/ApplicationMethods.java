@@ -64,19 +64,21 @@ public class ApplicationMethods {
 
     public static void ClearUselessTemp(Context mContext) {
         File dir = new File(Config.DEFAULT_PICTURE_DIR);
-        if (dir.list().length > 0) {
-            HashMap<String, View> hashMap = ((MainApplication) mContext.getApplicationContext()).getRegister();
-            if (hashMap.size() > 0) {
-                File[] pictures = dir.listFiles();
-                for (File temp_file : pictures) {
-                    if (!hashMap.containsKey(temp_file.getName())) {
-                        //noinspection ResultOfMethodCallIgnored
-                        temp_file.delete();
+        if (dir.exists() && dir.list() != null) {
+            if (dir.list().length > 0) {
+                HashMap<String, View> hashMap = ((MainApplication) mContext.getApplicationContext()).getRegister();
+                if (hashMap.size() > 0) {
+                    File[] pictures = dir.listFiles();
+                    for (File temp_file : pictures) {
+                        if (!hashMap.containsKey(temp_file.getName())) {
+                            //noinspection ResultOfMethodCallIgnored
+                            temp_file.delete();
+                        }
                     }
+                } else {
+                    //noinspection ResultOfMethodCallIgnored
+                    dir.delete();
                 }
-            } else {
-                //noinspection ResultOfMethodCallIgnored
-                dir.delete();
             }
         }
     }
