@@ -1,6 +1,5 @@
 package tool.xfy9326.floatpicture.View;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -9,7 +8,7 @@ import android.widget.TextView;
 
 import tool.xfy9326.floatpicture.R;
 
-class ManageListViewHolder extends RecyclerView.ViewHolder {
+class ManageListViewHolder extends AdvancedRecyclerView.ViewHolder {
     final ImageView imageView_Picture_Preview;
     final Switch switch_Picture_Show;
     final TextView textView_Picture_Name;

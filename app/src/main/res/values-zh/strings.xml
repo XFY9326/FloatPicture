@@ -48,4 +48,6 @@
     <string name="open_source_license">开源协议</string>
     <string name="copyright">版权所有 © 2017 XFY9326\n保留所有权利</string>
     <string name="imageview_app_icon">应用图标</string>
+    <string name="action_warn_manage_list_empty">没有图片正在显示\n点击+按钮新建</string>
+    <string name="imageview_list_is_empty">管理列表现在是空的</string>
 </resources>

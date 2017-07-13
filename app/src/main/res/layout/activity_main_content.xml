@@ -8,12 +8,16 @@
 
     <include layout="@layout/widget_toolbar" />
 
-    <android.support.v7.widget.RecyclerView
+    <tool.xfy9326.floatpicture.View.AdvancedRecyclerView
         android:id="@+id/main_list_manage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
         app:layoutManager="LinearLayoutManager" />
+
+    <include
+        android:id="@+id/layout_widget_empty_view"
+        layout="@layout/widget_list_empty" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/main_button_add"

@@ -2,7 +2,6 @@ package tool.xfy9326.floatpicture.View;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ import tool.xfy9326.floatpicture.R;
 import tool.xfy9326.floatpicture.Utils.Config;
 import tool.xfy9326.floatpicture.Utils.PictureData;
 
-public class ManageListAdapter extends RecyclerView.Adapter<ManageListViewHolder> {
+public class ManageListAdapter extends AdvancedRecyclerView.Adapter<ManageListViewHolder> {
     private final Activity mActivity;
     private final PictureData pictureData;
     private LinkedHashMap<String, String> pictureInfo;

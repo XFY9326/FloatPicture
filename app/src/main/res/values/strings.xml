@@ -47,4 +47,6 @@
     <string name="open_source_license">Open Source License</string>
     <string name="copyright">Copyright © 2017 XFY9326.\nAll rights reserved.</string>
     <string name="imageview_app_icon">Application Icon</string>
+    <string name="action_warn_manage_list_empty">No Picture is showing now.\nClick + Button to create one.</string>
+    <string name="imageview_list_is_empty">Manage list is empty now</string>
 </resources>
