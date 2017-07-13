@@ -16,9 +16,9 @@ android {
     buildTypes {
         release {
             zipAlignEnabled true
-            shrinkResources true
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //shrinkResources true
+            //minifyEnabled true
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             android.applicationVariants.all {
                 variant ->
                     variant.outputs.each {
