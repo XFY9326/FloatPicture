@@ -13,7 +13,9 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        CrashHandler.get().Catch(this);
+        if (!BuildConfig.DEBUG) {
+            CrashHandler.get().Catch(this);
+        }
         this.ViewRegister = new HashMap<>();
     }
 
