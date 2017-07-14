@@ -16,7 +16,6 @@ import tool.xfy9326.floatpicture.Activities.MainActivity;
 import tool.xfy9326.floatpicture.Activities.PictureSettingsActivity;
 import tool.xfy9326.floatpicture.Methods.ImageMethods;
 import tool.xfy9326.floatpicture.Methods.ManageMethods;
-import tool.xfy9326.floatpicture.Methods.WindowsMethods;
 import tool.xfy9326.floatpicture.R;
 import tool.xfy9326.floatpicture.Utils.Config;
 import tool.xfy9326.floatpicture.Utils.PictureData;
@@ -66,9 +65,9 @@ public class ManageListAdapter extends AdvancedRecyclerView.Adapter<ManageListVi
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    WindowsMethods.showWindowById(mActivity, mPictureId);
+                    ManageMethods.showWindowById(mActivity, mPictureId);
                 } else {
-                    WindowsMethods.hideWindowById(mActivity, mPictureId);
+                    ManageMethods.hideWindowById(mActivity, mPictureId);
                 }
                 PictureData pictureData = new PictureData();
                 pictureData.setDataControl(mPictureId);

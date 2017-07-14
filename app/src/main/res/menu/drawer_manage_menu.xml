@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:id="@+id/menu_group_settings">
+    <group>
         <item
             android:id="@+id/menu_global_settings"
             android:icon="@drawable/ic_settings"
@@ -12,7 +12,7 @@
             android:title="@string/about" />
     </group>
 
-    <group android:id="@+id/menu_group_application">
+    <group>
         <item
             android:id="@+id/menu_back_to_launcher"
             android:icon="@drawable/ic_back_to_launcher"

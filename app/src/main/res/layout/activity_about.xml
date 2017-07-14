@@ -5,9 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/layout_about_toolbar"
-        layout="@layout/widget_toolbar" />
+    <include layout="@layout/widget_toolbar" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -59,7 +57,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_about_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_about_version"

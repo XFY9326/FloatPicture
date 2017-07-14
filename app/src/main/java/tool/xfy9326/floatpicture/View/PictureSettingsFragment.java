@@ -113,7 +113,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
                 position_x = pictureData.getInt(Config.DATA_PICTURE_POSITION_X, Config.DATA_DEFAULT_PICTURE_POSITION_X);
                 position_y = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, Config.DATA_DEFAULT_PICTURE_POSITION_Y);
                 bitmap = ImageMethods.getPictureById(PictureId);
-                zoom = pictureData.getFloat(Config.DATA_PICTURE_ZOOM, WindowsMethods.getDefaultZoom(getActivity(), bitmap, false));
+                zoom = pictureData.getFloat(Config.DATA_PICTURE_ZOOM, ImageMethods.getDefaultZoom(getActivity(), bitmap, false));
                 imageView = ImageMethods.getImageViewById(getActivity(), PictureId);
             } else {
                 PictureId = ImageMethods.setNewImage(new File(intent.getStringExtra(Config.INTENT_PICTURE_CHOOSE_PICTURE)));
@@ -122,8 +122,8 @@ public class PictureSettingsFragment extends PreferenceFragment {
                 position_x = Config.DATA_DEFAULT_PICTURE_POSITION_X;
                 position_y = Config.DATA_DEFAULT_PICTURE_POSITION_Y;
                 bitmap = ImageMethods.getPictureById(PictureId);
-                zoom = WindowsMethods.getDefaultZoom(getActivity(), bitmap, false);
-                imageView = WindowsMethods.createPictureView(getActivity(), bitmap, zoom);
+                zoom = ImageMethods.getDefaultZoom(getActivity(), bitmap, false);
+                imageView = ImageMethods.createPictureView(getActivity(), bitmap, zoom);
                 WindowsMethods.createWindow(windowManager, imageView, position_x, position_y);
             }
         }
@@ -187,15 +187,15 @@ public class PictureSettingsFragment extends PreferenceFragment {
     }
 
     private void setPictureSize() {
-        final Bitmap bitmap_Edit = WindowsMethods.getEditBitmap(getActivity(), bitmap);
-        final ImageView imageView_Edit = WindowsMethods.createPictureView(getActivity(), bitmap_Edit, zoom);
+        final Bitmap bitmap_Edit = ImageMethods.getEditBitmap(getActivity(), bitmap);
+        final ImageView imageView_Edit = ImageMethods.createPictureView(getActivity(), bitmap_Edit, zoom);
         onEditPicture(imageView_Edit);
 
         View mView = inflater.inflate(R.layout.dialog_set_size, (ViewGroup) getActivity().findViewById(R.id.layout_dialog_set_size));
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         dialog.setTitle(R.string.settings_picture_resize);
         dialog.setCancelable(false);
-        final float Max_Size = WindowsMethods.getDefaultZoom(getActivity(), bitmap, true) * 100;
+        final float Max_Size = ImageMethods.getDefaultZoom(getActivity(), bitmap, true) * 100;
         final SeekBar seekBar = (SeekBar) mView.findViewById(R.id.seekbar_set_resize);
         seekBar.setProgress((int) (zoom * 100));
         seekBar.setMax((int) Max_Size);
@@ -252,8 +252,8 @@ public class PictureSettingsFragment extends PreferenceFragment {
     }
 
     private void setPicturePosition() {
-        final Bitmap bitmap_Edit = WindowsMethods.getEditBitmap(getActivity(), bitmap);
-        final ImageView imageView_Edit = WindowsMethods.createPictureView(getActivity(), bitmap_Edit, zoom);
+        final Bitmap bitmap_Edit = ImageMethods.getEditBitmap(getActivity(), bitmap);
+        final ImageView imageView_Edit = ImageMethods.createPictureView(getActivity(), bitmap_Edit, zoom);
         onEditPicture(imageView_Edit);
 
         View mView = inflater.inflate(R.layout.dialog_set_position, (ViewGroup) getActivity().findViewById(R.id.layout_dialog_set_position));
@@ -356,18 +356,21 @@ public class PictureSettingsFragment extends PreferenceFragment {
 
     private void onEditPicture(ImageView imageView_Edit) {
         windowManager.removeView(imageView);
+        imageView.refreshDrawableState();
         WindowsMethods.createWindow(windowManager, imageView_Edit, position_x, position_y);
     }
 
     private void onSuccessEditPicture(ImageView imageView_Edit, Bitmap bitmap_Edit) {
         windowManager.removeView(imageView_Edit);
+        imageView_Edit.refreshDrawableState();
         bitmap_Edit.recycle();
-        imageView.setImageBitmap(WindowsMethods.resizeBitmap(bitmap, zoom));
+        imageView.setImageBitmap(ImageMethods.resizeBitmap(bitmap, zoom));
         WindowsMethods.createWindow(windowManager, imageView, position_x, position_y);
     }
 
     private void onFailedEditPicture(ImageView imageView_Edit, Bitmap bitmap_Edit) {
         windowManager.removeView(imageView_Edit);
+        imageView_Edit.refreshDrawableState();
         bitmap_Edit.recycle();
         WindowsMethods.createWindow(windowManager, imageView, position_x, position_y);
     }

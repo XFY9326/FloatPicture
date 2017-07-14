@@ -4,9 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/layout_about_toolbar"
-        layout="@layout/widget_toolbar" />
+    <include layout="@layout/widget_toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"

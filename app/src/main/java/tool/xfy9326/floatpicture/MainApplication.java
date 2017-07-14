@@ -2,6 +2,7 @@ package tool.xfy9326.floatpicture;
 
 import android.app.Application;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.util.HashMap;
 
@@ -37,6 +38,10 @@ public class MainApplication extends Application {
     @SuppressWarnings("UnusedReturnValue")
     public boolean unregisterView(String id) {
         if (ViewRegister.containsKey(id)) {
+            Object mView = ViewRegister.get(id);
+            if (mView instanceof ImageView) {
+                ((ImageView) mView).refreshDrawableState();
+            }
             ViewRegister.remove(id);
             return true;
         }
