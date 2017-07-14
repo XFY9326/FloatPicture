@@ -391,7 +391,10 @@ public class PictureSettingsFragment extends PreferenceFragment {
             }
             ImageMethods.clearAllTemp(getActivity(), PictureId);
         } else {
-            WindowsMethods.updateWindow(windowManager, imageView, bitmap, zoom, position_x, position_y);
+            float original_zoom = pictureData.getFloat(Config.DATA_PICTURE_ZOOM, zoom);
+            int original_position_x = pictureData.getInt(Config.DATA_PICTURE_POSITION_X, position_x);
+            int original_position_y = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, position_y);
+            WindowsMethods.updateWindow(windowManager, imageView, bitmap, original_zoom, original_position_x, original_position_y);
         }
 
     }

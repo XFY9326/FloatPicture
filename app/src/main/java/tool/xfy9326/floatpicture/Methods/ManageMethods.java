@@ -68,10 +68,14 @@ public class ManageMethods {
     static void CloseAllWindows(Context mContext) {
         HashMap<String, View> hashMap = ((MainApplication) mContext.getApplicationContext()).getRegister();
         WindowManager windowManager = WindowsMethods.getWindowManager(mContext);
+        PictureData pictureData = new PictureData();
         if (hashMap.size() > 0) {
             for (Object o : hashMap.entrySet()) {
                 HashMap.Entry entry = (HashMap.Entry) o;
-                windowManager.removeView((ImageView) entry.getValue());
+                pictureData.setDataControl(entry.getKey().toString());
+                if (pictureData.getBoolean(Config.DATA_PICTURE_SHOW_ENABLED, Config.DATA_DEFAULT_PICTURE_SHOW_ENABLED)) {
+                    windowManager.removeView((ImageView) entry.getValue());
+                }
             }
         }
     }
