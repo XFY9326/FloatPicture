@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <group>
+    <group
+        android:id="@+id/menu_group_control"
+        tools:ignore="UnusedIds">
         <item
             android:id="@+id/menu_global_settings"
             android:icon="@drawable/ic_settings"
@@ -12,7 +15,9 @@
             android:title="@string/about" />
     </group>
 
-    <group>
+    <group
+        android:id="@+id/menu_group_exit"
+        tools:ignore="UnusedIds">
         <item
             android:id="@+id/menu_back_to_launcher"
             android:icon="@drawable/ic_back_to_launcher"
