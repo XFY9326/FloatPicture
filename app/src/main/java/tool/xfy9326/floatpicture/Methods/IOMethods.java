@@ -118,25 +118,4 @@ public class IOMethods {
         return null;
     }
 
-    static boolean copyFile(File fromFile, File toFile) {
-        try {
-            if (CheckFile(toFile, true)) {
-                return false;
-            }
-            InputStream from = new FileInputStream(fromFile);
-            OutputStream to = new FileOutputStream(toFile);
-            byte Bytes[] = new byte[1024];
-            int count;
-            while ((count = from.read(Bytes)) > 0) {
-                to.write(Bytes, 0, count);
-            }
-            from.close();
-            to.close();
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
 }

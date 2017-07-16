@@ -89,8 +89,8 @@ public class ImageMethods {
         float screen_width;
         float screen_height;
         if (isMax) {
-            screen_width = displayMetrics.widthPixels - (bitmap.getWidth() / displayMetrics.density);
-            screen_height = displayMetrics.heightPixels - (bitmap.getHeight() / displayMetrics.density);
+            screen_width = displayMetrics.widthPixels;
+            screen_height = displayMetrics.heightPixels;
         } else {
             screen_width = displayMetrics.widthPixels / 3;
             screen_height = displayMetrics.heightPixels / 3;

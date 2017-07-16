@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -44,7 +45,7 @@ public class LicenseActivity extends AppCompatActivity {
     }
 
     private void addLicense(String title, String url, String data, LinearLayout main_layout) {
-        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.widget_card_license, null);
+        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.widget_card_license, (ViewGroup) findViewById(R.id.layout_license_card));
         TextView textview_title = (TextView) layout.findViewById(R.id.licence_title);
         textview_title.setText(title);
         TextView textview_url = (TextView) layout.findViewById(R.id.licence_url);

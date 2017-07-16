@@ -50,7 +50,7 @@
     <string name="action_warn_manage_list_empty">No Picture is showing now.\nClick + Button to create one.</string>
     <string name="imageview_collapsing_toolbar_head">Collapsing Toolbar</string>
     <string name="settings_global_picture_quality">Picture quality</string>
-    <string name="settings_global_picture_quality_sum">Set default new picture quality (Deafult 80)</string>
+    <string name="settings_global_picture_quality_sum">Set default new picture quality (Default 80)</string>
     <string name="settings_global_picture_quality_quality">Quality:</string>
     <string name="settings_global_picture_quality_warn">Please input a correct picture quality!</string>
 </resources>
