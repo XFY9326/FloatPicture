@@ -10,7 +10,7 @@ android {
         //noinspection OldTargetApi
         targetSdkVersion 25
         versionCode 0
-        versionName "0.7_Preview"
+        versionName "0.8_Preview"
     }
 
     buildTypes {
@@ -22,7 +22,7 @@ android {
             android.applicationVariants.all {
                 variant ->
                     variant.outputs.each {
-                        output -> output.outputFile = new File(output.outputFile.parent, "FloatPicture_v" + defaultConfig.versionName + "(" + defaultConfig.versionCode + ").apk");
+                        output -> output.outputFile = new File(output.outputFile.parent + "/outputs/", "FloatPicture_v" + defaultConfig.versionName + "(" + defaultConfig.versionCode + ").apk");
                     }
             }
         }

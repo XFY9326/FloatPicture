@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
 
@@ -27,16 +28,20 @@ public class ImageMethods {
         return getBitmapFromFile(new File(Config.DEFAULT_PICTURE_DIR + id));
     }
 
+    private static Bitmap getPictureTempById(String id) {
+        return getBitmapFromFile(new File(Config.DEFAULT_PICTURE_TEMP_DIR + id));
+    }
+
     private static String getNewPictureId(File imageFile) {
         return System.currentTimeMillis() + "-" + CodeMethods.getFileMD5String(imageFile);
     }
 
-    public static String setNewImage(File imageFile) {
+    public static String setNewImage(Context mContext, File imageFile) {
         if (imageFile.exists() && imageFile.canRead() && imageFile.isFile()) {
             String id = getNewPictureId(imageFile);
-            if (IOMethods.copyFile(imageFile, new File(Config.DEFAULT_PICTURE_DIR + id))) {
-                return id;
-            }
+            Bitmap bitmap = getBitmapFromFile(imageFile);
+            IOMethods.saveBitmap(bitmap, PreferenceManager.getDefaultSharedPreferences(mContext).getInt(Config.PREFERENCE_NEW_PICTURE_QUALITY, 80), Config.DEFAULT_PICTURE_DIR + id);
+            return id;
         }
         return null;
     }
@@ -84,8 +89,8 @@ public class ImageMethods {
         float screen_width;
         float screen_height;
         if (isMax) {
-            screen_width = displayMetrics.widthPixels;
-            screen_height = displayMetrics.heightPixels;
+            screen_width = displayMetrics.widthPixels - (bitmap.getWidth() / displayMetrics.density);
+            screen_height = displayMetrics.heightPixels - (bitmap.getHeight() / displayMetrics.density);
         } else {
             screen_width = displayMetrics.widthPixels / 3;
             screen_height = displayMetrics.heightPixels / 3;
@@ -102,13 +107,28 @@ public class ImageMethods {
         return 1;
     }
 
+    public static Bitmap getPreviewBitmap(String id) {
+        Bitmap temp = getPictureTempById(id);
+        if (temp == null) {
+            Bitmap bitmap = getPictureById(id);
+            IOMethods.saveBitmap(bitmap, 50, Config.DEFAULT_PICTURE_TEMP_DIR + id);
+            temp = getPictureTempById(id);
+        }
+        return temp;
+    }
+
     public static void clearAllTemp(Context mContext, String id) {
         MainApplication mainApplication = (MainApplication) mContext.getApplicationContext();
         mainApplication.unregisterView(id);
         File imageFile = new File(Config.DEFAULT_PICTURE_DIR + id);
+        File tempFile = new File(Config.DEFAULT_PICTURE_TEMP_DIR + id);
         if (imageFile.exists()) {
             //noinspection ResultOfMethodCallIgnored
             imageFile.delete();
+        }
+        if (tempFile.exists()) {
+            //noinspection ResultOfMethodCallIgnored
+            tempFile.delete();
         }
     }
 }

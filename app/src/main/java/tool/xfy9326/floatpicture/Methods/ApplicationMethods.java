@@ -39,6 +39,7 @@ public class ApplicationMethods {
 
     public static void DoubleClickCloseSnackBar(final Activity mActivity, boolean isDoubleClick) {
         if (isDoubleClick && waitDoubleClick) {
+            ClearUselessTemp(mActivity);
             CloseApplication(mActivity);
         } else {
             CoordinatorLayout coordinatorLayout = (CoordinatorLayout) mActivity.findViewById(R.id.main_layout_content);
@@ -62,17 +63,22 @@ public class ApplicationMethods {
         }
     }
 
-    public static void ClearUselessTemp(Context mContext) {
+    private static void ClearUselessTemp(Context mContext) {
         File dir = new File(Config.DEFAULT_PICTURE_DIR);
         if (dir.exists() && dir.list() != null) {
             if (dir.list().length > 0) {
                 HashMap<String, View> hashMap = ((MainApplication) mContext.getApplicationContext()).getRegister();
                 if (hashMap.size() > 0) {
                     File[] pictures = dir.listFiles();
-                    for (File temp_file : pictures) {
-                        if (!hashMap.containsKey(temp_file.getName())) {
+                    for (File pic_file : pictures) {
+                        if (!hashMap.containsKey(pic_file.getName())) {
                             //noinspection ResultOfMethodCallIgnored
-                            temp_file.delete();
+                            pic_file.delete();
+                            File temp_file = new File(Config.DEFAULT_PICTURE_TEMP_DIR + pic_file.getName());
+                            if (temp_file.exists()) {
+                                //noinspection ResultOfMethodCallIgnored
+                                temp_file.delete();
+                            }
                         }
                     }
                 } else {

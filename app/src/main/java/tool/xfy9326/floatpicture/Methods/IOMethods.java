@@ -1,6 +1,7 @@
 package tool.xfy9326.floatpicture.Methods;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,6 +13,20 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 public class IOMethods {
+
+    @SuppressWarnings("SameParameterValue")
+    static void saveBitmap(Bitmap bitmap, int quality, String path) {
+        File file = new File(path);
+        try {
+            if (!CheckFile(file, true)) {
+                OutputStream outputStream = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+                bitmap.recycle();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static String readAssetText(Context mContext, String path) {
         try {

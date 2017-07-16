@@ -21,7 +21,7 @@ public class WindowsMethods {
         windowManager.addView(pictureView, layoutParams);
     }
 
-    public static WindowManager.LayoutParams getDefaultLayout() {
+    static WindowManager.LayoutParams getDefaultLayout() {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
         layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;

@@ -31,9 +31,10 @@ public class Config {
     public final static String PREFERENCE_PICTURE_POSITION = "settings_picture_position";
 
     public final static String PREFERENCE_BOOT_AUTO_RUN = "boot_auto_run";
+    public final static String PREFERENCE_NEW_PICTURE_QUALITY = "new_picture_quality";
 
-    public final static String LICENSE_PATH_APPLICATION = "APPLICATION_LICENSE";
-
+    public final static String LICENSE_PATH_APPLICATION = "LICENSE";
+    public final static String DEFAULT_PICTURE_TEMP_DIR = DEFAULT_PICTURE_DIR + ".TEMP" + File.separator;
     private final static String DEFAULT_ROOT_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
     private final static String DEFAULT_APPLICATION_DIR = DEFAULT_ROOT_DIR + "FloatPicture" + File.separator;
     public final static String DEFAULT_PICTURE_DIR = DEFAULT_APPLICATION_DIR + "Pictures" + File.separator;

@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         PermissionMethods.askPermission(this, PermissionMethods.StoragePermission, Config.REQUEST_CODE_PERMISSION_STORAGE);
         ViewSet();
         if (savedInstanceState == null) {
-            ApplicationMethods.ClearUselessTemp(this);
             ManageMethods.RunWin(this);
         }
     }

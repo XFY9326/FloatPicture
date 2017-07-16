@@ -116,7 +116,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
                 zoom = pictureData.getFloat(Config.DATA_PICTURE_ZOOM, ImageMethods.getDefaultZoom(getActivity(), bitmap, false));
                 imageView = ImageMethods.getImageViewById(getActivity(), PictureId);
             } else {
-                PictureId = ImageMethods.setNewImage(new File(intent.getStringExtra(Config.INTENT_PICTURE_CHOOSE_PICTURE)));
+                PictureId = ImageMethods.setNewImage(getActivity(), new File(intent.getStringExtra(Config.INTENT_PICTURE_CHOOSE_PICTURE)));
                 pictureData.setDataControl(PictureId);
                 PictureName = getString(R.string.new_picture_name);
                 position_x = Config.DATA_DEFAULT_PICTURE_POSITION_X;
@@ -196,10 +196,12 @@ public class PictureSettingsFragment extends PreferenceFragment {
         dialog.setTitle(R.string.settings_picture_resize);
         dialog.setCancelable(false);
         final float Max_Size = ImageMethods.getDefaultZoom(getActivity(), bitmap, true) * 100;
-        final SeekBar seekBar = (SeekBar) mView.findViewById(R.id.seekbar_set_resize);
+        TextView name = (TextView) mView.findViewById(R.id.textview_set_size);
+        name.setText(R.string.settings_picture_resize_size);
+        final SeekBar seekBar = (SeekBar) mView.findViewById(R.id.seekbar_set_size);
         seekBar.setProgress((int) (zoom * 100));
         seekBar.setMax((int) Max_Size);
-        final EditText editText = (EditText) mView.findViewById(R.id.edittext_set_resize);
+        final EditText editText = (EditText) mView.findViewById(R.id.edittext_set_size);
         editText.setText(String.valueOf(zoom));
         zoom_temp = zoom;
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

@@ -50,4 +50,8 @@
     <string name="imageview_app_icon">应用图标</string>
     <string name="action_warn_manage_list_empty">没有图片正在显示\n点击+按钮新建</string>
     <string name="imageview_collapsing_toolbar_head">收缩状态栏</string>
+    <string name="settings_global_picture_quality">图片质量</string>
+    <string name="settings_global_picture_quality_sum">设置新图片的图片质量 (默认 80)</string>
+    <string name="settings_global_picture_quality_quality">质量：</string>
+    <string name="settings_global_picture_quality_warn">请输入一个正确的图片质量！</string>
 </resources>

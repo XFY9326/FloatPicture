@@ -55,7 +55,7 @@ public class ManageListAdapter extends AdvancedRecyclerView.Adapter<ManageListVi
         final String mPictureName = PictureName_Array.get(holder.getAdapterPosition());
         holder.textView_Picture_Name.setText(mPictureName);
         holder.textView_Picture_Id.setText(mPictureId);
-        holder.imageView_Picture_Preview.setImageBitmap(ImageMethods.getPictureById(mPictureId));
+        holder.imageView_Picture_Preview.setImageBitmap(ImageMethods.getPreviewBitmap(mPictureId));
         PictureData pictureData = new PictureData();
         pictureData.setDataControl(mPictureId);
 
