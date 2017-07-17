@@ -10,14 +10,24 @@ import tool.xfy9326.floatpicture.Tools.CrashHandler;
 
 public class MainApplication extends Application {
     private HashMap<String, View> ViewRegister;
+    private boolean ApplicationInit;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        ApplicationInit = false;
         if (!BuildConfig.DEBUG) {
             CrashHandler.get().Catch(this);
         }
         this.ViewRegister = new HashMap<>();
+    }
+
+    public boolean isApplicationInit() {
+        return ApplicationInit;
+    }
+
+    public void setApplicationInit(boolean init) {
+        ApplicationInit = init;
     }
 
     public void registerView(String id, View mView) {

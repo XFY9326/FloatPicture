@@ -10,7 +10,7 @@ android {
         //noinspection OldTargetApi
         targetSdkVersion 25
         versionCode 0
-        versionName "0.8_Preview"
+        versionName "0.9_Preview"
     }
 
     buildTypes {

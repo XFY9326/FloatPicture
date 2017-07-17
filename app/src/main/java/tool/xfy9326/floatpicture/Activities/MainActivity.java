@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import tool.xfy9326.floatpicture.MainApplication;
 import tool.xfy9326.floatpicture.Methods.ApplicationMethods;
 import tool.xfy9326.floatpicture.Methods.ManageMethods;
 import tool.xfy9326.floatpicture.Methods.PermissionMethods;
@@ -49,8 +50,10 @@ public class MainActivity extends AppCompatActivity {
         PermissionMethods.askOverlayPermission(this, Config.REQUEST_CODE_PERMISSION_OVERLAY);
         PermissionMethods.askPermission(this, PermissionMethods.StoragePermission, Config.REQUEST_CODE_PERMISSION_STORAGE);
         ViewSet();
-        if (savedInstanceState == null) {
+        MainApplication mainApplication = (MainApplication) getApplicationContext();
+        if (!mainApplication.isApplicationInit() || savedInstanceState == null) {
             ManageMethods.RunWin(this);
+            mainApplication.setApplicationInit(true);
         }
     }
 
@@ -166,6 +169,8 @@ public class MainActivity extends AppCompatActivity {
         }
         long BackNowClickTime = System.currentTimeMillis();
         if ((BackNowClickTime - BackClickTime) < 2200) {
+            MainApplication mainApplication = (MainApplication) getApplicationContext();
+            mainApplication.setApplicationInit(false);
             ApplicationMethods.DoubleClickCloseSnackBar(this, true);
         } else {
             ApplicationMethods.DoubleClickCloseSnackBar(this, false);
