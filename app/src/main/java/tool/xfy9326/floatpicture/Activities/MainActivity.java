@@ -46,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        init(savedInstanceState);
+    }
+
+    private void init(Bundle savedInstanceState) {
         BackClickTime = System.currentTimeMillis();
         PermissionMethods.askOverlayPermission(this, Config.REQUEST_CODE_PERMISSION_OVERLAY);
         PermissionMethods.askPermission(this, PermissionMethods.StoragePermission, Config.REQUEST_CODE_PERMISSION_STORAGE);
@@ -81,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.main_navigation_view);
+        ApplicationMethods.disableNavigationViewScrollbars(navigationView);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

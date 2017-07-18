@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FloatPicture</string>
+    <string name="app_name">悬浮图片</string>
     <string name="adapter_image_description">图片预览</string>
     <string name="done">确认</string>
     <string name="cancel">取消</string>
@@ -54,4 +54,5 @@
     <string name="settings_global_picture_quality_sum">设置新图片的图片质量 (默认 80)</string>
     <string name="settings_global_picture_quality_quality">质量：</string>
     <string name="settings_global_picture_quality_warn">请输入一个正确的图片质量！</string>
+    <string name="application_thank_list">感谢所有曾经帮助过我的人</string>
 </resources>

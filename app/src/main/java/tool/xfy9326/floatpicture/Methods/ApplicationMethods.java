@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
@@ -35,6 +37,15 @@ public class ApplicationMethods {
         ManageMethods.CloseAllWindows(mActivity);
         mActivity.finish();
         System.gc();
+    }
+
+    public static void disableNavigationViewScrollbars(NavigationView navigationView) {
+        if (navigationView != null) {
+            NavigationMenuView navigationMenuView = (NavigationMenuView) navigationView.getChildAt(0);
+            if (navigationMenuView != null) {
+                navigationMenuView.setVerticalScrollBarEnabled(false);
+            }
+        }
     }
 
     public static void DoubleClickCloseSnackBar(final Activity mActivity, boolean isDoubleClick) {

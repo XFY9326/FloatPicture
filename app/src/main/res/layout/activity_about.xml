@@ -57,6 +57,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_about_version"
@@ -116,6 +117,15 @@
             android:layout_marginBottom="15dp"
             android:autoLink="web"
             android:text="@string/website" />
+
+        <TextView
+            android:id="@+id/textview_thank_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="@string/application_thank_list" />
 
     </RelativeLayout>
 

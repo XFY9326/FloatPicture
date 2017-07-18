@@ -67,7 +67,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="60dp"
+                android:layout_marginBottom="30dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -84,7 +84,15 @@
                     android:layout_weight="1"
                     android:text="@string/author"
                     android:textSize="16sp" />
+
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/textview_thank_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:text="@string/application_thank_list" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

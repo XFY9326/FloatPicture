@@ -13,8 +13,8 @@
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:orientation="horizontal"
-        card_view:cardCornerRadius="3dp"
-        card_view:cardElevation="3dp"
+        card_view:cardCornerRadius="2dp"
+        card_view:cardElevation="5dp"
         card_view:cardPreventCornerOverlap="true">
 
         <RelativeLayout

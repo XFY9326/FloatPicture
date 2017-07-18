@@ -11,9 +11,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="DrawerActivity" parent="AppTheme">
-        <item name="android:windowTranslucentStatus">true</item>
-    </style>
+    <style name="DrawerActivity" parent="AppTheme" />
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

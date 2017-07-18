@@ -43,43 +43,47 @@ public class PermissionMethods {
     @TargetApi(Build.VERSION_CODES.M)
     @SuppressWarnings("SameParameterValue")
     public static void askOverlayPermission(final Activity mActivity, final int requestCode) {
-        if (!Settings.canDrawOverlays(mActivity)) {
-            AlertDialog.Builder overlayPermission = new AlertDialog.Builder(mActivity);
-            overlayPermission.setTitle(R.string.permission_warn);
-            overlayPermission.setMessage(R.string.permission_warn_overlay_explanation);
-            overlayPermission.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                    intent.setData(Uri.parse("package:" + mActivity.getPackageName()));
-                    mActivity.startActivityForResult(intent, requestCode);
-                }
-            });
-            overlayPermission.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    mActivity.finish();
-                }
-            });
-            overlayPermission.setCancelable(false);
-            overlayPermission.show();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(mActivity)) {
+                AlertDialog.Builder overlayPermission = new AlertDialog.Builder(mActivity);
+                overlayPermission.setTitle(R.string.permission_warn);
+                overlayPermission.setMessage(R.string.permission_warn_overlay_explanation);
+                overlayPermission.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                        intent.setData(Uri.parse("package:" + mActivity.getPackageName()));
+                        mActivity.startActivityForResult(intent, requestCode);
+                    }
+                });
+                overlayPermission.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mActivity.finish();
+                    }
+                });
+                overlayPermission.setCancelable(false);
+                overlayPermission.show();
+            }
         }
     }
 
     @TargetApi(Build.VERSION_CODES.M)
     public static void delayOverlayPermissionCheck(final Context mContext) {
-        if (!Settings.canDrawOverlays(mContext)) {
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    if (!Settings.canDrawOverlays(mContext)) {
-                        Toast.makeText(mContext, R.string.permission_warn_overlay_intent, Toast.LENGTH_SHORT).show();
-                    } else {
-                        if (PermissionMethods.checkPermission(mContext, PermissionMethods.StoragePermission)) {
-                            ManageMethods.RunWin(mContext);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(mContext)) {
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        if (!Settings.canDrawOverlays(mContext)) {
+                            Toast.makeText(mContext, R.string.permission_warn_overlay_intent, Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (PermissionMethods.checkPermission(mContext, PermissionMethods.StoragePermission)) {
+                                ManageMethods.RunWin(mContext);
+                            }
                         }
                     }
-                }
-            }, 2000);
+                }, 2000);
+            }
         }
     }
 
