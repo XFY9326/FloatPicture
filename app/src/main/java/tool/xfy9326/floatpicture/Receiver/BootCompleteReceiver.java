@@ -15,9 +15,9 @@ public class BootCompleteReceiver extends BroadcastReceiver {
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
             if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(Config.PREFERENCE_BOOT_AUTO_RUN, false)) {
                 MainApplication mainApplication = (MainApplication) context.getApplicationContext();
-                if (!mainApplication.isApplicationInit()) {
+                if (mainApplication.isAppInit()) {
                     ManageMethods.RunWin(context);
-                    mainApplication.setApplicationInit(true);
+                    mainApplication.setAppInit(true);
                 }
             }
         }

@@ -22,11 +22,11 @@ public class MainApplication extends Application {
         this.ViewRegister = new HashMap<>();
     }
 
-    public boolean isApplicationInit() {
-        return ApplicationInit;
+    public boolean isAppInit() {
+        return !ApplicationInit;
     }
 
-    public void setApplicationInit(boolean init) {
+    public void setAppInit(boolean init) {
         ApplicationInit = init;
     }
 

@@ -26,12 +26,10 @@ import tool.xfy9326.floatpicture.Methods.ImageMethods;
 import tool.xfy9326.floatpicture.Methods.WindowsMethods;
 import tool.xfy9326.floatpicture.R;
 import tool.xfy9326.floatpicture.Utils.Config;
-import tool.xfy9326.floatpicture.Utils.DataSerializable;
 import tool.xfy9326.floatpicture.Utils.PictureData;
 
 public class PictureSettingsFragment extends PreferenceFragment {
     private final static String WINDOW_CREATED = "WINDOW_CREATED";
-    private final static String WINDOW_PICTURE_DATA = "WINDOW_PICTURE_DATA";
     private boolean Edit_Mode;
     private boolean Window_Created;
     private LayoutInflater inflater;
@@ -71,34 +69,13 @@ public class PictureSettingsFragment extends PreferenceFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(WINDOW_CREATED, true);
-        DataSerializable dataSerializable = new DataSerializable();
-        dataSerializable.setImageView(imageView);
-        dataSerializable.setPictureId(PictureId);
-        dataSerializable.setPictureName(PictureName);
-        dataSerializable.setPosition_X(position_x);
-        dataSerializable.setPosition_Y(position_y);
-        dataSerializable.setZoom(zoom);
-        outState.putSerializable(WINDOW_PICTURE_DATA, dataSerializable);
         super.onSaveInstanceState(outState);
     }
 
     private void restoreData(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             Window_Created = savedInstanceState.getBoolean(WINDOW_CREATED, false);
-            if (Window_Created) {
-                DataSerializable dataSerializable = (DataSerializable) savedInstanceState.getSerializable(WINDOW_PICTURE_DATA);
-                if (dataSerializable != null) {
-                    imageView = dataSerializable.getImageView();
-                    PictureId = dataSerializable.getPictureId();
-                    pictureData.setDataControl(PictureId);
-                    PictureName = dataSerializable.getPictureName();
-                    position_x = dataSerializable.getPosition_X();
-                    position_y = dataSerializable.getPosition_Y();
-                    zoom = dataSerializable.getZoom();
-                }
-                bitmap = ImageMethods.getPictureById(PictureId);
-                windowManager = WindowsMethods.getWindowManager(getActivity());
-            }
+            windowManager = WindowsMethods.getWindowManager(getActivity());
         }
     }
 

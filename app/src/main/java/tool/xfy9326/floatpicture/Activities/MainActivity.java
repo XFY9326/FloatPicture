@@ -55,9 +55,9 @@ public class MainActivity extends AppCompatActivity {
         PermissionMethods.askPermission(this, PermissionMethods.StoragePermission, Config.REQUEST_CODE_PERMISSION_STORAGE);
         ViewSet();
         MainApplication mainApplication = (MainApplication) getApplicationContext();
-        if (!mainApplication.isApplicationInit() || savedInstanceState == null) {
+        if (mainApplication.isAppInit() || savedInstanceState == null) {
             ManageMethods.RunWin(this);
-            mainApplication.setApplicationInit(true);
+            mainApplication.setAppInit(true);
         }
     }
 
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
         long BackNowClickTime = System.currentTimeMillis();
         if ((BackNowClickTime - BackClickTime) < 2200) {
             MainApplication mainApplication = (MainApplication) getApplicationContext();
-            mainApplication.setApplicationInit(false);
+            mainApplication.setAppInit(false);
             ApplicationMethods.DoubleClickCloseSnackBar(this, true);
         } else {
             ApplicationMethods.DoubleClickCloseSnackBar(this, false);
