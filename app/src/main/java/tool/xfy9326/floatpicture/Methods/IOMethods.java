@@ -20,7 +20,7 @@ public class IOMethods {
         try {
             if (!CheckFile(file, true)) {
                 OutputStream outputStream = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+                bitmap.compress(Bitmap.CompressFormat.WEBP, quality, outputStream);
                 bitmap.recycle();
             }
         } catch (IOException e) {

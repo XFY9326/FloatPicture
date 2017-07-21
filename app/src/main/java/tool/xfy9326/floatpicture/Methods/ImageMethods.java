@@ -70,7 +70,6 @@ public class ImageMethods {
         Canvas canvas = new Canvas(transparent_bitmap);
         //noinspection deprecation
         canvas.drawColor(mContext.getResources().getColor(R.color.colorImageViewEditBackground));
-        transparent_bitmap.setHasAlpha(true);
         return transparent_bitmap;
     }
 
