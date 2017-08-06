@@ -56,4 +56,8 @@
     <string name="settings_global_picture_quality_warn">请输入一个正确的图片质量！</string>
     <string name="application_thank_list">感谢所有曾经帮助过我的人</string>
     <string name="error_picture_not_found">无法找到图片缓存！</string>
+    <string name="settings_picture_alpha">设置图片透明度</string>
+    <string name="settings_picture_alpha_sum">使普通的图片拥有透明效果</string>
+    <string name="transparency">透明度：</string>
+    <string name="settings_number_warn">请输入一个正确的数字！</string>
 </resources>

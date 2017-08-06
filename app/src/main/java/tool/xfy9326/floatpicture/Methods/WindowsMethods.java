@@ -32,11 +32,15 @@ public class WindowsMethods {
         return layoutParams;
     }
 
-    public static void updateWindow(WindowManager windowManager, ImageView pictureView, Bitmap bitmap, float zoom, int layoutPositionX, int layoutPositionY) {
+    public static void updateWindow(WindowManager windowManager, ImageView pictureView, int layoutPositionX, int layoutPositionY) {
         WindowManager.LayoutParams layoutParams = getDefaultLayout();
         layoutParams.x = layoutPositionX;
         layoutParams.y = layoutPositionY;
-        pictureView.setImageBitmap(ImageMethods.resizeBitmap(bitmap, zoom));
         windowManager.updateViewLayout(pictureView, layoutParams);
+    }
+
+    public static void updateWindow(WindowManager windowManager, ImageView pictureView, Bitmap bitmap, float zoom, int layoutPositionX, int layoutPositionY) {
+        pictureView.setImageBitmap(ImageMethods.resizeBitmap(bitmap, zoom));
+        updateWindow(windowManager, pictureView, layoutPositionX, layoutPositionY);
     }
 }

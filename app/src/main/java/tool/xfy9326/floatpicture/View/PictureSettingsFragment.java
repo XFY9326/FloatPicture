@@ -41,6 +41,8 @@ public class PictureSettingsFragment extends PreferenceFragment {
     private Bitmap bitmap;
     private float zoom;
     private float zoom_temp;
+    private float picture_alpha;
+    private float picture_alpha_temp;
     private int position_x;
     private int position_y;
     private int position_x_temp;
@@ -91,6 +93,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
                 position_y = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, Config.DATA_DEFAULT_PICTURE_POSITION_Y);
                 bitmap = ImageMethods.getShowBitmap(getActivity(), PictureId);
                 zoom = pictureData.getFloat(Config.DATA_PICTURE_ZOOM, ImageMethods.getDefaultZoom(getActivity(), bitmap, false));
+                picture_alpha = pictureData.getFloat(Config.DATA_PICTURE_ALPHA, Config.DATA_DEFAULT_PICTURE_ALPHA);
                 imageView = ImageMethods.getImageViewById(getActivity(), PictureId);
             } else {
                 PictureId = ImageMethods.setNewImage(getActivity(), new File(intent.getStringExtra(Config.INTENT_PICTURE_CHOOSE_PICTURE)));
@@ -100,6 +103,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
                 position_y = Config.DATA_DEFAULT_PICTURE_POSITION_Y;
                 bitmap = ImageMethods.getShowBitmap(getActivity(), PictureId);
                 zoom = ImageMethods.getDefaultZoom(getActivity(), bitmap, false);
+                picture_alpha = pictureData.getFloat(Config.DATA_PICTURE_ALPHA, Config.DATA_DEFAULT_PICTURE_ALPHA);
                 imageView = ImageMethods.createPictureView(getActivity(), bitmap, zoom);
                 WindowsMethods.createWindow(windowManager, imageView, position_x, position_y);
             }
@@ -122,6 +126,14 @@ public class PictureSettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 setPictureSize();
+                return false;
+            }
+        });
+        Preference picture_transparent = findPreference(Config.PREFERENCE_PICTURE_ALPHA);
+        picture_transparent.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                setPictureAlpha();
                 return false;
             }
         });
@@ -224,6 +236,70 @@ public class PictureSettingsFragment extends PreferenceFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 onFailedEditPicture(imageView_Edit, bitmap_Edit);
+            }
+        });
+        dialog.setView(mView);
+        dialog.show();
+    }
+
+    private void setPictureAlpha() {
+        View mView = inflater.inflate(R.layout.dialog_set_size, (ViewGroup) getActivity().findViewById(R.id.layout_dialog_set_size));
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setTitle(R.string.settings_picture_alpha);
+        dialog.setCancelable(false);
+        TextView name = (TextView) mView.findViewById(R.id.textview_set_size);
+        name.setText(R.string.transparency);
+        final SeekBar seekBar = (SeekBar) mView.findViewById(R.id.seekbar_set_size);
+        seekBar.setProgress((int) (picture_alpha * 100));
+        seekBar.setMax(100);
+        final EditText editText = (EditText) mView.findViewById(R.id.edittext_set_size);
+        editText.setText(String.valueOf(picture_alpha));
+        picture_alpha_temp = picture_alpha;
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                picture_alpha_temp = ((float) progress) / 100;
+                editText.setText(String.valueOf(picture_alpha_temp));
+                imageView.setAlpha(picture_alpha_temp);
+                WindowsMethods.updateWindow(windowManager, imageView, position_x, position_y);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                float edittext_temp = Float.valueOf(v.getText().toString());
+                if (edittext_temp >= 0 && edittext_temp <= 100) {
+                    picture_alpha_temp = edittext_temp;
+                    seekBar.setProgress((int) (picture_alpha_temp * 100));
+                    imageView.setAlpha(picture_alpha_temp);
+                    WindowsMethods.updateWindow(windowManager, imageView, position_x, position_y);
+                } else {
+                    Toast.makeText(getActivity(), R.string.settings_number_warn, Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+        });
+        dialog.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                picture_alpha = picture_alpha_temp;
+                imageView.setAlpha(picture_alpha);
+                WindowsMethods.updateWindow(windowManager, imageView, position_x, position_y);
+            }
+        });
+        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                imageView.setAlpha(picture_alpha);
+                WindowsMethods.updateWindow(windowManager, imageView, position_x, position_y);
             }
         });
         dialog.setView(mView);
@@ -357,6 +433,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
     public void saveAllData() {
         pictureData.put(Config.DATA_PICTURE_SHOW_ENABLED, true);
         pictureData.put(Config.DATA_PICTURE_ZOOM, zoom);
+        pictureData.put(Config.DATA_PICTURE_ALPHA, picture_alpha);
         pictureData.put(Config.DATA_PICTURE_POSITION_X, position_x);
         pictureData.put(Config.DATA_PICTURE_POSITION_Y, position_y);
         pictureData.commit(PictureName);
@@ -374,8 +451,10 @@ public class PictureSettingsFragment extends PreferenceFragment {
             ImageMethods.clearAllTemp(getActivity(), PictureId);
         } else {
             float original_zoom = pictureData.getFloat(Config.DATA_PICTURE_ZOOM, zoom);
+            float original_alpha = pictureData.getFloat(Config.DATA_PICTURE_ALPHA, picture_alpha);
             int original_position_x = pictureData.getInt(Config.DATA_PICTURE_POSITION_X, position_x);
             int original_position_y = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, position_y);
+            imageView.setAlpha(original_alpha);
             WindowsMethods.updateWindow(windowManager, imageView, bitmap, original_zoom, original_position_x, original_position_y);
         }
 
