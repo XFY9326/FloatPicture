@@ -89,7 +89,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
                 PictureName = pictureData.getListArray().get(PictureId);
                 position_x = pictureData.getInt(Config.DATA_PICTURE_POSITION_X, Config.DATA_DEFAULT_PICTURE_POSITION_X);
                 position_y = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, Config.DATA_DEFAULT_PICTURE_POSITION_Y);
-                bitmap = ImageMethods.getPictureById(PictureId);
+                bitmap = ImageMethods.getShowBitmap(getActivity(), PictureId);
                 zoom = pictureData.getFloat(Config.DATA_PICTURE_ZOOM, ImageMethods.getDefaultZoom(getActivity(), bitmap, false));
                 imageView = ImageMethods.getImageViewById(getActivity(), PictureId);
             } else {
@@ -98,7 +98,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
                 PictureName = getString(R.string.new_picture_name);
                 position_x = Config.DATA_DEFAULT_PICTURE_POSITION_X;
                 position_y = Config.DATA_DEFAULT_PICTURE_POSITION_Y;
-                bitmap = ImageMethods.getPictureById(PictureId);
+                bitmap = ImageMethods.getShowBitmap(getActivity(), PictureId);
                 zoom = ImageMethods.getDefaultZoom(getActivity(), bitmap, false);
                 imageView = ImageMethods.createPictureView(getActivity(), bitmap, zoom);
                 WindowsMethods.createWindow(windowManager, imageView, position_x, position_y);

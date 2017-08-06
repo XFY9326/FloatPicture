@@ -55,9 +55,15 @@ public class ManageListAdapter extends AdvancedRecyclerView.Adapter<ManageListVi
         final String mPictureName = PictureName_Array.get(holder.getAdapterPosition());
         holder.textView_Picture_Name.setText(mPictureName);
         holder.textView_Picture_Id.setText(mPictureId);
-        holder.imageView_Picture_Preview.setImageBitmap(ImageMethods.getPreviewBitmap(mPictureId));
+        holder.imageView_Picture_Preview.setImageBitmap(ImageMethods.getPreviewBitmap(mActivity, mPictureId));
         PictureData pictureData = new PictureData();
         pictureData.setDataControl(mPictureId);
+
+        if (!ImageMethods.isPictureFileExist(mPictureId)) {
+            holder.textView_Picture_Error.setVisibility(View.VISIBLE);
+        } else {
+            holder.textView_Picture_Error.setVisibility(View.INVISIBLE);
+        }
 
         Switch switch_Picture_Show = holder.switch_Picture_Show;
         switch_Picture_Show.setChecked(pictureData.getBoolean(Config.DATA_PICTURE_SHOW_ENABLED, Config.DATA_DEFAULT_PICTURE_SHOW_ENABLED));

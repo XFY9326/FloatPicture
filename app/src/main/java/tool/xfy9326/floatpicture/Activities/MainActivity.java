@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import tool.xfy9326.floatpicture.MainApplication;
 import tool.xfy9326.floatpicture.Methods.ApplicationMethods;
+import tool.xfy9326.floatpicture.Methods.IOMethods;
 import tool.xfy9326.floatpicture.Methods.ManageMethods;
 import tool.xfy9326.floatpicture.Methods.PermissionMethods;
 import tool.xfy9326.floatpicture.Methods.UriMethods;
@@ -58,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         if (mainApplication.isAppInit() || savedInstanceState == null) {
             ManageMethods.RunWin(this);
             mainApplication.setAppInit(true);
+            //noinspection ResultOfMethodCallIgnored
+            IOMethods.setNoMedia();
         }
     }
 

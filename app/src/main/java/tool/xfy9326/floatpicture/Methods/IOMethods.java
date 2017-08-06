@@ -12,6 +12,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 
+import tool.xfy9326.floatpicture.Utils.Config;
+
 public class IOMethods {
 
     @SuppressWarnings("SameParameterValue")
@@ -42,6 +44,21 @@ public class IOMethods {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
+    public static boolean setNoMedia() {
+        File nomedia = new File(Config.NO_MEDIA_FILE_DIR);
+        if (!nomedia.exists()) {
+            try {
+                return nomedia.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        } else {
+            return true;
+        }
     }
 
     private static boolean createPath(File file) {

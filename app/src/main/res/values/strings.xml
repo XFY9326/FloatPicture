@@ -54,4 +54,5 @@
     <string name="settings_global_picture_quality_quality">Quality:</string>
     <string name="settings_global_picture_quality_warn">Please input a correct picture quality!</string>
     <string name="application_thank_list">Thanks to all the people who has helped me.</string>
+    <string name="error_picture_not_found">Can\'t find picture temp!</string>
 </resources>

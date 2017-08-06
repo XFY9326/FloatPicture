@@ -51,8 +51,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:ellipsize="end"
-                    android:maxLines="2"
+                    android:maxLines="1"
                     android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/adapter_picture_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/error_picture_not_found"
+                    android:textColor="@android:color/holo_red_light"
+                    android:visibility="invisible" />
 
             </LinearLayout>
 

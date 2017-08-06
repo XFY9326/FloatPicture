@@ -55,4 +55,5 @@
     <string name="settings_global_picture_quality_quality">质量：</string>
     <string name="settings_global_picture_quality_warn">请输入一个正确的图片质量！</string>
     <string name="application_thank_list">感谢所有曾经帮助过我的人</string>
+    <string name="error_picture_not_found">无法找到图片缓存！</string>
 </resources>

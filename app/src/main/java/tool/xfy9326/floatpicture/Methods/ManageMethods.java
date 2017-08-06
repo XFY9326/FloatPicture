@@ -44,7 +44,7 @@ public class ManageMethods {
 
     private static void StartWin(Context mContext, WindowManager windowManager, PictureData pictureData, String id) {
         pictureData.setDataControl(id);
-        Bitmap bitmap = ImageMethods.getPictureById(id);
+        Bitmap bitmap = ImageMethods.getShowBitmap(mContext, id);
         float zoom = pictureData.getFloat(Config.DATA_PICTURE_ZOOM, ImageMethods.getDefaultZoom(mContext, bitmap, false));
         int position_x = pictureData.getInt(Config.DATA_PICTURE_POSITION_X, Config.DATA_DEFAULT_PICTURE_POSITION_X);
         int position_y = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, Config.DATA_DEFAULT_PICTURE_POSITION_Y);

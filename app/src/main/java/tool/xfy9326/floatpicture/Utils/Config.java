@@ -39,4 +39,5 @@ public class Config {
     public final static String DEFAULT_PICTURE_TEMP_DIR = DEFAULT_APPLICATION_DIR + "Pictures" + File.separator + ".TEMP" + File.separator;
     final static String DEFAULT_DATA_DIR = DEFAULT_APPLICATION_DIR + "Data" + File.separator;
     public final static String DEFAULT_PICTURE_DIR = DEFAULT_APPLICATION_DIR + "Pictures" + File.separator;
+    public final static String NO_MEDIA_FILE_DIR = DEFAULT_APPLICATION_DIR + File.separator + ".nomedia";
 }

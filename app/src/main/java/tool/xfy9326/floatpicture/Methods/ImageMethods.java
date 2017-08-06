@@ -24,7 +24,7 @@ public class ImageMethods {
         return null;
     }
 
-    public static Bitmap getPictureById(String id) {
+    private static Bitmap getPictureById(String id) {
         return getBitmapFromFile(new File(Config.DEFAULT_PICTURE_DIR + id));
     }
 
@@ -66,7 +66,11 @@ public class ImageMethods {
     }
 
     public static Bitmap getEditBitmap(Context mContext, Bitmap bitmap) {
-        Bitmap transparent_bitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        return getEditBitmap(mContext, bitmap.getWidth(), bitmap.getHeight());
+    }
+
+    private static Bitmap getEditBitmap(Context mContext, int width, int height) {
+        Bitmap transparent_bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(transparent_bitmap);
         //noinspection deprecation
         canvas.drawColor(mContext.getResources().getColor(R.color.colorImageViewEditBackground));
@@ -106,14 +110,38 @@ public class ImageMethods {
         return 1;
     }
 
-    public static Bitmap getPreviewBitmap(String id) {
+    public static Bitmap getPreviewBitmap(Context mContext, String id) {
         Bitmap temp = getPictureTempById(id);
         if (temp == null) {
             Bitmap bitmap = getPictureById(id);
-            IOMethods.saveBitmap(bitmap, 50, Config.DEFAULT_PICTURE_TEMP_DIR + id);
-            temp = getPictureTempById(id);
+            if (bitmap == null) {
+                temp = getEditBitmap(mContext, 50, 50);
+            } else {
+                IOMethods.saveBitmap(bitmap, 50, Config.DEFAULT_PICTURE_TEMP_DIR + id);
+                bitmap.recycle();
+                temp = getPictureTempById(id);
+            }
         }
         return temp;
+    }
+
+    public static Bitmap getShowBitmap(Context mContext, String id) {
+        Bitmap temp = getPictureById(id);
+        if (temp == null) {
+            Bitmap bitmap = getPictureTempById(id);
+            if (bitmap == null) {
+                temp = getEditBitmap(mContext, 50, 50);
+            } else {
+                temp = getEditBitmap(mContext, bitmap);
+                bitmap.recycle();
+            }
+        }
+        return temp;
+    }
+
+    public static boolean isPictureFileExist(String id) {
+        File picture = new File(Config.DEFAULT_PICTURE_DIR + id);
+        return picture.exists();
     }
 
     public static void clearAllTemp(Context mContext, String id) {
