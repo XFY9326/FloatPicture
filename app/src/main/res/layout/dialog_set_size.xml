@@ -28,7 +28,7 @@
         android:id="@+id/edittext_set_size"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:ems="4"
         android:inputType="number"
         android:labelFor="@+id/edittext_set_size" />

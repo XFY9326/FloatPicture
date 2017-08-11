@@ -21,6 +21,12 @@
             android:summary="@string/settings_picture_resize_sum"
             android:title="@string/settings_picture_resize" />
         <Preference
+            android:key="settings_picture_degree"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/settings_picture_degree_sum"
+            android:title="@string/settings_picture_degree" />
+        <Preference
             android:key="settings_picture_alpha"
             android:selectAllOnFocus="true"
             android:singleLine="true"

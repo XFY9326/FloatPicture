@@ -59,4 +59,7 @@
     <string name="settings_picture_alpha_sum">Have transparent effects for regular pictures.</string>
     <string name="transparency">Transparency:</string>
     <string name="settings_number_warn">Please input a correct number!</string>
+    <string name="settings_picture_degree">Set Picture show degree</string>
+    <string name="settings_picture_degree_sum">Rotate picture to any degree</string>
+    <string name="degree">Degree:</string>
 </resources>

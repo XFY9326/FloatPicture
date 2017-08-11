@@ -60,4 +60,7 @@
     <string name="settings_picture_alpha_sum">使普通的图片拥有透明效果</string>
     <string name="transparency">透明度：</string>
     <string name="settings_number_warn">请输入一个正确的数字！</string>
+    <string name="settings_picture_degree">设置图片显示角度</string>
+    <string name="settings_picture_degree_sum">旋转图片到任意角度</string>
+    <string name="degree">角度：</string>
 </resources>

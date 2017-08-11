@@ -56,9 +56,9 @@ public class ImageMethods {
         return (ImageView) mainApplication.getRegisteredView(id);
     }
 
-    public static ImageView createPictureView(Context mContext, Bitmap bitmap, float zoom) {
+    public static ImageView createPictureView(Context mContext, Bitmap bitmap, float zoom, float degree) {
         ImageView imageView = new ImageView(mContext);
-        imageView.setImageBitmap(resizeBitmap(bitmap, zoom));
+        imageView.setImageBitmap(resizeBitmap(bitmap, zoom, degree));
         //noinspection deprecation
         imageView.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
         imageView.getBackground().setAlpha(0);
@@ -77,12 +77,19 @@ public class ImageMethods {
         return transparent_bitmap;
     }
 
-    public static Bitmap resizeBitmap(Bitmap bitmap, float zoom) {
+    public static Bitmap resizeBitmap(Bitmap bitmap, float zoom, float degree) {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         Matrix matrix = new Matrix();
-        matrix.postScale(zoom, zoom);
-        return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+        if (zoom != 0) {
+            matrix.postScale(zoom, zoom);
+        }
+        if (degree != -1) {
+            matrix.postRotate(degree);
+        }
+        synchronized (Bitmap.class) {
+            return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+        }
     }
 
     public static float getDefaultZoom(Context mContext, Bitmap bitmap, boolean isMax) {

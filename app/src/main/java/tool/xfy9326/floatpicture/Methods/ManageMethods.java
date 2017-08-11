@@ -45,11 +45,13 @@ public class ManageMethods {
     private static void StartWin(Context mContext, WindowManager windowManager, PictureData pictureData, String id) {
         pictureData.setDataControl(id);
         Bitmap bitmap = ImageMethods.getShowBitmap(mContext, id);
-        float zoom = pictureData.getFloat(Config.DATA_PICTURE_ZOOM, ImageMethods.getDefaultZoom(mContext, bitmap, false));
+        float default_zoom = pictureData.getFloat(Config.DATA_PICTURE_DEFAULT_ZOOM, ImageMethods.getDefaultZoom(mContext, bitmap, false));
+        float zoom = pictureData.getFloat(Config.DATA_PICTURE_ZOOM, default_zoom);
+        float picture_degree = pictureData.getFloat(Config.DATA_PICTURE_DEGREE, Config.DATA_DEFAULT_PICTURE_DEGREE);
         float picture_alpha = pictureData.getFloat(Config.DATA_PICTURE_ALPHA, Config.DATA_DEFAULT_PICTURE_ALPHA);
         int position_x = pictureData.getInt(Config.DATA_PICTURE_POSITION_X, Config.DATA_DEFAULT_PICTURE_POSITION_X);
         int position_y = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, Config.DATA_DEFAULT_PICTURE_POSITION_Y);
-        ImageView imageView = ImageMethods.createPictureView(mContext, bitmap, zoom);
+        ImageView imageView = ImageMethods.createPictureView(mContext, bitmap, zoom, picture_degree);
         imageView.setAlpha(picture_alpha);
         ImageMethods.saveImageViewById(mContext, id, imageView);
         if (pictureData.getBoolean(Config.DATA_PICTURE_SHOW_ENABLED, Config.DATA_DEFAULT_PICTURE_SHOW_ENABLED)) {
