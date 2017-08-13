@@ -214,7 +214,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
                 if (progress > 0) {
                     zoom_temp = ((float) progress) / 100;
                     editText.setText(String.valueOf(zoom_temp));
-                    WindowsMethods.updateWindow(windowManager, imageView_Edit, bitmap_Edit, zoom_temp, -1, position_x, position_y);
+                    WindowsMethods.updateWindow(windowManager, imageView_Edit, bitmap_Edit, zoom_temp, picture_degree, position_x, position_y);
                 }
             }
 
@@ -233,7 +233,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
                 if (edittext_temp > 0 && edittext_temp <= Max_Size) {
                     zoom_temp = edittext_temp;
                     seekBar.setProgress((int) (zoom_temp * 100));
-                    WindowsMethods.updateWindow(windowManager, imageView_Edit, bitmap_Edit, zoom_temp, -1, position_x, position_y);
+                    WindowsMethods.updateWindow(windowManager, imageView_Edit, bitmap_Edit, zoom_temp, picture_degree, position_x, position_y);
                 } else {
                     Toast.makeText(getActivity(), R.string.settings_picture_resize_warn, Toast.LENGTH_SHORT).show();
                 }
