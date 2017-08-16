@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/settings_general">
-        <SwitchPreference
+        <CheckBoxPreference
             android:defaultValue="false"
             android:key="boot_auto_run"
             android:summary="@string/settings_global_start_on_boot_sum"
@@ -11,6 +11,13 @@
             android:key="new_picture_quality"
             android:summary="@string/settings_global_picture_quality_sum"
             android:title="@string/settings_global_picture_quality" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_global_advanced">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="touchable_position_edit"
+            android:summary="@string/settings_global_advanced_touchable_position_edit_sum"
+            android:title="@string/settings_global_advanced_touchable_position_edit" />
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -7,13 +7,13 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import android.widget.ImageView;
 
 import java.io.File;
 
 import tool.xfy9326.floatpicture.MainApplication;
 import tool.xfy9326.floatpicture.R;
 import tool.xfy9326.floatpicture.Utils.Config;
+import tool.xfy9326.floatpicture.View.FloatImageView;
 
 public class ImageMethods {
 
@@ -46,23 +46,27 @@ public class ImageMethods {
         return null;
     }
 
-    public static void saveImageViewById(Context mContext, String id, ImageView imageView) {
+    public static void saveFloatImageViewById(Context mContext, String id, FloatImageView FloatImageView) {
         MainApplication mainApplication = (MainApplication) mContext.getApplicationContext();
-        mainApplication.registerView(id, imageView);
+        mainApplication.registerView(id, FloatImageView);
     }
 
-    public static ImageView getImageViewById(Context mContext, String id) {
+    public static FloatImageView getFloatImageViewById(Context mContext, String id) {
         MainApplication mainApplication = (MainApplication) mContext.getApplicationContext();
-        return (ImageView) mainApplication.getRegisteredView(id);
+        return (FloatImageView) mainApplication.getRegisteredView(id);
     }
 
-    public static ImageView createPictureView(Context mContext, Bitmap bitmap, float zoom, float degree) {
-        ImageView imageView = new ImageView(mContext);
-        imageView.setImageBitmap(resizeBitmap(bitmap, zoom, degree));
+    public static FloatImageView createPictureView(Context mContext, Bitmap bitmap, float zoom, float degree) {
+        return createPictureView(mContext, bitmap, false, zoom, degree);
+    }
+
+    public static FloatImageView createPictureView(Context mContext, Bitmap bitmap, boolean touchable, float zoom, float degree) {
+        FloatImageView FloatImageView = new FloatImageView(mContext, touchable);
+        FloatImageView.setImageBitmap(resizeBitmap(bitmap, zoom, degree));
         //noinspection deprecation
-        imageView.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
-        imageView.getBackground().setAlpha(0);
-        return imageView;
+        FloatImageView.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
+        FloatImageView.getBackground().setAlpha(0);
+        return FloatImageView;
     }
 
     public static Bitmap getEditBitmap(Context mContext, Bitmap bitmap) {

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -15,6 +14,7 @@ import java.util.LinkedHashMap;
 import tool.xfy9326.floatpicture.MainApplication;
 import tool.xfy9326.floatpicture.Utils.Config;
 import tool.xfy9326.floatpicture.Utils.PictureData;
+import tool.xfy9326.floatpicture.View.FloatImageView;
 
 import static tool.xfy9326.floatpicture.Methods.WindowsMethods.getWindowManager;
 
@@ -51,11 +51,11 @@ public class ManageMethods {
         float picture_alpha = pictureData.getFloat(Config.DATA_PICTURE_ALPHA, Config.DATA_DEFAULT_PICTURE_ALPHA);
         int position_x = pictureData.getInt(Config.DATA_PICTURE_POSITION_X, Config.DATA_DEFAULT_PICTURE_POSITION_X);
         int position_y = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, Config.DATA_DEFAULT_PICTURE_POSITION_Y);
-        ImageView imageView = ImageMethods.createPictureView(mContext, bitmap, zoom, picture_degree);
-        imageView.setAlpha(picture_alpha);
-        ImageMethods.saveImageViewById(mContext, id, imageView);
+        FloatImageView floatImageView = ImageMethods.createPictureView(mContext, bitmap, zoom, picture_degree);
+        floatImageView.setAlpha(picture_alpha);
+        ImageMethods.saveFloatImageViewById(mContext, id, floatImageView);
         if (pictureData.getBoolean(Config.DATA_PICTURE_SHOW_ENABLED, Config.DATA_DEFAULT_PICTURE_SHOW_ENABLED)) {
-            WindowsMethods.createWindow(windowManager, imageView, position_x, position_y);
+            WindowsMethods.createWindow(windowManager, floatImageView, false, position_x, position_y);
         }
     }
 
@@ -63,10 +63,10 @@ public class ManageMethods {
         PictureData pictureData = new PictureData();
         pictureData.setDataControl(id);
         if (pictureData.getBoolean(Config.DATA_PICTURE_SHOW_ENABLED, Config.DATA_DEFAULT_PICTURE_SHOW_ENABLED)) {
-            ImageView imageView = ImageMethods.getImageViewById(mContext, id);
-            if (imageView != null) {
-                getWindowManager(mContext).removeView(imageView);
-                imageView.refreshDrawableState();
+            FloatImageView floatImageView = ImageMethods.getFloatImageViewById(mContext, id);
+            if (floatImageView != null) {
+                getWindowManager(mContext).removeView(floatImageView);
+                floatImageView.refreshDrawableState();
             }
         }
         pictureData.remove();
@@ -82,27 +82,27 @@ public class ManageMethods {
                 HashMap.Entry entry = (HashMap.Entry) o;
                 pictureData.setDataControl(entry.getKey().toString());
                 if (pictureData.getBoolean(Config.DATA_PICTURE_SHOW_ENABLED, Config.DATA_DEFAULT_PICTURE_SHOW_ENABLED)) {
-                    ImageView imageView = (ImageView) entry.getValue();
-                    windowManager.removeView(imageView);
-                    imageView.refreshDrawableState();
+                    FloatImageView floatImageView = (FloatImageView) entry.getValue();
+                    windowManager.removeView(floatImageView);
+                    floatImageView.refreshDrawableState();
                 }
             }
         }
     }
 
     public static void hideWindowById(Context mContext, String id) {
-        ImageView imageView = ImageMethods.getImageViewById(mContext, id);
-        getWindowManager(mContext).removeView(imageView);
+        FloatImageView floatImageView = ImageMethods.getFloatImageViewById(mContext, id);
+        getWindowManager(mContext).removeView(floatImageView);
     }
 
     public static void showWindowById(Context mContext, String id) {
-        ImageView imageView = ImageMethods.getImageViewById(mContext, id);
-        WindowManager.LayoutParams layoutParams = WindowsMethods.getDefaultLayout();
+        FloatImageView floatImageView = ImageMethods.getFloatImageViewById(mContext, id);
         PictureData pictureData = new PictureData();
         pictureData.setDataControl(id);
-        layoutParams.x = pictureData.getInt(Config.DATA_PICTURE_POSITION_X, Config.DATA_DEFAULT_PICTURE_POSITION_X);
-        layoutParams.y = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, Config.DATA_DEFAULT_PICTURE_POSITION_Y);
-        getWindowManager(mContext).addView(imageView, layoutParams);
+        int positionX = pictureData.getInt(Config.DATA_PICTURE_POSITION_X, Config.DATA_DEFAULT_PICTURE_POSITION_X);
+        int positionY = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, Config.DATA_DEFAULT_PICTURE_POSITION_Y);
+        WindowManager.LayoutParams layoutParams = WindowsMethods.getDefaultLayout(positionX, positionY, false);
+        getWindowManager(mContext).addView(floatImageView, layoutParams);
     }
 
 }

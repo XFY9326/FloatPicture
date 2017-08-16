@@ -2,11 +2,11 @@ package tool.xfy9326.floatpicture;
 
 import android.app.Application;
 import android.view.View;
-import android.widget.ImageView;
 
 import java.util.HashMap;
 
 import tool.xfy9326.floatpicture.Tools.CrashHandler;
+import tool.xfy9326.floatpicture.View.FloatImageView;
 
 public class MainApplication extends Application {
     private HashMap<String, View> ViewRegister;
@@ -49,8 +49,8 @@ public class MainApplication extends Application {
     public boolean unregisterView(String id) {
         if (ViewRegister.containsKey(id)) {
             Object mView = ViewRegister.get(id);
-            if (mView instanceof ImageView) {
-                ((ImageView) mView).refreshDrawableState();
+            if (mView instanceof FloatImageView) {
+                ((FloatImageView) mView).refreshDrawableState();
             }
             ViewRegister.remove(id);
             return true;

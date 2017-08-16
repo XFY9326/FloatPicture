@@ -62,4 +62,8 @@
     <string name="settings_picture_degree">Set Picture show degree</string>
     <string name="settings_picture_degree_sum">Rotate picture to any degree</string>
     <string name="degree">Degree:</string>
+    <string name="settings_global_advanced">Advanced Functions</string>
+    <string name="settings_global_advanced_touchable_position_edit">Touchable position edit</string>
+    <string name="settings_global_advanced_touchable_position_edit_sum">Can move picture by fingers to set position.</string>
+    <string name="save_moved_position">Save moved position</string>
 </resources>

@@ -90,6 +90,7 @@ public class PictureSettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        mPictureSettingsFragment.clearEditView();
         System.gc();
         super.onDestroy();
     }

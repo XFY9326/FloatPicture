@@ -63,4 +63,8 @@
     <string name="settings_picture_degree">设置图片显示角度</string>
     <string name="settings_picture_degree_sum">旋转图片到任意角度</string>
     <string name="degree">角度：</string>
+    <string name="settings_global_advanced">高级功能</string>
+    <string name="settings_global_advanced_touchable_position_edit">可触摸的位置编辑</string>
+    <string name="settings_global_advanced_touchable_position_edit_sum">可以用手指移动图片设置位置</string>
+    <string name="save_moved_position">保存移动后位置</string>
 </resources>
