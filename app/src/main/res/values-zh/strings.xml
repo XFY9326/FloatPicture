@@ -67,4 +67,6 @@
     <string name="settings_global_advanced_touchable_position_edit">可触摸的位置编辑</string>
     <string name="settings_global_advanced_touchable_position_edit_sum">可以用手指移动图片设置位置</string>
     <string name="save_moved_position">保存移动后位置</string>
+    <string name="notification_picture_count">共%1$s个图片悬浮窗</string>
+    <string name="imageview_notification_visible">设定所有图片是否可见</string>
 </resources>

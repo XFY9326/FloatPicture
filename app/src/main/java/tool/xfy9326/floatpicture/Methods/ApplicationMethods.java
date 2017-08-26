@@ -3,6 +3,7 @@ package tool.xfy9326.floatpicture.Methods;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -18,10 +19,19 @@ import java.util.HashMap;
 
 import tool.xfy9326.floatpicture.MainApplication;
 import tool.xfy9326.floatpicture.R;
+import tool.xfy9326.floatpicture.Services.NotificationService;
 import tool.xfy9326.floatpicture.Utils.Config;
 
 public class ApplicationMethods {
     private static boolean waitDoubleClick;
+
+    public static void startNotificationControl(Context context) {
+        context.startService(new Intent(context, NotificationService.class));
+    }
+
+    private static void closeNotificationControl(Context context) {
+        context.stopService(new Intent(context, NotificationService.class));
+    }
 
     public static String getApplicationVersion(Context mContext) {
         try {
@@ -35,6 +45,7 @@ public class ApplicationMethods {
 
     public static void CloseApplication(Activity mActivity) {
         ManageMethods.CloseAllWindows(mActivity);
+        closeNotificationControl(mActivity);
         mActivity.finish();
         System.gc();
     }

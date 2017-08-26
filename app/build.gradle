@@ -8,8 +8,8 @@ android {
         minSdkVersion 19
         //noinspection OldTargetApi
         targetSdkVersion 25
-        versionCode 6
-        versionName "1.5"
+        versionCode 7
+        versionName "1.6"
     }
 
     buildTypes {
@@ -24,11 +24,6 @@ android {
                         output -> output.outputFile = new File(output.outputFile.parent, "FloatPicture_v" + defaultConfig.versionName + "(" + defaultConfig.versionCode + ").apk");
                     }
             }
-        }
-        debug {
-            debuggable true
-            jniDebuggable false
-            zipAlignEnabled true
         }
     }
 

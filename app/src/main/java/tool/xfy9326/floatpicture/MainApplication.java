@@ -7,10 +7,13 @@ import java.util.HashMap;
 
 import tool.xfy9326.floatpicture.Tools.CrashHandler;
 import tool.xfy9326.floatpicture.View.FloatImageView;
+import tool.xfy9326.floatpicture.View.ManageListAdapter;
 
 public class MainApplication extends Application {
     private HashMap<String, View> ViewRegister;
+    private ManageListAdapter manageListAdapter;
     private boolean ApplicationInit;
+    private boolean winVisible = true;
 
     @Override
     public void onCreate() {
@@ -20,6 +23,22 @@ public class MainApplication extends Application {
             CrashHandler.get().Catch(this);
         }
         this.ViewRegister = new HashMap<>();
+    }
+
+    public boolean getWinVisible() {
+        return winVisible;
+    }
+
+    public void setWinVisible(boolean visible) {
+        winVisible = visible;
+    }
+
+    public ManageListAdapter getManageListAdapter() {
+        return manageListAdapter;
+    }
+
+    public void setManageListAdapter(ManageListAdapter manageListAdapter) {
+        this.manageListAdapter = manageListAdapter;
     }
 
     public boolean isAppInit() {
@@ -36,6 +55,10 @@ public class MainApplication extends Application {
 
     public HashMap<String, View> getRegister() {
         return ViewRegister;
+    }
+
+    public int getViewCount() {
+        return ViewRegister.size();
     }
 
     public View getRegisteredView(String id) {

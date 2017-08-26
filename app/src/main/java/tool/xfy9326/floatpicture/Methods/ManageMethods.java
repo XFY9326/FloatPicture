@@ -10,6 +10,7 @@ import android.view.WindowManager;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import tool.xfy9326.floatpicture.MainApplication;
 import tool.xfy9326.floatpicture.Utils.Config;
@@ -90,12 +91,44 @@ public class ManageMethods {
         }
     }
 
-    public static void hideWindowById(Context mContext, String id) {
+    public static void updateNotificationCount(Context context) {
+        context.sendBroadcast(new Intent().setAction(Config.INTENT_ACTION_NOTIFICATION_UPDATE_COUNT));
+    }
+
+    public static void setAllWindowsVisible(Context context, boolean visible) {
+        String id;
+        PictureData pictureData = new PictureData();
+        LinkedHashMap linkedHashMap = pictureData.getListArray();
+        for (Object o : linkedHashMap.entrySet()) {
+            id = ((Map.Entry) o).getKey().toString();
+            setWindowVisible(context, pictureData, id, visible);
+        }
+    }
+
+    public static void setWindowVisible(Context context, PictureData pictureData, String id, boolean visible) {
+        pictureData.setDataControl(id);
+        boolean data_visible = pictureData.getBoolean(Config.DATA_PICTURE_SHOW_ENABLED, visible);
+        if (visible) {
+            if (!data_visible) {
+                showWindowById(context, id);
+                pictureData.put(Config.DATA_PICTURE_SHOW_ENABLED, true);
+                pictureData.commit(null);
+            }
+        } else {
+            if (data_visible) {
+                hideWindowById(context, id);
+                pictureData.put(Config.DATA_PICTURE_SHOW_ENABLED, false);
+                pictureData.commit(null);
+            }
+        }
+    }
+
+    private static void hideWindowById(Context mContext, String id) {
         FloatImageView floatImageView = ImageMethods.getFloatImageViewById(mContext, id);
         getWindowManager(mContext).removeView(floatImageView);
     }
 
-    public static void showWindowById(Context mContext, String id) {
+    private static void showWindowById(Context mContext, String id) {
         FloatImageView floatImageView = ImageMethods.getFloatImageViewById(mContext, id);
         PictureData pictureData = new PictureData();
         pictureData.setDataControl(id);

@@ -66,4 +66,6 @@
     <string name="settings_global_advanced_touchable_position_edit">Touchable position edit</string>
     <string name="settings_global_advanced_touchable_position_edit_sum">Can move picture by fingers to set position.</string>
     <string name="save_moved_position">Save moved position</string>
+    <string name="notification_picture_count">%1$s picture window in total.</string>
+    <string name="imageview_notification_visible">Set all picture visibility</string>
 </resources>

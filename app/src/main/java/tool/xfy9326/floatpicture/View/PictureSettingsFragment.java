@@ -118,6 +118,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
                 picture_alpha = Config.DATA_DEFAULT_PICTURE_ALPHA;
                 picture_degree = Config.DATA_DEFAULT_PICTURE_DEGREE;
                 floatImageView = ImageMethods.createPictureView(getActivity(), bitmap, zoom, picture_degree);
+                floatImageView.setAlpha(picture_alpha);
                 floatImageView.setPictureId(PictureId);
                 WindowsMethods.createWindow(windowManager, floatImageView, false, position_x, position_y);
             }

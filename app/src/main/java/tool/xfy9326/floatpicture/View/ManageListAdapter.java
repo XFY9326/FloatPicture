@@ -56,7 +56,7 @@ public class ManageListAdapter extends AdvancedRecyclerView.Adapter<ManageListVi
         holder.textView_Picture_Name.setText(mPictureName);
         holder.textView_Picture_Id.setText(mPictureId);
         holder.imageView_Picture_Preview.setImageBitmap(ImageMethods.getPreviewBitmap(mActivity, mPictureId));
-        PictureData pictureData = new PictureData();
+        final PictureData pictureData = new PictureData();
         pictureData.setDataControl(mPictureId);
 
         if (!ImageMethods.isPictureFileExist(mPictureId)) {
@@ -70,15 +70,7 @@ public class ManageListAdapter extends AdvancedRecyclerView.Adapter<ManageListVi
         switch_Picture_Show.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    ManageMethods.showWindowById(mActivity, mPictureId);
-                } else {
-                    ManageMethods.hideWindowById(mActivity, mPictureId);
-                }
-                PictureData pictureData = new PictureData();
-                pictureData.setDataControl(mPictureId);
-                pictureData.put(Config.DATA_PICTURE_SHOW_ENABLED, b);
-                pictureData.commit(null);
+                ManageMethods.setWindowVisible(mActivity, pictureData, mPictureId, b);
             }
         });
 
@@ -111,6 +103,7 @@ public class ManageListAdapter extends AdvancedRecyclerView.Adapter<ManageListVi
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, getItemCount() - position);
                 MainActivity.SnackShow(mActivity, R.string.action_delete_window);
+                ManageMethods.updateNotificationCount(mActivity);
             }
         });
     }

@@ -5,6 +5,8 @@ import android.os.Environment;
 import java.io.File;
 
 public class Config {
+    public final static int NOTIFICATION_ID = 4500;
+
     public final static int REQUEST_CODE_PERMISSION_STORAGE = 1;
     public final static int REQUEST_CODE_PERMISSION_OVERLAY = 2;
     public final static int REQUEST_CODE_ACTIVITY_PICTURE_SETTINGS_ADD = 3;
@@ -15,6 +17,9 @@ public class Config {
     public final static String INTENT_PICTURE_EDIT_ID = "EDIT_ID";
     public final static String INTENT_PICTURE_EDIT_MODE = "EDIT_MODE";
     public final static String INTENT_PICTURE_CHOOSE_PICTURE = "CHOOSE_PICTURE";
+
+    public final static String INTENT_ACTION_NOTIFICATION_BUTTON_CLICK = "ACTION_NOTIFICATION_BUTTON_CLICK";
+    public final static String INTENT_ACTION_NOTIFICATION_UPDATE_COUNT = "ACTION_NOTIFICATION_UPDATE_COUNT";
 
     public final static String DATA_PICTURE_SHOW_ENABLED = "SHOW_ENABLED";
     public final static String DATA_PICTURE_POSITION_X = "POSITION_X";
@@ -27,7 +32,7 @@ public class Config {
     public final static boolean DATA_DEFAULT_PICTURE_SHOW_ENABLED = true;
     public final static int DATA_DEFAULT_PICTURE_POSITION_X = 100;
     public final static int DATA_DEFAULT_PICTURE_POSITION_Y = 100;
-    public final static float DATA_DEFAULT_PICTURE_ALPHA = 1f;
+    public final static float DATA_DEFAULT_PICTURE_ALPHA = 0.5f;
     public final static float DATA_DEFAULT_PICTURE_DEGREE = 0f;
 
     public final static String PREFERENCE_PICTURE_NAME = "settings_picture_name";

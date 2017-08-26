@@ -16,6 +16,7 @@ public class WindowsMethods {
         return (WindowManager) mContext.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
     }
 
+    @SuppressWarnings("SameParameterValue")
     public static void createWindow(WindowManager windowManager, View pictureView, boolean touchable, int layoutPositionX, int layoutPositionY) {
         WindowManager.LayoutParams layoutParams = getDefaultLayout(layoutPositionX, layoutPositionY, touchable);
         windowManager.addView(pictureView, layoutParams);

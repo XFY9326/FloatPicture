@@ -12,6 +12,7 @@
             android:summary="@string/settings_global_picture_quality_sum"
             android:title="@string/settings_global_picture_quality" />
     </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/settings_global_advanced">
         <CheckBoxPreference
             android:defaultValue="false"

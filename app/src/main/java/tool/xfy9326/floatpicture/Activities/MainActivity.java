@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init(savedInstanceState);
+        ApplicationMethods.startNotificationControl(this);
     }
 
     private void init(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         manageListAdapter = new ManageListAdapter(this);
+        ((MainApplication) getApplicationContext()).setManageListAdapter(manageListAdapter);
         AdvancedRecyclerView recyclerView = (AdvancedRecyclerView) findViewById(R.id.main_list_manage);
         recyclerView.setAdapter(manageListAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -123,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
                     manageListAdapter.notifyItemInserted(manageListAdapter.getItemCount());
                 }
                 SnackShow(this, R.string.action_add_window);
+                ManageMethods.updateNotificationCount(this);
             }
         } else if (requestCode == Config.REQUEST_CODE_ACTIVITY_PICTURE_SETTINGS_CHANGE) {
             if (data != null) {
