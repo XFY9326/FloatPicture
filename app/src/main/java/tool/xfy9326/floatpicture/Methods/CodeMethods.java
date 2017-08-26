@@ -35,7 +35,7 @@ public class CodeMethods {
         return str;
     }
 
-    private static String getFileMD5String(File file) {
+    public static String getFileMD5String(File file) {
         try {
             FileInputStream in = new FileInputStream(file);
             FileChannel ch = in.getChannel();
