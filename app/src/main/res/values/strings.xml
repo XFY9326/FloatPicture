@@ -68,4 +68,7 @@
     <string name="save_moved_position">Save moved position</string>
     <string name="notification_picture_count">%1$s picture window in total.</string>
     <string name="imageview_notification_visible">Set all picture visibility</string>
+    <string name="settings_picture_touchable_and_moveable">Touch and move the window</string>
+    <string name="settings_picture_touchable_and_moveable_sum">Open it and you can touch and move the picture.Use it carefully!</string>
+    <string name="settings_picture_touchable_and_moveable_warn">Please be sure that this picture window is not large and you can still control and close it!\n\nThe position you moved to in edit mode will be the default position of this window.</string>
 </resources>

@@ -69,4 +69,7 @@
     <string name="save_moved_position">保存移动后位置</string>
     <string name="notification_picture_count">共%1$s个图片悬浮窗</string>
     <string name="imageview_notification_visible">设定所有图片是否可见</string>
+    <string name="settings_picture_touchable_and_moveable">触摸并移动窗口</string>
+    <string name="settings_picture_touchable_and_moveable_sum">打开这个功能就可以随意拖动图片。请谨慎使用！</string>
+    <string name="settings_picture_touchable_and_moveable_warn">请确保这个图片窗口不是过大并且你依然可以控制并且关闭它！\n\n编辑模式下移动到的位置将会是该窗口的默认出现位置。</string>
 </resources>

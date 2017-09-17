@@ -39,7 +39,7 @@ public class GlobalSettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 PictureQualitySet();
-                return false;
+                return true;
             }
         });
     }

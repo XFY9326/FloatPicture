@@ -25,12 +25,6 @@ public class FloatImageView extends AppCompatImageView {
         init(context);
     }
 
-    public FloatImageView(Context context, boolean moveable) {
-        super(context);
-        this.moveable = moveable;
-        init(context);
-    }
-
     private void init(Context context) {
         windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
     }
@@ -42,6 +36,10 @@ public class FloatImageView extends AppCompatImageView {
 
     public void setPictureId(String id) {
         PictureId = id;
+    }
+
+    public void setMoveable(boolean moveable) {
+        this.moveable = moveable;
     }
 
     @Override

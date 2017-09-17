@@ -52,11 +52,12 @@ public class ManageMethods {
         float picture_alpha = pictureData.getFloat(Config.DATA_PICTURE_ALPHA, Config.DATA_DEFAULT_PICTURE_ALPHA);
         int position_x = pictureData.getInt(Config.DATA_PICTURE_POSITION_X, Config.DATA_DEFAULT_PICTURE_POSITION_X);
         int position_y = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, Config.DATA_DEFAULT_PICTURE_POSITION_Y);
-        FloatImageView floatImageView = ImageMethods.createPictureView(mContext, bitmap, zoom, picture_degree);
+        boolean touch_and_move = pictureData.getBoolean(Config.DATA_PICTURE_TOUCH_AND_MOVE, Config.DATA_DEFAULT_PICTURE_TOUCH_AND_MOVE);
+        FloatImageView floatImageView = ImageMethods.createPictureView(mContext, bitmap, touch_and_move, zoom, picture_degree);
         floatImageView.setAlpha(picture_alpha);
         ImageMethods.saveFloatImageViewById(mContext, id, floatImageView);
         if (pictureData.getBoolean(Config.DATA_PICTURE_SHOW_ENABLED, Config.DATA_DEFAULT_PICTURE_SHOW_ENABLED)) {
-            WindowsMethods.createWindow(windowManager, floatImageView, false, position_x, position_y);
+            WindowsMethods.createWindow(windowManager, floatImageView, touch_and_move, position_x, position_y);
         }
     }
 
@@ -134,7 +135,8 @@ public class ManageMethods {
         pictureData.setDataControl(id);
         int positionX = pictureData.getInt(Config.DATA_PICTURE_POSITION_X, Config.DATA_DEFAULT_PICTURE_POSITION_X);
         int positionY = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, Config.DATA_DEFAULT_PICTURE_POSITION_Y);
-        WindowManager.LayoutParams layoutParams = WindowsMethods.getDefaultLayout(positionX, positionY, false);
+        boolean touch_and_move = pictureData.getBoolean(Config.DATA_PICTURE_TOUCH_AND_MOVE, Config.DATA_DEFAULT_PICTURE_TOUCH_AND_MOVE);
+        WindowManager.LayoutParams layoutParams = WindowsMethods.getDefaultLayout(positionX, positionY, touch_and_move);
         getWindowManager(mContext).addView(floatImageView, layoutParams);
     }
 

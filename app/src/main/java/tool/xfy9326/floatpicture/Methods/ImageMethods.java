@@ -56,12 +56,9 @@ public class ImageMethods {
         return (FloatImageView) mainApplication.getRegisteredView(id);
     }
 
-    public static FloatImageView createPictureView(Context mContext, Bitmap bitmap, float zoom, float degree) {
-        return createPictureView(mContext, bitmap, false, zoom, degree);
-    }
-
     public static FloatImageView createPictureView(Context mContext, Bitmap bitmap, boolean touchable, float zoom, float degree) {
-        FloatImageView FloatImageView = new FloatImageView(mContext, touchable);
+        FloatImageView FloatImageView = new FloatImageView(mContext);
+        FloatImageView.setMoveable(touchable);
         FloatImageView.setImageBitmap(resizeBitmap(bitmap, zoom, degree));
         //noinspection deprecation
         FloatImageView.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));

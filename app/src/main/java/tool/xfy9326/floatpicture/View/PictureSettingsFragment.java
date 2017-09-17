@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -43,6 +44,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
     private Bitmap bitmap;
     private Bitmap bitmap_Edit;
     private FloatImageView floatImageView_Edit;
+    private boolean touch_and_move;
     private float default_zoom;
     private float zoom;
     private float zoom_temp;
@@ -104,6 +106,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
                 default_zoom = ImageMethods.getDefaultZoom(getActivity(), bitmap, false);
                 zoom = pictureData.getFloat(Config.DATA_PICTURE_ZOOM, default_zoom);
                 picture_alpha = pictureData.getFloat(Config.DATA_PICTURE_ALPHA, Config.DATA_DEFAULT_PICTURE_ALPHA);
+                touch_and_move = pictureData.getBoolean(Config.DATA_PICTURE_TOUCH_AND_MOVE, Config.DATA_DEFAULT_PICTURE_TOUCH_AND_MOVE);
                 floatImageView = ImageMethods.getFloatImageViewById(getActivity(), PictureId);
             } else {
                 //New
@@ -117,57 +120,89 @@ public class PictureSettingsFragment extends PreferenceFragment {
                 zoom = default_zoom;
                 picture_alpha = Config.DATA_DEFAULT_PICTURE_ALPHA;
                 picture_degree = Config.DATA_DEFAULT_PICTURE_DEGREE;
-                floatImageView = ImageMethods.createPictureView(getActivity(), bitmap, zoom, picture_degree);
+                touch_and_move = Config.DATA_DEFAULT_PICTURE_TOUCH_AND_MOVE;
+                floatImageView = ImageMethods.createPictureView(getActivity(), bitmap, touch_and_move, zoom, picture_degree);
                 floatImageView.setAlpha(picture_alpha);
                 floatImageView.setPictureId(PictureId);
-                WindowsMethods.createWindow(windowManager, floatImageView, false, position_x, position_y);
+                WindowsMethods.createWindow(windowManager, floatImageView, touch_and_move, position_x, position_y);
             }
         }
     }
 
     private void PreferenceSet() {
-        Preference picture_name = findPreference(Config.PREFERENCE_PICTURE_NAME);
-        picture_name.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        findPreference(Config.PREFERENCE_PICTURE_NAME).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 setPictureName();
-                return false;
+                return true;
             }
         });
-        Preference picture_id = findPreference(Config.PREFERENCE_PICTURE_ID);
-        picture_id.setSummary("ID:" + PictureId);
-        Preference picture_size = findPreference(Config.PREFERENCE_PICTURE_RESIZE);
-        picture_size.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        findPreference(Config.PREFERENCE_PICTURE_ID).setSummary("ID:" + PictureId);
+        findPreference(Config.PREFERENCE_PICTURE_RESIZE).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 setPictureSize();
-                return false;
+                return true;
             }
         });
-        Preference picture_degree = findPreference(Config.PREFERENCE_PICTURE_DEGREE);
-        picture_degree.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        findPreference(Config.PREFERENCE_PICTURE_DEGREE).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 setPictureDegree();
-                return false;
+                return true;
             }
         });
-        Preference picture_transparent = findPreference(Config.PREFERENCE_PICTURE_ALPHA);
-        picture_transparent.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        findPreference(Config.PREFERENCE_PICTURE_ALPHA).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 setPictureAlpha();
-                return false;
+                return true;
             }
         });
-        Preference picture_position = findPreference(Config.PREFERENCE_PICTURE_POSITION);
-        picture_position.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        CheckBoxPreference preference_touch_and_move = (CheckBoxPreference) findPreference(Config.PREFERENCE_PICTURE_TOUCH_AND_MOVE);
+        preference_touch_and_move.setChecked(touch_and_move);
+        preference_touch_and_move.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if ((boolean) newValue) {
+                    PictureTouchAndMoveAlert();
+                    return false;
+                } else {
+                    setPictureTouchAndMove(false);
+                    return true;
+                }
+            }
+        });
+        findPreference(Config.PREFERENCE_PICTURE_POSITION).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 setPicturePosition();
-                return false;
+                return true;
             }
         });
+    }
+
+    private void setPictureTouchAndMove(boolean touchable_and_moveable) {
+        touch_and_move = touchable_and_moveable;
+        windowManager.removeView(floatImageView);
+        floatImageView.setMoveable(touchable_and_moveable);
+        WindowsMethods.createWindow(windowManager, floatImageView, touchable_and_moveable, position_x, position_y);
+    }
+
+    private void PictureTouchAndMoveAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.settings_picture_touchable_and_moveable);
+        builder.setMessage(R.string.settings_picture_touchable_and_moveable_warn);
+        builder.setCancelable(false);
+        builder.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ((CheckBoxPreference) findPreference(Config.PREFERENCE_PICTURE_TOUCH_AND_MOVE)).setChecked(true);
+                setPictureTouchAndMove(true);
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, null);
+        builder.show();
     }
 
     private void setPictureName() {
@@ -200,7 +235,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
 
     private void setPictureSize() {
         bitmap_Edit = ImageMethods.getEditBitmap(getActivity(), bitmap);
-        floatImageView_Edit = ImageMethods.createPictureView(getActivity(), bitmap_Edit, zoom, picture_degree);
+        floatImageView_Edit = ImageMethods.createPictureView(getActivity(), bitmap_Edit, touch_and_move, zoom, picture_degree);
         onEditPicture(floatImageView_Edit);
 
         View mView = inflater.inflate(R.layout.dialog_set_size, (ViewGroup) getActivity().findViewById(R.id.layout_dialog_set_size));
@@ -222,7 +257,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
                 if (progress > 0) {
                     zoom_temp = ((float) progress) / 100;
                     editText.setText(String.valueOf(zoom_temp));
-                    WindowsMethods.updateWindow(windowManager, floatImageView_Edit, bitmap_Edit, false, zoom_temp, picture_degree, position_x, position_y);
+                    WindowsMethods.updateWindow(windowManager, floatImageView_Edit, bitmap_Edit, touch_and_move, zoom_temp, picture_degree, position_x, position_y);
                 }
             }
 
@@ -241,7 +276,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
                 if (edittext_temp > 0 && edittext_temp <= Max_Size) {
                     zoom_temp = edittext_temp;
                     seekBar.setProgress((int) (zoom_temp * 100));
-                    WindowsMethods.updateWindow(windowManager, floatImageView_Edit, bitmap_Edit, false, zoom_temp, picture_degree, position_x, position_y);
+                    WindowsMethods.updateWindow(windowManager, floatImageView_Edit, bitmap_Edit, touch_and_move, zoom_temp, picture_degree, position_x, position_y);
                 } else {
                     Toast.makeText(getActivity(), R.string.settings_picture_resize_warn, Toast.LENGTH_SHORT).show();
                 }
@@ -267,7 +302,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
 
     private void setPictureDegree() {
         bitmap_Edit = ImageMethods.getEditBitmap(getActivity(), bitmap);
-        floatImageView_Edit = ImageMethods.createPictureView(getActivity(), bitmap_Edit, zoom, picture_degree);
+        floatImageView_Edit = ImageMethods.createPictureView(getActivity(), bitmap_Edit, touch_and_move, zoom, picture_degree);
         onEditPicture(floatImageView_Edit);
 
         View mView = inflater.inflate(R.layout.dialog_set_size, (ViewGroup) getActivity().findViewById(R.id.layout_dialog_set_size));
@@ -287,7 +322,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 picture_degree_temp = ((float) progress) / 10;
                 editText.setText(String.valueOf(((float) Math.round(picture_degree_temp * 10)) / 10));
-                WindowsMethods.updateWindow(windowManager, floatImageView_Edit, bitmap_Edit, false, zoom, picture_degree_temp, position_x, position_y);
+                WindowsMethods.updateWindow(windowManager, floatImageView_Edit, bitmap_Edit, touch_and_move, zoom, picture_degree_temp, position_x, position_y);
             }
 
             @Override
@@ -305,7 +340,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
                 if (edittext_temp >= 0 && edittext_temp <= 360) {
                     picture_degree_temp = edittext_temp;
                     seekBar.setProgress((int) (picture_degree_temp * 10));
-                    WindowsMethods.updateWindow(windowManager, floatImageView_Edit, bitmap_Edit, false, zoom, picture_degree_temp, position_x, position_y);
+                    WindowsMethods.updateWindow(windowManager, floatImageView_Edit, bitmap_Edit, touch_and_move, zoom, picture_degree_temp, position_x, position_y);
                 } else {
                     Toast.makeText(getActivity(), R.string.settings_number_warn, Toast.LENGTH_SHORT).show();
                 }
@@ -348,7 +383,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
                 picture_alpha_temp = ((float) progress) / 100;
                 editText.setText(String.valueOf(picture_alpha_temp));
                 floatImageView.setAlpha(picture_alpha_temp);
-                WindowsMethods.updateWindow(windowManager, floatImageView, false, position_x, position_y);
+                WindowsMethods.updateWindow(windowManager, floatImageView, touch_and_move, position_x, position_y);
             }
 
             @Override
@@ -367,7 +402,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
                     picture_alpha_temp = edittext_temp;
                     seekBar.setProgress((int) (picture_alpha_temp * 100));
                     floatImageView.setAlpha(picture_alpha_temp);
-                    WindowsMethods.updateWindow(windowManager, floatImageView, false, position_x, position_y);
+                    WindowsMethods.updateWindow(windowManager, floatImageView, touch_and_move, position_x, position_y);
                 } else {
                     Toast.makeText(getActivity(), R.string.settings_number_warn, Toast.LENGTH_SHORT).show();
                 }
@@ -379,14 +414,14 @@ public class PictureSettingsFragment extends PreferenceFragment {
             public void onClick(DialogInterface dialog, int which) {
                 picture_alpha = picture_alpha_temp;
                 floatImageView.setAlpha(picture_alpha);
-                WindowsMethods.updateWindow(windowManager, floatImageView, false, position_x, position_y);
+                WindowsMethods.updateWindow(windowManager, floatImageView, touch_and_move, position_x, position_y);
             }
         });
         dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 floatImageView.setAlpha(picture_alpha);
-                WindowsMethods.updateWindow(windowManager, floatImageView, false, position_x, position_y);
+                WindowsMethods.updateWindow(windowManager, floatImageView, touch_and_move, position_x, position_y);
             }
         });
         dialog.setView(mView);
@@ -395,7 +430,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
 
     private void setPicturePosition() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        final boolean touchable_edit = sharedPreferences.getBoolean(Config.PREFERENCE_TOUCHABLE_POSITION_EDIT, false);
+        final boolean touchable_edit = (touch_and_move || sharedPreferences.getBoolean(Config.PREFERENCE_TOUCHABLE_POSITION_EDIT, false));
         bitmap_Edit = ImageMethods.getEditBitmap(getActivity(), bitmap);
         floatImageView_Edit = ImageMethods.createPictureView(getActivity(), bitmap_Edit, touchable_edit, zoom, picture_degree);
         onEditPicture(floatImageView_Edit);
@@ -515,7 +550,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
         if (!onUseEditPicture) {
             windowManager.removeView(floatImageView);
             floatImageView.refreshDrawableState();
-            WindowsMethods.createWindow(windowManager, FloatImageView_Edit, false, position_x, position_y);
+            WindowsMethods.createWindow(windowManager, FloatImageView_Edit, touch_and_move, position_x, position_y);
             onUseEditPicture = true;
         }
     }
@@ -526,7 +561,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
             floatImageView_Edit.refreshDrawableState();
             bitmap_Edit.recycle();
             floatImageView.setImageBitmap(ImageMethods.resizeBitmap(bitmap, zoom, picture_degree));
-            WindowsMethods.createWindow(windowManager, floatImageView, false, position_x, position_y);
+            WindowsMethods.createWindow(windowManager, floatImageView, touch_and_move, position_x, position_y);
             onUseEditPicture = false;
         }
     }
@@ -536,7 +571,7 @@ public class PictureSettingsFragment extends PreferenceFragment {
             windowManager.removeView(floatImageView_Edit);
             floatImageView_Edit.refreshDrawableState();
             bitmap_Edit.recycle();
-            WindowsMethods.createWindow(windowManager, floatImageView, false, position_x, position_y);
+            WindowsMethods.createWindow(windowManager, floatImageView, touch_and_move, position_x, position_y);
             onUseEditPicture = false;
         }
     }
@@ -546,12 +581,17 @@ public class PictureSettingsFragment extends PreferenceFragment {
         pictureData.put(Config.DATA_PICTURE_ZOOM, zoom);
         pictureData.put(Config.DATA_PICTURE_DEFAULT_ZOOM, default_zoom);
         pictureData.put(Config.DATA_PICTURE_ALPHA, picture_alpha);
+        if (touch_and_move) {
+            position_x = (int) floatImageView.getMovedPositionX();
+            position_y = (int) floatImageView.getMovedPositionY();
+        }
         pictureData.put(Config.DATA_PICTURE_POSITION_X, position_x);
         pictureData.put(Config.DATA_PICTURE_POSITION_Y, position_y);
         pictureData.put(Config.DATA_PICTURE_DEGREE, picture_degree);
+        pictureData.put(Config.DATA_PICTURE_TOUCH_AND_MOVE, touch_and_move);
         pictureData.commit(PictureName);
+        WindowsMethods.updateWindow(windowManager, floatImageView, bitmap, touch_and_move, zoom, picture_degree, position_x, position_y);
         ImageMethods.saveFloatImageViewById(getActivity(), PictureId, floatImageView);
-        WindowsMethods.updateWindow(windowManager, floatImageView, bitmap, false, zoom, picture_degree, position_x, position_y);
     }
 
     public void clearEditView() {
@@ -576,8 +616,10 @@ public class PictureSettingsFragment extends PreferenceFragment {
             float original_degree = pictureData.getFloat(Config.DATA_PICTURE_DEGREE, picture_degree);
             int original_position_x = pictureData.getInt(Config.DATA_PICTURE_POSITION_X, position_x);
             int original_position_y = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, position_y);
+            boolean original_touch_and_move = pictureData.getBoolean(Config.DATA_PICTURE_TOUCH_AND_MOVE, Config.DATA_DEFAULT_PICTURE_TOUCH_AND_MOVE);
             floatImageView.setAlpha(original_alpha);
-            WindowsMethods.updateWindow(windowManager, floatImageView, bitmap, false, original_zoom, original_degree, original_position_x, original_position_y);
+            floatImageView.setMoveable(original_touch_and_move);
+            WindowsMethods.updateWindow(windowManager, floatImageView, bitmap, original_touch_and_move, original_zoom, original_degree, original_position_x, original_position_y);
         }
 
     }

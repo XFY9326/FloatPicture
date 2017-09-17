@@ -34,7 +34,15 @@
             android:title="@string/settings_picture_alpha" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_window">
+        <CheckBoxPreference
+            android:disableDependentsState="true"
+            android:key="settings_picture_touchable_and_moveable"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/settings_picture_touchable_and_moveable_sum"
+            android:title="@string/settings_picture_touchable_and_moveable" />
         <Preference
+            android:dependency="settings_picture_touchable_and_moveable"
             android:key="settings_picture_position"
             android:selectAllOnFocus="true"
             android:singleLine="true"
