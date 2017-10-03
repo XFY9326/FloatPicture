@@ -37,11 +37,9 @@ public class LicenseActivity extends AppCompatActivity {
 
         LinearLayout main_layout = (LinearLayout) findViewById(R.id.layout_license);
 
-        String license_url_application = getString(R.string.website);
-        String license_path_application = Config.LICENSE_PATH_APPLICATION;
-        String license_application = IOMethods.readAssetText(this, license_path_application);
+        String license_application = IOMethods.readAssetText(this, Config.LICENSE_PATH_APPLICATION);
 
-        addLicense(getString(R.string.app_name), license_url_application, license_application, main_layout);
+        addLicense(getString(R.string.app_name), getString(R.string.website), license_application, main_layout);
     }
 
     private void addLicense(String title, String url, String data, LinearLayout main_layout) {

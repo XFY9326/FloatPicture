@@ -46,6 +46,7 @@ public class Config {
     public final static String PREFERENCE_PICTURE_TOUCH_AND_MOVE = "settings_picture_touchable_and_moveable";
 
     public final static String PREFERENCE_BOOT_AUTO_RUN = "boot_auto_run";
+    public final static String PREFERENCE_SHOW_NOTIFICATION_CONTROL = "show_notification_control";
     public final static String PREFERENCE_NEW_PICTURE_QUALITY = "new_picture_quality";
     public final static String PREFERENCE_TOUCHABLE_POSITION_EDIT = "touchable_position_edit";
 

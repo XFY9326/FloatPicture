@@ -14,7 +14,6 @@
     <string name="settings_picture_name">Picture name</string>
     <string name="settings_picture_name_warn">Please input a correct picture name!</string>
     <string name="settings_picture_name_sum">Use a different picture name to identify pictures.</string>
-    <string name="settings_picture_id_sum">The only ID of this picture.</string>
     <string name="settings_picture_control">Picture Control Settings</string>
     <string name="settings_picture_resize">Resize the picture</string>
     <string name="settings_picture_resize_sum">Scaling the size of window and picture.</string>
@@ -71,4 +70,7 @@
     <string name="settings_picture_touchable_and_moveable">Touch and move the window</string>
     <string name="settings_picture_touchable_and_moveable_sum">Open it and you can touch and move the picture.Use it carefully!</string>
     <string name="settings_picture_touchable_and_moveable_warn">Please be sure that this picture window is not large and you can still control and close it!\n\nThe position you moved to in edit mode will be the default position of this window.</string>
+    <string name="settings_global_show_notification_control">Show notification control board</string>
+    <string name="settings_global_show_notification_control_sum">You can set windows\' visibility by this.</string>
+    <string name="restart_to_apply_changes">Restart the application to apply this change!</string>
 </resources>

@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         init(savedInstanceState);
         ApplicationMethods.startNotificationControl(this);
+        ApplicationMethods.ClearUselessTemp(this);
     }
 
     private void init(Bundle savedInstanceState) {

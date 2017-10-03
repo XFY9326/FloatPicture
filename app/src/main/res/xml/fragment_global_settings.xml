@@ -7,6 +7,11 @@
             android:key="boot_auto_run"
             android:summary="@string/settings_global_start_on_boot_sum"
             android:title="@string/settings_global_start_on_boot" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="show_notification_control"
+            android:summary="@string/settings_global_show_notification_control_sum"
+            android:title="@string/settings_global_show_notification_control" />
         <Preference
             android:key="new_picture_quality"
             android:summary="@string/settings_global_picture_quality_sum"

@@ -13,7 +13,6 @@
     <string name="settings_general">通用设置</string>
     <string name="settings_label">图片设置</string>
     <string name="settings_picture_control">图片控制设置</string>
-    <string name="settings_picture_id_sum">图片唯一识别码</string>
     <string name="settings_picture_name">图片名称</string>
     <string name="settings_picture_name_sum">使用不同的名称区分图片</string>
     <string name="settings_picture_name_warn">请输入一个正确的图片名称</string>
@@ -72,4 +71,7 @@
     <string name="settings_picture_touchable_and_moveable">触摸并移动窗口</string>
     <string name="settings_picture_touchable_and_moveable_sum">打开这个功能就可以随意拖动图片。请谨慎使用！</string>
     <string name="settings_picture_touchable_and_moveable_warn">请确保这个图片窗口不是过大并且你依然可以控制并且关闭它！\n\n编辑模式下移动到的位置将会是该窗口的默认出现位置。</string>
+    <string name="settings_global_show_notification_control_sum">你可以通过这个控制窗口是否可见</string>
+    <string name="settings_global_show_notification_control">显示通知栏控制面板</string>
+    <string name="restart_to_apply_changes">重启程序以应用更改！</string>
 </resources>

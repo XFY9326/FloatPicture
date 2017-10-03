@@ -34,11 +34,17 @@ public class GlobalSettingsFragment extends PreferenceFragment {
     }
 
     private void PreferenceSet() {
-        Preference new_picture_quality = findPreference(Config.PREFERENCE_NEW_PICTURE_QUALITY);
-        new_picture_quality.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        findPreference(Config.PREFERENCE_NEW_PICTURE_QUALITY).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 PictureQualitySet();
+                return true;
+            }
+        });
+        findPreference(Config.PREFERENCE_SHOW_NOTIFICATION_CONTROL).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                Toast.makeText(getActivity(), R.string.restart_to_apply_changes, Toast.LENGTH_SHORT).show();
                 return true;
             }
         });

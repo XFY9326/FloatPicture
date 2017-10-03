@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.CoordinatorLayout;
@@ -26,11 +27,15 @@ public class ApplicationMethods {
     private static boolean waitDoubleClick;
 
     public static void startNotificationControl(Context context) {
-        context.startService(new Intent(context, NotificationService.class));
+        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(Config.PREFERENCE_SHOW_NOTIFICATION_CONTROL, true)) {
+            context.startService(new Intent(context, NotificationService.class));
+        }
     }
 
     private static void closeNotificationControl(Context context) {
-        context.stopService(new Intent(context, NotificationService.class));
+        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(Config.PREFERENCE_SHOW_NOTIFICATION_CONTROL, true)) {
+            context.stopService(new Intent(context, NotificationService.class));
+        }
     }
 
     public static String getApplicationVersion(Context mContext) {
@@ -61,7 +66,6 @@ public class ApplicationMethods {
 
     public static void DoubleClickCloseSnackBar(final Activity mActivity, boolean isDoubleClick) {
         if (isDoubleClick && waitDoubleClick) {
-            ClearUselessTemp(mActivity);
             CloseApplication(mActivity);
         } else {
             CoordinatorLayout coordinatorLayout = (CoordinatorLayout) mActivity.findViewById(R.id.main_layout_content);
@@ -85,30 +89,35 @@ public class ApplicationMethods {
         }
     }
 
-    private static void ClearUselessTemp(Context mContext) {
-        File dir = new File(Config.DEFAULT_PICTURE_DIR);
-        if (dir.exists() && dir.list() != null) {
-            if (dir.list().length > 0) {
-                HashMap<String, View> hashMap = ((MainApplication) mContext.getApplicationContext()).getRegister();
-                if (hashMap.size() > 0) {
-                    File[] pictures = dir.listFiles();
-                    for (File pic_file : pictures) {
-                        if (!hashMap.containsKey(pic_file.getName())) {
-                            //noinspection ResultOfMethodCallIgnored
-                            pic_file.delete();
-                            File temp_file = new File(Config.DEFAULT_PICTURE_TEMP_DIR + pic_file.getName());
-                            if (temp_file.exists()) {
-                                //noinspection ResultOfMethodCallIgnored
-                                temp_file.delete();
+    public static void ClearUselessTemp(final Context mContext) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                File dir = new File(Config.DEFAULT_PICTURE_DIR);
+                if (dir.exists() && dir.list() != null) {
+                    if (dir.list().length > 0) {
+                        HashMap<String, View> hashMap = ((MainApplication) mContext.getApplicationContext()).getRegister();
+                        if (hashMap.size() > 0) {
+                            File[] pictures = dir.listFiles();
+                            for (File pic_file : pictures) {
+                                if (!hashMap.containsKey(pic_file.getName())) {
+                                    //noinspection ResultOfMethodCallIgnored
+                                    pic_file.delete();
+                                    File temp_file = new File(Config.DEFAULT_PICTURE_TEMP_DIR + pic_file.getName());
+                                    if (temp_file.exists()) {
+                                        //noinspection ResultOfMethodCallIgnored
+                                        temp_file.delete();
+                                    }
+                                }
                             }
+                        } else {
+                            //noinspection ResultOfMethodCallIgnored
+                            dir.delete();
                         }
                     }
-                } else {
-                    //noinspection ResultOfMethodCallIgnored
-                    dir.delete();
                 }
             }
-        }
+        }).start();
     }
 }
 
