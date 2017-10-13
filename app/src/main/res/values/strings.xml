@@ -73,4 +73,5 @@
     <string name="settings_global_show_notification_control">Show notification control board</string>
     <string name="settings_global_show_notification_control_sum">Can set windows\' visibility by this.</string>
     <string name="restart_to_apply_changes">Restart the application to apply this change!</string>
+    <string name="loading">Loading &#8230; &#8230;</string>
 </resources>

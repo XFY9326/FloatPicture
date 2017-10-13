@@ -91,42 +91,58 @@ public class PictureSettingsFragment extends PreferenceFragment {
     }
 
     private void setMode() {
-        Intent intent = getActivity().getIntent();
-        Edit_Mode = intent.getBooleanExtra(Config.INTENT_PICTURE_EDIT_MODE, false);
-        if (!Window_Created) {
-            if (Edit_Mode) {
-                //Edit
-                PictureId = intent.getStringExtra(Config.INTENT_PICTURE_EDIT_ID);
-                pictureData.setDataControl(PictureId);
-                PictureName = pictureData.getListArray().get(PictureId);
-                position_x = pictureData.getInt(Config.DATA_PICTURE_POSITION_X, Config.DATA_DEFAULT_PICTURE_POSITION_X);
-                position_y = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, Config.DATA_DEFAULT_PICTURE_POSITION_Y);
-                picture_degree = pictureData.getFloat(Config.DATA_PICTURE_DEGREE, Config.DATA_DEFAULT_PICTURE_DEGREE);
-                picture_alpha = pictureData.getFloat(Config.DATA_PICTURE_ALPHA, Config.DATA_DEFAULT_PICTURE_ALPHA);
-                touch_and_move = pictureData.getBoolean(Config.DATA_PICTURE_TOUCH_AND_MOVE, Config.DATA_DEFAULT_PICTURE_TOUCH_AND_MOVE);
-                bitmap = ImageMethods.getShowBitmap(getActivity(), PictureId);
-                default_zoom = ImageMethods.getDefaultZoom(getActivity(), bitmap, false);
-                zoom = pictureData.getFloat(Config.DATA_PICTURE_ZOOM, default_zoom);
-                floatImageView = ImageMethods.getFloatImageViewById(getActivity(), PictureId);
-            } else {
-                //New
-                PictureId = ImageMethods.setNewImage(getActivity(), new File(intent.getStringExtra(Config.INTENT_PICTURE_CHOOSE_PICTURE)));
-                pictureData.setDataControl(PictureId);
-                PictureName = getString(R.string.new_picture_name);
-                position_x = Config.DATA_DEFAULT_PICTURE_POSITION_X;
-                position_y = Config.DATA_DEFAULT_PICTURE_POSITION_Y;
-                picture_alpha = Config.DATA_DEFAULT_PICTURE_ALPHA;
-                picture_degree = Config.DATA_DEFAULT_PICTURE_DEGREE;
-                touch_and_move = Config.DATA_DEFAULT_PICTURE_TOUCH_AND_MOVE;
-                bitmap = ImageMethods.getShowBitmap(getActivity(), PictureId);
-                default_zoom = ImageMethods.getDefaultZoom(getActivity(), bitmap, false);
-                zoom = default_zoom;
-                floatImageView = ImageMethods.createPictureView(getActivity(), bitmap, touch_and_move, zoom, picture_degree);
-                floatImageView.setAlpha(picture_alpha);
-                floatImageView.setPictureId(PictureId);
+        AlertDialog.Builder loading = new AlertDialog.Builder(getActivity());
+        loading.setCancelable(false);
+        loading.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
                 WindowsMethods.createWindow(windowManager, floatImageView, touch_and_move, position_x, position_y);
             }
-        }
+        });
+        View mView = inflater.inflate(R.layout.dialog_loading, (ViewGroup) getActivity().findViewById(R.id.layout_dialog_loading));
+        loading.setView(mView);
+        final AlertDialog alertDialog = loading.show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = getActivity().getIntent();
+                Edit_Mode = intent.getBooleanExtra(Config.INTENT_PICTURE_EDIT_MODE, false);
+                if (!Window_Created) {
+                    if (Edit_Mode) {
+                        //Edit
+                        PictureId = intent.getStringExtra(Config.INTENT_PICTURE_EDIT_ID);
+                        pictureData.setDataControl(PictureId);
+                        PictureName = pictureData.getListArray().get(PictureId);
+                        position_x = pictureData.getInt(Config.DATA_PICTURE_POSITION_X, Config.DATA_DEFAULT_PICTURE_POSITION_X);
+                        position_y = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, Config.DATA_DEFAULT_PICTURE_POSITION_Y);
+                        picture_degree = pictureData.getFloat(Config.DATA_PICTURE_DEGREE, Config.DATA_DEFAULT_PICTURE_DEGREE);
+                        picture_alpha = pictureData.getFloat(Config.DATA_PICTURE_ALPHA, Config.DATA_DEFAULT_PICTURE_ALPHA);
+                        touch_and_move = pictureData.getBoolean(Config.DATA_PICTURE_TOUCH_AND_MOVE, Config.DATA_DEFAULT_PICTURE_TOUCH_AND_MOVE);
+                        bitmap = ImageMethods.getShowBitmap(getActivity(), PictureId);
+                        default_zoom = ImageMethods.getDefaultZoom(getActivity(), bitmap, false);
+                        zoom = pictureData.getFloat(Config.DATA_PICTURE_ZOOM, default_zoom);
+                        floatImageView = ImageMethods.getFloatImageViewById(getActivity(), PictureId);
+                    } else {
+                        //New
+                        PictureId = ImageMethods.setNewImage(getActivity(), new File(intent.getStringExtra(Config.INTENT_PICTURE_CHOOSE_PICTURE)));
+                        pictureData.setDataControl(PictureId);
+                        PictureName = getString(R.string.new_picture_name);
+                        position_x = Config.DATA_DEFAULT_PICTURE_POSITION_X;
+                        position_y = Config.DATA_DEFAULT_PICTURE_POSITION_Y;
+                        picture_alpha = Config.DATA_DEFAULT_PICTURE_ALPHA;
+                        picture_degree = Config.DATA_DEFAULT_PICTURE_DEGREE;
+                        touch_and_move = Config.DATA_DEFAULT_PICTURE_TOUCH_AND_MOVE;
+                        bitmap = ImageMethods.getShowBitmap(getActivity(), PictureId);
+                        default_zoom = ImageMethods.getDefaultZoom(getActivity(), bitmap, false);
+                        zoom = default_zoom;
+                        floatImageView = ImageMethods.createPictureView(getActivity(), bitmap, touch_and_move, zoom, picture_degree);
+                        floatImageView.setAlpha(picture_alpha);
+                        floatImageView.setPictureId(PictureId);
+                    }
+                    alertDialog.cancel();
+                }
+            }
+        }).start();
     }
 
     private void PreferenceSet() {

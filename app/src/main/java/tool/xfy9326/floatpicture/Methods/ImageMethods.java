@@ -5,15 +5,19 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 
 import java.io.File;
+import java.io.IOException;
 
 import tool.xfy9326.floatpicture.MainApplication;
 import tool.xfy9326.floatpicture.R;
 import tool.xfy9326.floatpicture.Utils.Config;
 import tool.xfy9326.floatpicture.View.FloatImageView;
+
+import static android.graphics.Bitmap.createBitmap;
 
 public class ImageMethods {
 
@@ -39,7 +43,7 @@ public class ImageMethods {
     public static String setNewImage(Context mContext, File imageFile) {
         if (imageFile.exists() && imageFile.canRead() && imageFile.isFile()) {
             String id = getNewPictureId(imageFile);
-            Bitmap bitmap = getBitmapFromFile(imageFile);
+            Bitmap bitmap = getNewBitmap(imageFile);
             IOMethods.saveBitmap(bitmap, PreferenceManager.getDefaultSharedPreferences(mContext).getInt(Config.PREFERENCE_NEW_PICTURE_QUALITY, 80), Config.DEFAULT_PICTURE_DIR + id);
             return id;
         }
@@ -71,7 +75,7 @@ public class ImageMethods {
     }
 
     private static Bitmap getEditBitmap(Context mContext, int width, int height) {
-        Bitmap transparent_bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Bitmap transparent_bitmap = createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(transparent_bitmap);
         //noinspection deprecation
         canvas.drawColor(mContext.getResources().getColor(R.color.colorImageViewEditBackground));
@@ -89,8 +93,34 @@ public class ImageMethods {
             matrix.postRotate(degree);
         }
         synchronized (Bitmap.class) {
-            return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+            return createBitmap(bitmap, 0, 0, width, height, matrix, true);
         }
+    }
+
+    private static Bitmap getNewBitmap(File imageFile) {
+        int degree = 0;
+        Bitmap bitmap = getBitmapFromFile(imageFile);
+        try {
+            ExifInterface exifInterface = new ExifInterface(imageFile.getAbsolutePath());
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    degree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    degree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    degree = 270;
+                    break;
+            }
+            Matrix matrix = new Matrix();
+            matrix.postRotate(degree);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 
     public static float getDefaultZoom(Context mContext, Bitmap bitmap, boolean isMax) {
