@@ -322,7 +322,9 @@ public class PictureSettingsFragment extends PreferenceFragmentCompat {
                 float edittext_temp = Float.valueOf(v.getText().toString());
                 if (edittext_temp > 0 && (allow_picture_over_layout || edittext_temp <= Max_Size)) {
                     zoom_temp = edittext_temp;
-                    seekBar.setProgress((int) (zoom_temp * 100));
+                    if (!allow_picture_over_layout) {
+                        seekBar.setProgress((int) (zoom_temp * 100));
+                    }
                     WindowsMethods.updateWindow(windowManager, floatImageView_Edit, bitmap_Edit, touch_and_move, allow_picture_over_layout, zoom_temp, picture_degree, position_x, position_y);
                 } else {
                     Toast.makeText(getActivity(), R.string.settings_picture_resize_warn, Toast.LENGTH_SHORT).show();
@@ -333,7 +335,16 @@ public class PictureSettingsFragment extends PreferenceFragmentCompat {
         dialog.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                zoom = zoom_temp;
+                if (allow_picture_over_layout) {
+                    try {
+                        zoom = Float.valueOf(editText.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        zoom = zoom_temp;
+                    }
+                } else {
+                    zoom = zoom_temp;
+                }
                 onSuccessEditPicture(floatImageView_Edit, bitmap_Edit);
             }
         });

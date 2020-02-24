@@ -30,6 +30,7 @@ public class FloatImageView extends AppCompatImageView {
 
     private void init(Context context) {
         windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        setScaleType(ScaleType.MATRIX);
     }
 
     @SuppressWarnings("unused")
