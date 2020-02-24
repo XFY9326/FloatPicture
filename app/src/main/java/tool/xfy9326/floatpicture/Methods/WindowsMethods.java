@@ -4,6 +4,7 @@ package tool.xfy9326.floatpicture.Methods;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,19 +18,26 @@ public class WindowsMethods {
     }
 
     @SuppressWarnings("SameParameterValue")
-    public static void createWindow(WindowManager windowManager, View pictureView, boolean touchable, int layoutPositionX, int layoutPositionY) {
-        WindowManager.LayoutParams layoutParams = getDefaultLayout(layoutPositionX, layoutPositionY, touchable);
+    public static void createWindow(WindowManager windowManager, View pictureView, boolean touchable, boolean overLayout, int layoutPositionX, int layoutPositionY) {
+        WindowManager.LayoutParams layoutParams = getDefaultLayout(layoutPositionX, layoutPositionY, touchable, overLayout);
         windowManager.addView(pictureView, layoutParams);
     }
 
-    public static WindowManager.LayoutParams getDefaultLayout(int layoutPositionX, int layoutPositionY, boolean touchable) {
+    public static WindowManager.LayoutParams getDefaultLayout(int layoutPositionX, int layoutPositionY, boolean touchable, boolean overLayout) {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
-        int flag = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
-        if (touchable) {
-            layoutParams.flags = flag;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         } else {
-            layoutParams.flags = flag | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
+            layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+        }
+        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        if (overLayout) {
+            layoutParams.flags = layoutParams.flags | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
+        } else {
+            layoutParams.flags = layoutParams.flags | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+        }
+        if (!touchable) {
+            layoutParams.flags = layoutParams.flags | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
         }
         layoutParams.x = layoutPositionX;
         layoutParams.y = layoutPositionY;
@@ -40,14 +48,14 @@ public class WindowsMethods {
         return layoutParams;
     }
 
-    public static void updateWindow(WindowManager windowManager, FloatImageView pictureView, boolean touchable, int layoutPositionX, int layoutPositionY) {
-        WindowManager.LayoutParams layoutParams = getDefaultLayout(layoutPositionX, layoutPositionY, touchable);
+    public static void updateWindow(WindowManager windowManager, FloatImageView pictureView, boolean touchable, boolean overLayout, int layoutPositionX, int layoutPositionY) {
+        WindowManager.LayoutParams layoutParams = getDefaultLayout(layoutPositionX, layoutPositionY, touchable, overLayout);
         windowManager.updateViewLayout(pictureView, layoutParams);
     }
 
-    public static void updateWindow(WindowManager windowManager, FloatImageView pictureView, Bitmap bitmap, boolean touchable, float zoom, float degree, int layoutPositionX, int layoutPositionY) {
+    public static void updateWindow(WindowManager windowManager, FloatImageView pictureView, Bitmap bitmap, boolean touchable, boolean overLayout, float zoom, float degree, int layoutPositionX, int layoutPositionY) {
         pictureView.refreshDrawableState();
         pictureView.setImageBitmap(ImageMethods.resizeBitmap(bitmap, zoom, degree));
-        updateWindow(windowManager, pictureView, touchable, layoutPositionX, layoutPositionY);
+        updateWindow(windowManager, pictureView, touchable, overLayout, layoutPositionX, layoutPositionY);
     }
 }

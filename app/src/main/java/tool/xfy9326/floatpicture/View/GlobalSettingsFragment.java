@@ -3,11 +3,7 @@ package tool.xfy9326.floatpicture.View;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,31 +13,42 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+
+import java.util.Objects;
+
 import tool.xfy9326.floatpicture.R;
 import tool.xfy9326.floatpicture.Utils.Config;
 
-public class GlobalSettingsFragment extends PreferenceFragment {
+public class GlobalSettingsFragment extends PreferenceFragmentCompat {
     private LayoutInflater inflater;
     private SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.fragment_global_settings);
         inflater = LayoutInflater.from(getActivity());
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+    }
+
+    @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        addPreferencesFromResource(R.xml.fragment_global_settings);
         PreferenceSet();
     }
 
     private void PreferenceSet() {
-        findPreference(Config.PREFERENCE_NEW_PICTURE_QUALITY).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        Objects.requireNonNull(findPreference(Config.PREFERENCE_NEW_PICTURE_QUALITY)).setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceClick(Preference preference) {
+            public boolean onPreferenceClick(androidx.preference.Preference preference) {
                 PictureQualitySet();
                 return true;
             }
         });
-        findPreference(Config.PREFERENCE_SHOW_NOTIFICATION_CONTROL).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        Objects.requireNonNull(findPreference(Config.PREFERENCE_SHOW_NOTIFICATION_CONTROL)).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 Toast.makeText(getActivity(), R.string.restart_to_apply_changes, Toast.LENGTH_SHORT).show();
@@ -52,15 +59,15 @@ public class GlobalSettingsFragment extends PreferenceFragment {
 
     private void PictureQualitySet() {
         int picture_size = sharedPreferences.getInt(Config.PREFERENCE_NEW_PICTURE_QUALITY, 80);
-        View mView = inflater.inflate(R.layout.dialog_set_size, (ViewGroup) getActivity().findViewById(R.id.layout_dialog_set_size));
+        View mView = inflater.inflate(R.layout.dialog_set_size, (ViewGroup) Objects.requireNonNull(getActivity()).findViewById(R.id.layout_dialog_set_size));
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         dialog.setTitle(R.string.settings_global_picture_quality);
-        TextView name = (TextView) mView.findViewById(R.id.textview_set_size);
+        TextView name = mView.findViewById(R.id.textview_set_size);
         name.setText(R.string.settings_global_picture_quality_quality);
-        final SeekBar seekBar = (SeekBar) mView.findViewById(R.id.seekbar_set_size);
+        final SeekBar seekBar = mView.findViewById(R.id.seekbar_set_size);
         seekBar.setProgress(picture_size);
         seekBar.setMax(100);
-        final EditText editText = (EditText) mView.findViewById(R.id.edittext_set_size);
+        final EditText editText = mView.findViewById(R.id.edittext_set_size);
         editText.setText(String.valueOf(picture_size));
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

@@ -2,12 +2,13 @@ package tool.xfy9326.floatpicture.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import tool.xfy9326.floatpicture.Methods.ApplicationMethods;
 import tool.xfy9326.floatpicture.R;
@@ -22,7 +23,7 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     private void ViewSet() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -30,10 +31,10 @@ public class AboutActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        TextView version = (TextView) findViewById(R.id.textview_about_version);
+        TextView version = findViewById(R.id.textview_about_version);
         version.setText(ApplicationMethods.getApplicationVersion(this));
 
-        TextView open_source = (TextView) findViewById(R.id.textview_about_open_source);
+        TextView open_source = findViewById(R.id.textview_about_open_source);
         open_source.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

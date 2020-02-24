@@ -1,5 +1,7 @@
 package tool.xfy9326.floatpicture.Services;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -7,12 +9,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
 
-import java.lang.reflect.Method;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import java.util.Objects;
 
 import tool.xfy9326.floatpicture.Activities.MainActivity;
 import tool.xfy9326.floatpicture.MainApplication;
@@ -25,18 +31,7 @@ public class NotificationService extends Service {
     private RemoteViews remoteViews;
     private NotificationCompat.Builder builder_manage;
     private NotificationButtonBroadcastReceiver notificationButtonBroadcastReceiver;
-
-    private static void collapseStatusBar(Context context) {
-        try {
-            //noinspection WrongConstant
-            Object statusBarManager = context.getSystemService("statusbar");
-            Method collapse;
-            collapse = statusBarManager.getClass().getMethod("collapsePanels");
-            collapse.invoke(statusBarManager);
-        } catch (Exception localException) {
-            localException.printStackTrace();
-        }
-    }
+    private static final String CHANNEL_ID = "channel_default";
 
     @Override
     public void onCreate() {
@@ -73,11 +68,30 @@ public class NotificationService extends Service {
         }
     }
 
+    private static void createNotificationChannel(@NonNull Context context, @NonNull NotificationManagerCompat notificationManager) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            NotificationChannel notificationChannel = notificationManager.getNotificationChannel(CHANNEL_ID);
+            if (notificationChannel == null) {
+                notificationChannel = new NotificationChannel(CHANNEL_ID, context.getString(R.string.notification_channel), NotificationManager.IMPORTANCE_LOW);
+                notificationChannel.setDescription(context.getString(R.string.notification_channel_des));
+                notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+                notificationChannel.setShowBadge(false);
+                notificationChannel.enableLights(false);
+                notificationChannel.enableVibration(false);
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+        }
+    }
+
     private NotificationCompat.Builder createNotification() {
         MainApplication mainApplication = (MainApplication) getApplicationContext();
         mainApplication.setWinVisible(true);
         //Create Notification
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        createNotificationChannel(this, notificationManager);
+
         builder.setSmallIcon(R.drawable.ic_notification);
 
         //Content Intent
@@ -106,7 +120,7 @@ public class NotificationService extends Service {
         public void onReceive(Context context, Intent intent) {
             if (remoteViews != null) {
                 MainApplication mainApplication = (MainApplication) getApplicationContext();
-                if (intent.getAction().equals(Config.INTENT_ACTION_NOTIFICATION_BUTTON_CLICK)) {
+                if (Objects.equals(intent.getAction(), Config.INTENT_ACTION_NOTIFICATION_BUTTON_CLICK)) {
                     if (mainApplication.getWinVisible()) {
                         ManageMethods.setAllWindowsVisible(context, false);
                         remoteViews.setImageViewResource(R.id.imageview_set_picture_view, R.drawable.ic_visible);
@@ -120,13 +134,12 @@ public class NotificationService extends Service {
                     if (manageListAdapter != null) {
                         manageListAdapter.notifyDataSetChanged();
                     }
-                } else if (intent.getAction().equals(Config.INTENT_ACTION_NOTIFICATION_UPDATE_COUNT)) {
+                } else if (Objects.equals(intent.getAction(), Config.INTENT_ACTION_NOTIFICATION_UPDATE_COUNT)) {
                     remoteViews.setTextViewText(R.id.textview_picture_num, getString(R.string.notification_picture_count, String.valueOf(mainApplication.getViewCount())));
                 }
                 NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 builder_manage.setContent(remoteViews);
-                notificationManager.notify(Config.NOTIFICATION_ID, builder_manage.build());
-                collapseStatusBar(context);
+                Objects.requireNonNull(notificationManager).notify(Config.NOTIFICATION_ID, builder_manage.build());
             }
         }
     }

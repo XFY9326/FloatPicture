@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Looper;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -22,7 +24,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     }
 
     @Override
-    public void uncaughtException(Thread thread, final Throwable ex) {
+    public void uncaughtException(Thread thread, @NonNull final Throwable ex) {
         new Thread(new Runnable() {
             @Override
             public void run() {

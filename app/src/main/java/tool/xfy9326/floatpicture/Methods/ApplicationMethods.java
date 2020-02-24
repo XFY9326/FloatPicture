@@ -8,12 +8,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
-import android.support.design.internal.NavigationMenuView;
-import android.support.design.widget.BaseTransientBottomBar;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.view.View;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.google.android.material.internal.NavigationMenuView;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.util.HashMap;
@@ -68,7 +70,7 @@ public class ApplicationMethods {
         if (isDoubleClick && waitDoubleClick) {
             CloseApplication(mActivity);
         } else {
-            CoordinatorLayout coordinatorLayout = (CoordinatorLayout) mActivity.findViewById(R.id.main_layout_content);
+            CoordinatorLayout coordinatorLayout = mActivity.findViewById(R.id.main_layout_content);
             Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.action_warn_double_click_close_application, Snackbar.LENGTH_SHORT);
             snackbar.setAction(R.string.action_back_to_launcher, new View.OnClickListener() {
                 @Override
@@ -94,19 +96,22 @@ public class ApplicationMethods {
             @Override
             public void run() {
                 File dir = new File(Config.DEFAULT_PICTURE_DIR);
-                if (dir.exists() && dir.list() != null) {
-                    if (dir.list().length > 0) {
+                String[] dirList = dir.list();
+                if (dir.exists() && dirList != null) {
+                    if (dirList.length > 0) {
                         HashMap<String, View> hashMap = ((MainApplication) mContext.getApplicationContext()).getRegister();
                         if (hashMap.size() > 0) {
                             File[] pictures = dir.listFiles();
-                            for (File pic_file : pictures) {
-                                if (!hashMap.containsKey(pic_file.getName())) {
-                                    //noinspection ResultOfMethodCallIgnored
-                                    pic_file.delete();
-                                    File temp_file = new File(Config.DEFAULT_PICTURE_TEMP_DIR + pic_file.getName());
-                                    if (temp_file.exists()) {
+                            if (pictures != null) {
+                                for (File pic_file : pictures) {
+                                    if (!hashMap.containsKey(pic_file.getName())) {
                                         //noinspection ResultOfMethodCallIgnored
-                                        temp_file.delete();
+                                        pic_file.delete();
+                                        File temp_file = new File(Config.DEFAULT_PICTURE_TEMP_DIR + pic_file.getName());
+                                        if (temp_file.exists()) {
+                                            //noinspection ResultOfMethodCallIgnored
+                                            temp_file.delete();
+                                        }
                                     }
                                 }
                             }

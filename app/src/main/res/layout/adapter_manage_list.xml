@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="7dp"
         android:clickable="true"
+        android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:orientation="horizontal"
         card_view:cardCornerRadius="2dp"
         card_view:cardElevation="5dp"
         card_view:cardPreventCornerOverlap="true">
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,7 +27,8 @@
                 android:layout_width="80dp"
                 android:layout_height="100dp"
                 android:contentDescription="@string/adapter_image_description"
-                app:srcCompat="@color/cardview_light_background" />
+                android:src="@color/cardview_light_background"
+                tools:ignore="PrivateResource" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -104,6 +105,6 @@
 
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

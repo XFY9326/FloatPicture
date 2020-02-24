@@ -1,11 +1,12 @@
 package tool.xfy9326.floatpicture.Activities;
 
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 
 import tool.xfy9326.floatpicture.R;
 import tool.xfy9326.floatpicture.View.GlobalSettingsFragment;
@@ -22,7 +23,7 @@ public class GlobalSettingsActivity extends AppCompatActivity {
     }
 
     private void ViewSet() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -34,7 +35,7 @@ public class GlobalSettingsActivity extends AppCompatActivity {
     private void fragmentSet(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             GlobalSettingsFragment mGlobalSettingsFragment = new GlobalSettingsFragment();
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.layout_picture_settings_content, mGlobalSettingsFragment);
             fragmentTransaction.commit();
         }

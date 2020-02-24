@@ -1,15 +1,16 @@
 package tool.xfy9326.floatpicture.Activities;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import tool.xfy9326.floatpicture.Methods.IOMethods;
 import tool.xfy9326.floatpicture.R;
@@ -27,7 +28,7 @@ public class LicenseActivity extends AppCompatActivity {
     }
 
     private void ViewSet() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -35,7 +36,7 @@ public class LicenseActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        LinearLayout main_layout = (LinearLayout) findViewById(R.id.layout_license);
+        LinearLayout main_layout = findViewById(R.id.layout_license);
 
         String license_application = IOMethods.readAssetText(this, Config.LICENSE_PATH_APPLICATION);
 
@@ -44,11 +45,11 @@ public class LicenseActivity extends AppCompatActivity {
 
     private void addLicense(String title, String url, String data, LinearLayout main_layout) {
         RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.widget_card_license, (ViewGroup) findViewById(R.id.layout_license_card));
-        TextView textview_title = (TextView) layout.findViewById(R.id.licence_title);
+        TextView textview_title = layout.findViewById(R.id.licence_title);
         textview_title.setText(title);
-        TextView textview_url = (TextView) layout.findViewById(R.id.licence_url);
+        TextView textview_url = layout.findViewById(R.id.licence_url);
         textview_url.setText(url);
-        TextView textview_data = (TextView) layout.findViewById(R.id.licence_data);
+        TextView textview_data = layout.findViewById(R.id.licence_data);
         textview_data.setText(data);
         main_layout.addView(layout);
     }

@@ -1,9 +1,10 @@
 package tool.xfy9326.floatpicture.View;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class AdvancedRecyclerView extends RecyclerView {
     private View emptyView;

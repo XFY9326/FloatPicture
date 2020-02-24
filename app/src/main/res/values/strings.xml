@@ -58,7 +58,7 @@
     <string name="settings_picture_alpha_sum">Have transparent effects for regular pictures.</string>
     <string name="transparency">Transparency:</string>
     <string name="settings_number_warn">Please input a correct number!</string>
-    <string name="settings_picture_degree">Set Picture show degree</string>
+    <string name="settings_picture_degree">Set picture show degree</string>
     <string name="settings_picture_degree_sum">Rotate picture to any degree</string>
     <string name="degree">Degree:</string>
     <string name="settings_global_advanced">Advanced Functions</string>
@@ -74,4 +74,8 @@
     <string name="settings_global_show_notification_control_sum">Can set windows\' visibility by this.</string>
     <string name="restart_to_apply_changes">Restart the application to apply this change!</string>
     <string name="loading">Loading &#8230; &#8230;</string>
+    <string name="notification_channel">Default</string>
+    <string name="notification_channel_des">Default Notification</string>
+    <string name="settings_allow_picture_over_layout">Allow picture over layout</string>
+    <string name="settings_allow_picture_over_layout_sum">Show picture out of current window</string>
 </resources>

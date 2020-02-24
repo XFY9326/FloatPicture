@@ -6,28 +6,29 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import tool.xfy9326.floatpicture.MainApplication;
 import tool.xfy9326.floatpicture.Methods.ApplicationMethods;
 import tool.xfy9326.floatpicture.Methods.IOMethods;
 import tool.xfy9326.floatpicture.Methods.ManageMethods;
 import tool.xfy9326.floatpicture.Methods.PermissionMethods;
-import tool.xfy9326.floatpicture.Methods.UriMethods;
 import tool.xfy9326.floatpicture.R;
 import tool.xfy9326.floatpicture.Utils.Config;
 import tool.xfy9326.floatpicture.View.AdvancedRecyclerView;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private long BackClickTime;
 
     public static void SnackShow(Activity mActivity, int resourceId) {
-        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) mActivity.findViewById(R.id.main_layout_content);
+        CoordinatorLayout coordinatorLayout = mActivity.findViewById(R.id.main_layout_content);
         Snackbar.make(coordinatorLayout, mActivity.getString(resourceId), Snackbar.LENGTH_SHORT).show();
         System.gc();
     }
@@ -61,23 +62,22 @@ public class MainActivity extends AppCompatActivity {
         if (mainApplication.isAppInit() || savedInstanceState == null) {
             ManageMethods.RunWin(this);
             mainApplication.setAppInit(true);
-            //noinspection ResultOfMethodCallIgnored
             IOMethods.setNoMedia();
         }
     }
 
     private void ViewSet() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         manageListAdapter = new ManageListAdapter(this);
         ((MainApplication) getApplicationContext()).setManageListAdapter(manageListAdapter);
-        AdvancedRecyclerView recyclerView = (AdvancedRecyclerView) findViewById(R.id.main_list_manage);
+        AdvancedRecyclerView recyclerView = findViewById(R.id.main_list_manage);
         recyclerView.setAdapter(manageListAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setEmptyView(findViewById(R.id.layout_widget_empty_view));
 
-        FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.main_button_add);
+        FloatingActionButton floatingActionButton = findViewById(R.id.main_button_add);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,12 +85,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
+        final DrawerLayout drawerLayout = findViewById(R.id.main_drawer_layout);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.main_navigation_view);
+        NavigationView navigationView = findViewById(R.id.main_navigation_view);
         ApplicationMethods.disableNavigationViewScrollbars(navigationView);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
             if (data != null) {
                 Intent intent = new Intent(MainActivity.this, PictureSettingsActivity.class);
                 intent.putExtra(Config.INTENT_PICTURE_EDIT_MODE, false);
-                intent.putExtra(Config.INTENT_PICTURE_CHOOSE_PICTURE, UriMethods.getImageAbsolutePath(this, data.getData()));
+                intent.setData(data.getData());
                 startActivityForResult(intent, Config.REQUEST_CODE_ACTIVITY_PICTURE_SETTINGS_ADD);
             }
         } else if (requestCode == Config.REQUEST_CODE_PERMISSION_OVERLAY) {
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
+        DrawerLayout drawerLayout = findViewById(R.id.main_drawer_layout);
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         }

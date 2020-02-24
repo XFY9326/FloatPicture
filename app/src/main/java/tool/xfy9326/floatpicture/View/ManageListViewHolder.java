@@ -19,12 +19,12 @@ class ManageListViewHolder extends AdvancedRecyclerView.ViewHolder {
 
     ManageListViewHolder(View mView) {
         super(mView);
-        imageView_Picture_Preview = (ImageView) mView.findViewById(R.id.adapter_picture_preview);
-        switch_Picture_Show = (Switch) mView.findViewById(R.id.adapter_picture_show);
-        textView_Picture_Name = (TextView) mView.findViewById(R.id.adapter_picture_name);
-        textView_Picture_Id = (TextView) mView.findViewById(R.id.adapter_picture_id);
-        textView_Picture_Error = (TextView) mView.findViewById(R.id.adapter_picture_error);
-        button_Picture_Edit = (Button) mView.findViewById(R.id.adapter_picture_edit);
-        button_Picture_Delete = (Button) mView.findViewById(R.id.adapter_picture_delete);
+        imageView_Picture_Preview = mView.findViewById(R.id.adapter_picture_preview);
+        switch_Picture_Show = mView.findViewById(R.id.adapter_picture_show);
+        textView_Picture_Name = mView.findViewById(R.id.adapter_picture_name);
+        textView_Picture_Id = mView.findViewById(R.id.adapter_picture_id);
+        textView_Picture_Error = mView.findViewById(R.id.adapter_picture_error);
+        button_Picture_Edit = mView.findViewById(R.id.adapter_picture_edit);
+        button_Picture_Delete = mView.findViewById(R.id.adapter_picture_delete);
     }
 }

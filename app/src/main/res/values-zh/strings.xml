@@ -75,4 +75,8 @@
     <string name="settings_global_show_notification_control">显示通知栏控制面板</string>
     <string name="restart_to_apply_changes">重启程序以应用更改！</string>
     <string name="loading">正在加载中 ··· ···</string>
+    <string name="notification_channel">默认</string>
+    <string name="notification_channel_des">默认通知</string>
+    <string name="settings_allow_picture_over_layout">允许悬浮窗超出屏幕</string>
+    <string name="settings_allow_picture_over_layout_sum">悬浮窗可以超出当前可显示的屏幕外</string>
 </resources>

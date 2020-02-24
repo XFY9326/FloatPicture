@@ -1,9 +1,11 @@
 package tool.xfy9326.floatpicture.View;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v7.widget.AppCompatImageView;
 import android.view.MotionEvent;
 import android.view.WindowManager;
+
+import androidx.appcompat.widget.AppCompatImageView;
 
 import tool.xfy9326.floatpicture.Methods.WindowsMethods;
 import tool.xfy9326.floatpicture.Utils.Config;
@@ -12,6 +14,7 @@ public class FloatImageView extends AppCompatImageView {
     private String PictureId = "";
     private WindowManager windowManager;
     private boolean moveable = false;
+    private boolean overLayout = false;
 
     private float mTouchStartX = 0;
     private float mTouchStartY = 0;
@@ -42,6 +45,11 @@ public class FloatImageView extends AppCompatImageView {
         this.moveable = moveable;
     }
 
+    public void setOverLayout(boolean overLayout) {
+        this.overLayout = overLayout;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (moveable) {
@@ -80,7 +88,7 @@ public class FloatImageView extends AppCompatImageView {
     }
 
     private void updatePosition() {
-        windowManager.updateViewLayout(this, WindowsMethods.getDefaultLayout((int) mNowPositionX, (int) mNowPositionY, moveable));
+        windowManager.updateViewLayout(this, WindowsMethods.getDefaultLayout((int) mNowPositionX, (int) mNowPositionY, moveable, overLayout));
     }
 
 }

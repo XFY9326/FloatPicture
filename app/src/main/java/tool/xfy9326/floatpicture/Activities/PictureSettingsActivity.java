@@ -1,13 +1,14 @@
 package tool.xfy9326.floatpicture.Activities;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 
 import tool.xfy9326.floatpicture.R;
 import tool.xfy9326.floatpicture.Utils.Config;
@@ -26,7 +27,7 @@ public class PictureSettingsActivity extends AppCompatActivity {
     }
 
     private void ViewSet() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         Intent intent = getIntent();
@@ -41,11 +42,11 @@ public class PictureSettingsActivity extends AppCompatActivity {
     private void fragmentSet(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             mPictureSettingsFragment = new PictureSettingsFragment();
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.layout_picture_settings_content, mPictureSettingsFragment);
             fragmentTransaction.commit();
         } else {
-            mPictureSettingsFragment = (PictureSettingsFragment) getFragmentManager().findFragmentById(R.id.layout_picture_settings_content);
+            mPictureSettingsFragment = (PictureSettingsFragment) getSupportFragmentManager().findFragmentById(R.id.layout_picture_settings_content);
         }
     }
 

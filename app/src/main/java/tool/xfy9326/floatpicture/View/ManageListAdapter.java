@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -109,7 +111,8 @@ public class ManageListAdapter extends AdvancedRecyclerView.Adapter<ManageListVi
     }
 
     @Override
-    public ManageListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull
+    public ManageListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mActivity);
         View mView = inflater.inflate(R.layout.adapter_manage_list, parent, false);
         return new ManageListViewHolder(mView);

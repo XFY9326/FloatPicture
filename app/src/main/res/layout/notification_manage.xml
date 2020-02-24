@@ -67,6 +67,7 @@
             android:layout_height="27dp"
             android:clickable="true"
             android:contentDescription="@string/imageview_notification_visible"
+            android:focusable="true"
             app:srcCompat="@drawable/ic_invisible" />
 
     </LinearLayout>

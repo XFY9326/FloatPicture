@@ -16,7 +16,6 @@ public class Config {
     public final static String INTENT_PICTURE_EDIT_POSITION = "EDIT_POSITION";
     public final static String INTENT_PICTURE_EDIT_ID = "EDIT_ID";
     public final static String INTENT_PICTURE_EDIT_MODE = "EDIT_MODE";
-    public final static String INTENT_PICTURE_CHOOSE_PICTURE = "CHOOSE_PICTURE";
 
     public final static String INTENT_ACTION_NOTIFICATION_BUTTON_CLICK = "ACTION_NOTIFICATION_BUTTON_CLICK";
     public final static String INTENT_ACTION_NOTIFICATION_UPDATE_COUNT = "ACTION_NOTIFICATION_UPDATE_COUNT";
@@ -29,6 +28,7 @@ public class Config {
     public final static String DATA_PICTURE_ALPHA = "ALPHA";
     public final static String DATA_PICTURE_DEGREE = "DEGREE";
     public final static String DATA_PICTURE_TOUCH_AND_MOVE = "TOUCH_AND_MOVE";
+    public final static String DATA_ALLOW_PICTURE_OVER_LAYOUT = "ALLOW_PICTURE_OVER_LAYOUT";
 
     public final static boolean DATA_DEFAULT_PICTURE_SHOW_ENABLED = true;
     public final static int DATA_DEFAULT_PICTURE_POSITION_X = 100;
@@ -36,9 +36,10 @@ public class Config {
     public final static float DATA_DEFAULT_PICTURE_ALPHA = 0.5f;
     public final static float DATA_DEFAULT_PICTURE_DEGREE = 0f;
     public final static boolean DATA_DEFAULT_PICTURE_TOUCH_AND_MOVE = false;
+    public final static boolean DATA_DEFAULT_ALLOW_PICTURE_OVER_LAYOUT = false;
 
     public final static String PREFERENCE_PICTURE_NAME = "settings_picture_name";
-    public final static String PREFERENCE_PICTURE_ID = "settings_picture_id";
+    public final static String PREFERENCE_ALLOW_PICTURE_OVER_LAYOUT = "settings_allow_picture_over_layout";
     public final static String PREFERENCE_PICTURE_RESIZE = "settings_picture_resize";
     public final static String PREFERENCE_PICTURE_ALPHA = "settings_picture_alpha";
     public final static String PREFERENCE_PICTURE_POSITION = "settings_picture_position";

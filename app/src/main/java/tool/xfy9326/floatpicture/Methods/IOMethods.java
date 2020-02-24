@@ -1,7 +1,10 @@
 package tool.xfy9326.floatpicture.Methods;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,10 +14,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.Objects;
 
 import tool.xfy9326.floatpicture.Utils.Config;
 
 public class IOMethods {
+
+    static Bitmap readImageByUri(Context context, Uri uri) {
+        ContentResolver contentResolver = context.getContentResolver();
+        try (FileInputStream inputStream = Objects.requireNonNull(contentResolver.openAssetFileDescriptor(uri, "r")).createInputStream()) {
+            return BitmapFactory.decodeStream(inputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     @SuppressWarnings("SameParameterValue")
     static void saveBitmap(Bitmap bitmap, int quality, String path) {
@@ -32,14 +46,14 @@ public class IOMethods {
 
     public static String readAssetText(Context mContext, String path) {
         try {
-            String result = "";
+            StringBuilder result = new StringBuilder();
             InputStreamReader inputReader = new InputStreamReader(mContext.getResources().getAssets().open(path));
             BufferedReader bufReader = new BufferedReader(inputReader);
             String line;
             while ((line = bufReader.readLine()) != null) {
-                result += line + "\n";
+                result.append(line).append("\n");
             }
-            return result;
+            return result.toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,9 +76,9 @@ public class IOMethods {
     }
 
     private static boolean createPath(File file) {
-        if (file.getParent().trim().length() != 1) {
+        if (Objects.requireNonNull(file.getParent()).trim().length() != 1) {
             File filepath = file.getParentFile();
-            if (!filepath.exists()) {
+            if (!Objects.requireNonNull(filepath).exists()) {
                 return filepath.mkdirs();
             }
         }
@@ -76,9 +90,7 @@ public class IOMethods {
             if (file.isFile()) {
                 if (delete) {
                     if (file.delete()) {
-                        if (file.createNewFile()) {
-                            return false;
-                        }
+                        return !file.createNewFile();
                     }
                 } else {
                     return false;
@@ -88,9 +100,7 @@ public class IOMethods {
             if (!createPath(file)) {
                 return true;
             }
-            if (file.createNewFile()) {
-                return false;
-            }
+            return !file.createNewFile();
         }
         return true;
     }

@@ -53,11 +53,12 @@ public class ManageMethods {
         int position_x = pictureData.getInt(Config.DATA_PICTURE_POSITION_X, Config.DATA_DEFAULT_PICTURE_POSITION_X);
         int position_y = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, Config.DATA_DEFAULT_PICTURE_POSITION_Y);
         boolean touch_and_move = pictureData.getBoolean(Config.DATA_PICTURE_TOUCH_AND_MOVE, Config.DATA_DEFAULT_PICTURE_TOUCH_AND_MOVE);
-        FloatImageView floatImageView = ImageMethods.createPictureView(mContext, bitmap, touch_and_move, zoom, picture_degree);
+        boolean over_layout = pictureData.getBoolean(Config.DATA_ALLOW_PICTURE_OVER_LAYOUT, Config.DATA_DEFAULT_ALLOW_PICTURE_OVER_LAYOUT);
+        FloatImageView floatImageView = ImageMethods.createPictureView(mContext, bitmap, touch_and_move, over_layout, zoom, picture_degree);
         floatImageView.setAlpha(picture_alpha);
         ImageMethods.saveFloatImageViewById(mContext, id, floatImageView);
         if (pictureData.getBoolean(Config.DATA_PICTURE_SHOW_ENABLED, Config.DATA_DEFAULT_PICTURE_SHOW_ENABLED)) {
-            WindowsMethods.createWindow(windowManager, floatImageView, touch_and_move, position_x, position_y);
+            WindowsMethods.createWindow(windowManager, floatImageView, touch_and_move, over_layout, position_x, position_y);
         }
     }
 
@@ -136,7 +137,8 @@ public class ManageMethods {
         int positionX = pictureData.getInt(Config.DATA_PICTURE_POSITION_X, Config.DATA_DEFAULT_PICTURE_POSITION_X);
         int positionY = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, Config.DATA_DEFAULT_PICTURE_POSITION_Y);
         boolean touch_and_move = pictureData.getBoolean(Config.DATA_PICTURE_TOUCH_AND_MOVE, Config.DATA_DEFAULT_PICTURE_TOUCH_AND_MOVE);
-        WindowManager.LayoutParams layoutParams = WindowsMethods.getDefaultLayout(positionX, positionY, touch_and_move);
+        boolean over_layout = pictureData.getBoolean(Config.DATA_ALLOW_PICTURE_OVER_LAYOUT, Config.DATA_DEFAULT_ALLOW_PICTURE_OVER_LAYOUT);
+        WindowManager.LayoutParams layoutParams = WindowsMethods.getDefaultLayout(positionX, positionY, touch_and_move, over_layout);
         getWindowManager(mContext).addView(floatImageView, layoutParams);
     }
 

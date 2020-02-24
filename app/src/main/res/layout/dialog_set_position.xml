@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_dialog_set_position"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -36,7 +37,8 @@
             android:layout_weight="1"
             android:ems="4"
             android:inputType="number"
-            android:labelFor="@+id/edittext_set_position_x" />
+            android:labelFor="@+id/edittext_set_position_x"
+            tools:ignore="Autofill" />
     </LinearLayout>
 
     <LinearLayout
@@ -68,7 +70,8 @@
             android:layout_weight="1"
             android:ems="4"
             android:inputType="number"
-            android:labelFor="@+id/edittext_set_position_y" />
+            android:labelFor="@+id/edittext_set_position_y"
+            tools:ignore="Autofill" />
     </LinearLayout>
 
 </LinearLayout>
