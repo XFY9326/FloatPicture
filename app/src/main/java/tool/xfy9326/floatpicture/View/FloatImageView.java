@@ -57,19 +57,19 @@ public class FloatImageView extends AppCompatImageView {
             x = event.getRawX();
             y = event.getRawY();
             switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
+                case MotionEvent.ACTION_DOWN -> {
                     mTouchStartX = event.getX();
                     mTouchStartY = event.getY();
-                    break;
-                case MotionEvent.ACTION_MOVE:
+                }
+                case MotionEvent.ACTION_MOVE -> {
                     getNowPosition();
                     updatePosition();
-                    break;
-                case MotionEvent.ACTION_UP:
+                }
+                case MotionEvent.ACTION_UP -> {
                     getNowPosition();
                     updatePosition();
                     mTouchStartX = mTouchStartY = 0;
-                    break;
+                }
             }
         }
         return super.onTouchEvent(event);

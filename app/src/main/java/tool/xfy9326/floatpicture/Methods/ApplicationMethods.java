@@ -70,7 +70,7 @@ public class ApplicationMethods {
             Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.action_warn_double_click_close_application, Snackbar.LENGTH_SHORT);
             snackbar.setAction(R.string.action_back_to_launcher, v -> mActivity.moveTaskToBack(true));
             snackbar.setActionTextColor(Color.RED);
-            snackbar.addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+            snackbar.addCallback(new BaseTransientBottomBar.BaseCallback<>() {
                 @Override
                 public void onDismissed(Snackbar transientBottomBar, int event) {
                     waitDoubleClick = false;
