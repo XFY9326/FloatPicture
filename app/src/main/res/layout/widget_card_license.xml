@@ -11,11 +11,11 @@
         android:layout_height="match_parent"
         android:layout_margin="10dp"
         android:clickable="true"
+        android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:orientation="horizontal"
         card_view:cardCornerRadius="2dp"
         card_view:cardElevation="5dp"
-        android:focusable="true"
         card_view:cardPreventCornerOverlap="true">
 
         <RelativeLayout

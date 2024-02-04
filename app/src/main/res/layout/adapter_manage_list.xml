@@ -73,7 +73,7 @@
                 android:gravity="center|end"
                 android:orientation="vertical">
 
-                <Switch
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/adapter_picture_show"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

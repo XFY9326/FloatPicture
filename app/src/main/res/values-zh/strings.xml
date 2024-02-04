@@ -4,6 +4,7 @@
     <string name="adapter_image_description">图片预览</string>
     <string name="done">确认</string>
     <string name="cancel">取消</string>
+    <string name="add">添加</string>
     <string name="permission_warn">权限警告</string>
     <string name="permission_warn_explanation">本应用程序需要这个权限才能正常运行！</string>
     <string name="permission_warn_overlay_explanation">本应用程序需要悬浮窗权限才能显示图片！</string>

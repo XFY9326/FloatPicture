@@ -25,13 +25,10 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     @Override
     public void uncaughtException(Thread thread, @NonNull final Throwable ex) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Looper.prepare();
-                Toast.makeText(mContext, ExToString(ex), Toast.LENGTH_LONG).show();
-                Looper.loop();
-            }
+        new Thread(() -> {
+            Looper.prepare();
+            Toast.makeText(mContext, ExToString(ex), Toast.LENGTH_LONG).show();
+            Looper.loop();
         }).start();
         try {
             Thread.sleep(5000);

@@ -5,10 +5,9 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -39,8 +38,7 @@ public class ManageListAdapter extends AdvancedRecyclerView.Adapter<ManageListVi
         pictureInfo = pictureData.getListArray();
         PictureId_Array = new ArrayList<>();
         PictureName_Array = new ArrayList<>();
-        for (Object o : pictureInfo.entrySet()) {
-            Map.Entry entry = (Map.Entry) o;
+        for (Map.Entry<?, ?> entry : pictureInfo.entrySet()) {
             PictureId_Array.add(entry.getKey().toString());
             PictureName_Array.add(entry.getValue().toString());
         }
@@ -67,46 +65,35 @@ public class ManageListAdapter extends AdvancedRecyclerView.Adapter<ManageListVi
             holder.textView_Picture_Error.setVisibility(View.INVISIBLE);
         }
 
-        Switch switch_Picture_Show = holder.switch_Picture_Show;
+        SwitchCompat switch_Picture_Show = holder.switch_Picture_Show;
         switch_Picture_Show.setChecked(pictureData.getBoolean(Config.DATA_PICTURE_SHOW_ENABLED, Config.DATA_DEFAULT_PICTURE_SHOW_ENABLED));
-        switch_Picture_Show.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                ManageMethods.setWindowVisible(mActivity, pictureData, mPictureId, b);
+        switch_Picture_Show.setOnCheckedChangeListener((compoundButton, b) -> ManageMethods.setWindowVisible(mActivity, pictureData, mPictureId, b));
+
+        holder.button_Picture_Edit.setOnClickListener(view -> {
+            PictureData pictureData1 = new PictureData();
+            pictureData1.setDataControl(mPictureId);
+            if (pictureData1.getBoolean(Config.DATA_PICTURE_SHOW_ENABLED, Config.DATA_DEFAULT_PICTURE_SHOW_ENABLED)) {
+                Intent intent = new Intent(mActivity, PictureSettingsActivity.class);
+                intent.putExtra(Config.INTENT_PICTURE_EDIT_MODE, true);
+                intent.putExtra(Config.INTENT_PICTURE_EDIT_ID, mPictureId);
+                intent.putExtra(Config.INTENT_PICTURE_EDIT_POSITION, holder.getAdapterPosition());
+                mActivity.startActivityForResult(intent, Config.REQUEST_CODE_ACTIVITY_PICTURE_SETTINGS_CHANGE);
+            } else {
+                MainActivity.SnackShow(mActivity, R.string.action_warn_edit_hided_window);
             }
         });
 
-        holder.button_Picture_Edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PictureData pictureData = new PictureData();
-                pictureData.setDataControl(mPictureId);
-                if (pictureData.getBoolean(Config.DATA_PICTURE_SHOW_ENABLED, Config.DATA_DEFAULT_PICTURE_SHOW_ENABLED)) {
-                    Intent intent = new Intent(mActivity, PictureSettingsActivity.class);
-                    intent.putExtra(Config.INTENT_PICTURE_EDIT_MODE, true);
-                    intent.putExtra(Config.INTENT_PICTURE_EDIT_ID, mPictureId);
-                    intent.putExtra(Config.INTENT_PICTURE_EDIT_POSITION, holder.getAdapterPosition());
-                    mActivity.startActivityForResult(intent, Config.REQUEST_CODE_ACTIVITY_PICTURE_SETTINGS_CHANGE);
-                } else {
-                    MainActivity.SnackShow(mActivity, R.string.action_warn_edit_hided_window);
-                }
-            }
-        });
-
-        holder.button_Picture_Delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ManageMethods.DeleteWin(mActivity, mPictureId);
-                updateData();
-                holder.switch_Picture_Show.setOnCheckedChangeListener(null);
-                holder.button_Picture_Edit.setOnClickListener(null);
-                holder.button_Picture_Delete.setOnClickListener(null);
-                int position = holder.getAdapterPosition();
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, getItemCount() - position);
-                MainActivity.SnackShow(mActivity, R.string.action_delete_window);
-                ManageMethods.updateNotificationCount(mActivity);
-            }
+        holder.button_Picture_Delete.setOnClickListener(v -> {
+            ManageMethods.DeleteWin(mActivity, mPictureId);
+            updateData();
+            holder.switch_Picture_Show.setOnCheckedChangeListener(null);
+            holder.button_Picture_Edit.setOnClickListener(null);
+            holder.button_Picture_Delete.setOnClickListener(null);
+            int position1 = holder.getAdapterPosition();
+            notifyItemRemoved(position1);
+            notifyItemRangeChanged(position1, getItemCount() - position1);
+            MainActivity.SnackShow(mActivity, R.string.action_delete_window);
+            ManageMethods.updateNotificationCount(mActivity);
         });
     }
 

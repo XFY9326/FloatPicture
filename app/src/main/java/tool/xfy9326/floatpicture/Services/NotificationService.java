@@ -1,5 +1,6 @@
 package tool.xfy9326.floatpicture.Services;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -28,11 +29,27 @@ import tool.xfy9326.floatpicture.Utils.Config;
 import tool.xfy9326.floatpicture.View.ManageListAdapter;
 
 public class NotificationService extends Service {
+    private static final String CHANNEL_ID = "channel_default";
     private RemoteViews remoteViews;
     private NotificationCompat.Builder builder_manage;
     private NotificationButtonBroadcastReceiver notificationButtonBroadcastReceiver;
-    private static final String CHANNEL_ID = "channel_default";
 
+    private static void createNotificationChannel(@NonNull Context context, @NonNull NotificationManagerCompat notificationManager) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            NotificationChannel notificationChannel = notificationManager.getNotificationChannel(CHANNEL_ID);
+            if (notificationChannel == null) {
+                notificationChannel = new NotificationChannel(CHANNEL_ID, context.getString(R.string.notification_channel), NotificationManager.IMPORTANCE_LOW);
+                notificationChannel.setDescription(context.getString(R.string.notification_channel_des));
+                notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+                notificationChannel.setShowBadge(false);
+                notificationChannel.enableLights(false);
+                notificationChannel.enableVibration(false);
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+        }
+    }
+
+    @SuppressLint({"ForegroundServiceType", "UnspecifiedRegisterReceiverFlag"})
     @Override
     public void onCreate() {
         super.onCreate();
@@ -65,21 +82,6 @@ public class NotificationService extends Service {
         if (builder_manage != null) {
             stopForeground(true);
             builder_manage = null;
-        }
-    }
-
-    private static void createNotificationChannel(@NonNull Context context, @NonNull NotificationManagerCompat notificationManager) {
-        if (Build.VERSION.SDK_INT >= 26) {
-            NotificationChannel notificationChannel = notificationManager.getNotificationChannel(CHANNEL_ID);
-            if (notificationChannel == null) {
-                notificationChannel = new NotificationChannel(CHANNEL_ID, context.getString(R.string.notification_channel), NotificationManager.IMPORTANCE_LOW);
-                notificationChannel.setDescription(context.getString(R.string.notification_channel_des));
-                notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-                notificationChannel.setShowBadge(false);
-                notificationChannel.enableLights(false);
-                notificationChannel.enableVibration(false);
-                notificationManager.createNotificationChannel(notificationChannel);
-            }
         }
     }
 
@@ -116,6 +118,7 @@ public class NotificationService extends Service {
     }
 
     private class NotificationButtonBroadcastReceiver extends BroadcastReceiver {
+        @SuppressLint("NotifyDataSetChanged")
         @Override
         public void onReceive(Context context, Intent intent) {
             if (remoteViews != null) {

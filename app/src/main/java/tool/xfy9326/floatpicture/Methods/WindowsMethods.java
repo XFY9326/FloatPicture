@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 
+import tool.xfy9326.floatpicture.MainApplication;
 import tool.xfy9326.floatpicture.View.FloatImageView;
 
 
@@ -19,11 +20,11 @@ public class WindowsMethods {
 
     @SuppressWarnings("SameParameterValue")
     public static void createWindow(WindowManager windowManager, View pictureView, boolean touchable, boolean overLayout, int layoutPositionX, int layoutPositionY) {
-        WindowManager.LayoutParams layoutParams = getDefaultLayout(layoutPositionX, layoutPositionY, touchable, overLayout);
+        WindowManager.LayoutParams layoutParams = getDefaultLayout(pictureView.getContext(), layoutPositionX, layoutPositionY, touchable, overLayout);
         windowManager.addView(pictureView, layoutParams);
     }
 
-    public static WindowManager.LayoutParams getDefaultLayout(int layoutPositionX, int layoutPositionY, boolean touchable, boolean overLayout) {
+    public static WindowManager.LayoutParams getDefaultLayout(Context context, int layoutPositionX, int layoutPositionY, boolean touchable, boolean overLayout) {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
@@ -45,11 +46,14 @@ public class WindowsMethods {
         layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.format = PixelFormat.TRANSLUCENT;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            layoutParams.alpha = ((MainApplication) context.getApplicationContext()).getSafeWindowsAlpha();
+        }
         return layoutParams;
     }
 
     public static void updateWindow(WindowManager windowManager, FloatImageView pictureView, boolean touchable, boolean overLayout, int layoutPositionX, int layoutPositionY) {
-        WindowManager.LayoutParams layoutParams = getDefaultLayout(layoutPositionX, layoutPositionY, touchable, overLayout);
+        WindowManager.LayoutParams layoutParams = getDefaultLayout(pictureView.getContext(), layoutPositionX, layoutPositionY, touchable, overLayout);
         windowManager.updateViewLayout(pictureView, layoutParams);
     }
 

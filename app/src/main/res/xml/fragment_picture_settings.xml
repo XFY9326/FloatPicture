@@ -1,54 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="@string/settings_general">
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/settings_general">
         <Preference
-            android:key="settings_picture_name"
             android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:summary="@string/settings_picture_name_sum"
-            android:title="@string/settings_picture_name" />
+            app:iconSpaceReserved="false"
+            app:key="settings_picture_name"
+            app:singleLine="true"
+            app:summary="@string/settings_picture_name_sum"
+            app:title="@string/settings_picture_name" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/settings_picture_control">
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/settings_picture_control">
         <Preference
-            android:key="settings_picture_resize"
             android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:summary="@string/settings_picture_resize_sum"
-            android:title="@string/settings_picture_resize" />
+            app:iconSpaceReserved="false"
+            app:key="settings_picture_resize"
+            app:singleLine="true"
+            app:summary="@string/settings_picture_resize_sum"
+            app:title="@string/settings_picture_resize" />
         <Preference
-            android:key="settings_picture_degree"
             android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:summary="@string/settings_picture_degree_sum"
-            android:title="@string/settings_picture_degree" />
+            app:iconSpaceReserved="false"
+            app:key="settings_picture_degree"
+            app:singleLine="true"
+            app:summary="@string/settings_picture_degree_sum"
+            app:title="@string/settings_picture_degree" />
         <Preference
-            android:key="settings_picture_alpha"
             android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:summary="@string/settings_picture_alpha_sum"
-            android:title="@string/settings_picture_alpha" />
+            app:iconSpaceReserved="false"
+            app:key="settings_picture_alpha"
+            app:singleLine="true"
+            app:summary="@string/settings_picture_alpha_sum"
+            app:title="@string/settings_picture_alpha" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/settings_window">
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/settings_window">
         <Preference
-            android:dependency="settings_picture_touchable_and_moveable"
-            android:key="settings_picture_position"
             android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:summary="@string/settings_picture_position_sum"
-            android:title="@string/settings_picture_position" />
+            app:dependency="settings_picture_touchable_and_moveable"
+            app:iconSpaceReserved="false"
+            app:key="settings_picture_position"
+            app:singleLine="true"
+            app:summary="@string/settings_picture_position_sum"
+            app:title="@string/settings_picture_position" />
         <CheckBoxPreference
-            android:disableDependentsState="true"
-            android:key="settings_picture_touchable_and_moveable"
             android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:summary="@string/settings_picture_touchable_and_moveable_sum"
-            android:title="@string/settings_picture_touchable_and_moveable" />
+            app:disableDependentsState="true"
+            app:iconSpaceReserved="false"
+            app:key="settings_picture_touchable_and_moveable"
+            app:singleLine="true"
+            app:summary="@string/settings_picture_touchable_and_moveable_sum"
+            app:title="@string/settings_picture_touchable_and_moveable" />
         <CheckBoxPreference
-            android:key="settings_allow_picture_over_layout"
             android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:summary="@string/settings_allow_picture_over_layout_sum"
-            android:title="@string/settings_allow_picture_over_layout" />
+            app:iconSpaceReserved="false"
+            app:key="settings_allow_picture_over_layout"
+            app:singleLine="true"
+            app:summary="@string/settings_allow_picture_over_layout_sum"
+            app:title="@string/settings_allow_picture_over_layout" />
     </PreferenceCategory>
 </PreferenceScreen>

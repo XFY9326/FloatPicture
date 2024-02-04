@@ -1,6 +1,8 @@
 package tool.xfy9326.floatpicture;
 
 import android.app.Application;
+import android.hardware.input.InputManager;
+import android.os.Build;
 import android.view.View;
 
 import java.util.HashMap;
@@ -14,6 +16,7 @@ public class MainApplication extends Application {
     private ManageListAdapter manageListAdapter;
     private boolean ApplicationInit;
     private boolean winVisible = true;
+    private float safeWindowsAlpha = 0.8f;
 
     @Override
     public void onCreate() {
@@ -23,6 +26,13 @@ public class MainApplication extends Application {
             CrashHandler.get().Catch(this);
         }
         this.ViewRegister = new HashMap<>();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            this.safeWindowsAlpha = getSystemService(InputManager.class).getMaximumObscuringOpacityForTouch();
+        }
+    }
+
+    public float getSafeWindowsAlpha() {
+        return safeWindowsAlpha;
     }
 
     public boolean getWinVisible() {

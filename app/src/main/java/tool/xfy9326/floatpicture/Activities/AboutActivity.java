@@ -2,7 +2,6 @@ package tool.xfy9326.floatpicture.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -35,12 +34,7 @@ public class AboutActivity extends AppCompatActivity {
         version.setText(ApplicationMethods.getApplicationVersion(this));
 
         TextView open_source = findViewById(R.id.textview_about_open_source);
-        open_source.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(AboutActivity.this, LicenseActivity.class));
-            }
-        });
+        open_source.setOnClickListener(v -> startActivity(new Intent(AboutActivity.this, LicenseActivity.class)));
     }
 
 }

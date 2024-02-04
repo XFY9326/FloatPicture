@@ -24,7 +24,5 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--renamesourcefileattribute SourceFile
+-dontobfuscate
 -keepattributes SourceFile,LineNumberTable
--useuniqueclassmembernames
--allowaccessmodification

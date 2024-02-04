@@ -52,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
         android:clickable="true"
+        android:contentDescription="@string/add"
         android:fitsSystemWindows="false"
         android:focusable="true"
         app:backgroundTint="@color/colorFloatingActionButtonBackGround"

@@ -7,12 +7,11 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
 import android.view.View;
 
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.preference.PreferenceManager;
 
-import com.google.android.material.internal.NavigationMenuView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -59,10 +58,7 @@ public class ApplicationMethods {
 
     public static void disableNavigationViewScrollbars(NavigationView navigationView) {
         if (navigationView != null) {
-            NavigationMenuView navigationMenuView = (NavigationMenuView) navigationView.getChildAt(0);
-            if (navigationMenuView != null) {
-                navigationMenuView.setVerticalScrollBarEnabled(false);
-            }
+            navigationView.setVerticalScrollBarEnabled(false);
         }
     }
 
@@ -72,12 +68,7 @@ public class ApplicationMethods {
         } else {
             CoordinatorLayout coordinatorLayout = mActivity.findViewById(R.id.main_layout_content);
             Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.action_warn_double_click_close_application, Snackbar.LENGTH_SHORT);
-            snackbar.setAction(R.string.action_back_to_launcher, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mActivity.moveTaskToBack(true);
-                }
-            });
+            snackbar.setAction(R.string.action_back_to_launcher, v -> mActivity.moveTaskToBack(true));
             snackbar.setActionTextColor(Color.RED);
             snackbar.addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
                 @Override
@@ -92,33 +83,30 @@ public class ApplicationMethods {
     }
 
     public static void ClearUselessTemp(final Context mContext) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                File dir = new File(Config.DEFAULT_PICTURE_DIR);
-                String[] dirList = dir.list();
-                if (dir.exists() && dirList != null) {
-                    if (dirList.length > 0) {
-                        HashMap<String, View> hashMap = ((MainApplication) mContext.getApplicationContext()).getRegister();
-                        if (hashMap.size() > 0) {
-                            File[] pictures = dir.listFiles();
-                            if (pictures != null) {
-                                for (File pic_file : pictures) {
-                                    if (!hashMap.containsKey(pic_file.getName())) {
+        new Thread(() -> {
+            File dir = new File(Config.DEFAULT_PICTURE_DIR);
+            String[] dirList = dir.list();
+            if (dir.exists() && dirList != null) {
+                if (dirList.length > 0) {
+                    HashMap<String, View> hashMap = ((MainApplication) mContext.getApplicationContext()).getRegister();
+                    if (hashMap.size() > 0) {
+                        File[] pictures = dir.listFiles();
+                        if (pictures != null) {
+                            for (File pic_file : pictures) {
+                                if (!hashMap.containsKey(pic_file.getName())) {
+                                    //noinspection ResultOfMethodCallIgnored
+                                    pic_file.delete();
+                                    File temp_file = new File(Config.DEFAULT_PICTURE_TEMP_DIR + pic_file.getName());
+                                    if (temp_file.exists()) {
                                         //noinspection ResultOfMethodCallIgnored
-                                        pic_file.delete();
-                                        File temp_file = new File(Config.DEFAULT_PICTURE_TEMP_DIR + pic_file.getName());
-                                        if (temp_file.exists()) {
-                                            //noinspection ResultOfMethodCallIgnored
-                                            temp_file.delete();
-                                        }
+                                        temp_file.delete();
                                     }
                                 }
                             }
-                        } else {
-                            //noinspection ResultOfMethodCallIgnored
-                            dir.delete();
                         }
+                    } else {
+                        //noinspection ResultOfMethodCallIgnored
+                        dir.delete();
                     }
                 }
             }

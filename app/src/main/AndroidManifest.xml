@@ -23,7 +23,7 @@
 
         <activity
             android:name=".Activities.MainActivity"
-            android:label="@string/app_name"
+            android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/DrawerActivity"
             tools:ignore="InnerclassSeparator">
@@ -32,6 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Activities.PictureSettingsActivity"
             android:label="@string/settings_label"
@@ -48,6 +49,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.MainActivity" />
         </activity>
+
         <activity
             android:name=".Activities.AboutActivity"
             android:label="@string/about"
@@ -56,6 +58,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.MainActivity" />
         </activity>
+
         <activity
             android:name=".Activities.LicenseActivity"
             android:label="@string/open_source_license"
@@ -71,6 +74,7 @@
 
         <receiver
             android:name=".Receiver.BootCompleteReceiver"
+            android:exported="true"
             tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

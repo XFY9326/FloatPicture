@@ -58,7 +58,7 @@ public class PictureData {
     @SuppressWarnings("SameParameterValue")
     public void put(String name, float value) {
         try {
-            detailObject.put(name, (double) value);
+            detailObject.put(name, value);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -103,7 +103,7 @@ public class PictureData {
     public float getFloat(String name, float defaultValue) {
         if (detailObject.has(name)) {
             try {
-                return Float.valueOf(detailObject.get(name).toString() + "f");
+                return Float.parseFloat(detailObject.get(name) + "f");
             } catch (JSONException e) {
                 e.printStackTrace();
             }

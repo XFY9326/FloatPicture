@@ -3,14 +3,15 @@ package tool.xfy9326.floatpicture.View;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.SwitchCompat;
 
 import tool.xfy9326.floatpicture.R;
 
 class ManageListViewHolder extends AdvancedRecyclerView.ViewHolder {
     final ImageView imageView_Picture_Preview;
-    final Switch switch_Picture_Show;
+    final SwitchCompat switch_Picture_Show;
     final TextView textView_Picture_Name;
     final TextView textView_Picture_Id;
     final TextView textView_Picture_Error;

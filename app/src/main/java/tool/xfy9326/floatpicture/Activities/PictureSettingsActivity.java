@@ -76,15 +76,13 @@ public class PictureSettingsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_picture_settings_save:
-                mPictureSettingsFragment.saveAllData();
-                finish();
-                break;
-            case android.R.id.home:
-                mPictureSettingsFragment.exit();
-                finish();
-                break;
+        int itemId = item.getItemId();
+        if (itemId == R.id.menu_picture_settings_save) {
+            mPictureSettingsFragment.saveAllData();
+            finish();
+        } else if (itemId == android.R.id.home) {
+            mPictureSettingsFragment.exit();
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

@@ -1,13 +1,12 @@
 package tool.xfy9326.floatpicture.Activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -78,12 +77,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setEmptyView(findViewById(R.id.layout_widget_empty_view));
 
         FloatingActionButton floatingActionButton = findViewById(R.id.main_button_add);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ManageMethods.SelectPicture(MainActivity.this);
-            }
-        });
+        floatingActionButton.setOnClickListener(view -> ManageMethods.SelectPicture(MainActivity.this));
 
         final DrawerLayout drawerLayout = findViewById(R.id.main_drawer_layout);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
@@ -92,29 +86,23 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationView navigationView = findViewById(R.id.main_navigation_view);
         ApplicationMethods.disableNavigationViewScrollbars(navigationView);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                drawerLayout.closeDrawer(GravityCompat.START);
-                switch (item.getItemId()) {
-                    case R.id.menu_global_settings:
-                        startActivity(new Intent(MainActivity.this, GlobalSettingsActivity.class));
-                        break;
-                    case R.id.menu_about:
-                        startActivity(new Intent(MainActivity.this, AboutActivity.class));
-                        break;
-                    case R.id.menu_back_to_launcher:
-                        MainActivity.this.moveTaskToBack(true);
-                        break;
-                    case R.id.menu_exit:
-                        ApplicationMethods.CloseApplication(MainActivity.this);
-                        break;
-                }
-                return false;
+        navigationView.setNavigationItemSelectedListener(item -> {
+            drawerLayout.closeDrawer(GravityCompat.START);
+            int itemId = item.getItemId();
+            if (itemId == R.id.menu_global_settings) {
+                startActivity(new Intent(MainActivity.this, GlobalSettingsActivity.class));
+            } else if (itemId == R.id.menu_about) {
+                startActivity(new Intent(MainActivity.this, AboutActivity.class));
+            } else if (itemId == R.id.menu_back_to_launcher) {
+                MainActivity.this.moveTaskToBack(true);
+            } else if (itemId == R.id.menu_exit) {
+                ApplicationMethods.CloseApplication(MainActivity.this);
             }
+            return false;
         });
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Config.REQUEST_CODE_ACTIVITY_PICTURE_SETTINGS_ADD) {
@@ -173,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     public void onBackPressed() {
         DrawerLayout drawerLayout = findViewById(R.id.main_drawer_layout);

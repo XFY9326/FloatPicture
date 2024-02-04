@@ -89,7 +89,7 @@ public class FloatImageView extends AppCompatImageView {
     }
 
     private void updatePosition() {
-        windowManager.updateViewLayout(this, WindowsMethods.getDefaultLayout((int) mNowPositionX, (int) mNowPositionY, moveable, overLayout));
+        windowManager.updateViewLayout(this, WindowsMethods.getDefaultLayout(getContext(), (int) mNowPositionX, (int) mNowPositionY, moveable, overLayout));
     }
 
 }

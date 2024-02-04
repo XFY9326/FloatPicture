@@ -1,5 +1,7 @@
 package tool.xfy9326.floatpicture.Methods;
 
+import static android.graphics.Bitmap.createBitmap;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,10 +9,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 
 import androidx.exifinterface.media.ExifInterface;
+import androidx.preference.PreferenceManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,8 +22,6 @@ import tool.xfy9326.floatpicture.MainApplication;
 import tool.xfy9326.floatpicture.R;
 import tool.xfy9326.floatpicture.Utils.Config;
 import tool.xfy9326.floatpicture.View.FloatImageView;
-
-import static android.graphics.Bitmap.createBitmap;
 
 public class ImageMethods {
 
@@ -141,8 +141,8 @@ public class ImageMethods {
             screen_width = displayMetrics.widthPixels;
             screen_height = displayMetrics.heightPixels;
         } else {
-            screen_width = displayMetrics.widthPixels / 3;
-            screen_height = displayMetrics.heightPixels / 3;
+            screen_width = displayMetrics.widthPixels / 3.0f;
+            screen_height = displayMetrics.heightPixels / 3.0f;
         }
         if (image_height <= image_width) {
             if (image_height > screen_height || isMax) {

@@ -1,28 +1,26 @@
 package tool.xfy9326.floatpicture.View;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.InputType;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.CheckBoxPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 
 import java.util.Objects;
 
@@ -63,12 +61,11 @@ public class PictureSettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
         Window_Created = false;
         Edit_Mode = false;
         pictureData = new PictureData();
         inflater = LayoutInflater.from(getActivity());
-        windowManager = WindowsMethods.getWindowManager(Objects.requireNonNull(getActivity()));
+        windowManager = WindowsMethods.getWindowManager(requireActivity());
     }
 
     @Override
@@ -77,8 +74,8 @@ public class PictureSettingsFragment extends PreferenceFragmentCompat {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         restoreData(savedInstanceState);
         setMode();
         PreferenceSet();
@@ -93,132 +90,105 @@ public class PictureSettingsFragment extends PreferenceFragmentCompat {
     private void restoreData(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             Window_Created = savedInstanceState.getBoolean(WINDOW_CREATED, false);
-            windowManager = WindowsMethods.getWindowManager(Objects.requireNonNull(getActivity()));
+            windowManager = WindowsMethods.getWindowManager(requireActivity());
         }
     }
 
     private void setMode() {
-        AlertDialog.Builder loading = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
+        Intent intent = Objects.requireNonNull(requireActivity().getIntent());
+        Edit_Mode = intent.getBooleanExtra(Config.INTENT_PICTURE_EDIT_MODE, false);
+        AlertDialog.Builder loading = new AlertDialog.Builder(requireActivity());
         loading.setCancelable(false);
-        loading.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                WindowsMethods.createWindow(windowManager, floatImageView, touch_and_move, allow_picture_over_layout, position_x, position_y);
-            }
-        });
-        View mView = inflater.inflate(R.layout.dialog_loading, (ViewGroup) getActivity().findViewById(R.id.layout_dialog_loading));
+        if (!Edit_Mode) {
+            loading.setOnCancelListener(dialog -> WindowsMethods.createWindow(windowManager, floatImageView, touch_and_move, allow_picture_over_layout, position_x, position_y));
+        }
+        View mView = inflater.inflate(R.layout.dialog_loading, requireActivity().findViewById(R.id.layout_dialog_loading));
         loading.setView(mView);
         final AlertDialog alertDialog = loading.show();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = Objects.requireNonNull(getActivity()).getIntent();
-                Edit_Mode = intent.getBooleanExtra(Config.INTENT_PICTURE_EDIT_MODE, false);
-                if (!Window_Created) {
-                    if (Edit_Mode) {
-                        //Edit
-                        PictureId = intent.getStringExtra(Config.INTENT_PICTURE_EDIT_ID);
-                        pictureData.setDataControl(PictureId);
-                        PictureName = pictureData.getListArray().get(PictureId);
-                        position_x = pictureData.getInt(Config.DATA_PICTURE_POSITION_X, Config.DATA_DEFAULT_PICTURE_POSITION_X);
-                        position_y = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, Config.DATA_DEFAULT_PICTURE_POSITION_Y);
-                        picture_degree = pictureData.getFloat(Config.DATA_PICTURE_DEGREE, Config.DATA_DEFAULT_PICTURE_DEGREE);
-                        picture_alpha = pictureData.getFloat(Config.DATA_PICTURE_ALPHA, Config.DATA_DEFAULT_PICTURE_ALPHA);
-                        touch_and_move = pictureData.getBoolean(Config.DATA_PICTURE_TOUCH_AND_MOVE, Config.DATA_DEFAULT_PICTURE_TOUCH_AND_MOVE);
-                        allow_picture_over_layout = pictureData.getBoolean(Config.DATA_ALLOW_PICTURE_OVER_LAYOUT, Config.DATA_DEFAULT_ALLOW_PICTURE_OVER_LAYOUT);
-                        bitmap = ImageMethods.getShowBitmap(getActivity(), PictureId);
-                        default_zoom = ImageMethods.getDefaultZoom(getActivity(), bitmap, false);
-                        zoom = pictureData.getFloat(Config.DATA_PICTURE_ZOOM, default_zoom);
-                        floatImageView = ImageMethods.getFloatImageViewById(getActivity(), PictureId);
-                    } else {
-                        //New
-                        PictureId = ImageMethods.setNewImage(getActivity(), intent.getData());
-                        pictureData.setDataControl(PictureId);
-                        PictureName = getString(R.string.new_picture_name);
-                        position_x = Config.DATA_DEFAULT_PICTURE_POSITION_X;
-                        position_y = Config.DATA_DEFAULT_PICTURE_POSITION_Y;
-                        picture_alpha = Config.DATA_DEFAULT_PICTURE_ALPHA;
-                        picture_degree = Config.DATA_DEFAULT_PICTURE_DEGREE;
-                        touch_and_move = Config.DATA_DEFAULT_PICTURE_TOUCH_AND_MOVE;
-                        allow_picture_over_layout = Config.DATA_DEFAULT_ALLOW_PICTURE_OVER_LAYOUT;
-                        bitmap = ImageMethods.getShowBitmap(getActivity(), PictureId);
-                        default_zoom = ImageMethods.getDefaultZoom(getActivity(), bitmap, false);
-                        zoom = default_zoom;
-                        floatImageView = ImageMethods.createPictureView(getActivity(), bitmap, touch_and_move, allow_picture_over_layout, zoom, picture_degree);
-                        floatImageView.setAlpha(picture_alpha);
-                        floatImageView.setPictureId(PictureId);
-                    }
-                    alertDialog.cancel();
+        new Thread(() -> {
+            if (!Window_Created) {
+                if (Edit_Mode) {
+                    //Edit
+                    PictureId = intent.getStringExtra(Config.INTENT_PICTURE_EDIT_ID);
+                    pictureData.setDataControl(PictureId);
+                    PictureName = pictureData.getListArray().get(PictureId);
+                    position_x = pictureData.getInt(Config.DATA_PICTURE_POSITION_X, Config.DATA_DEFAULT_PICTURE_POSITION_X);
+                    position_y = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, Config.DATA_DEFAULT_PICTURE_POSITION_Y);
+                    picture_degree = pictureData.getFloat(Config.DATA_PICTURE_DEGREE, Config.DATA_DEFAULT_PICTURE_DEGREE);
+                    picture_alpha = pictureData.getFloat(Config.DATA_PICTURE_ALPHA, Config.DATA_DEFAULT_PICTURE_ALPHA);
+                    touch_and_move = pictureData.getBoolean(Config.DATA_PICTURE_TOUCH_AND_MOVE, Config.DATA_DEFAULT_PICTURE_TOUCH_AND_MOVE);
+                    allow_picture_over_layout = pictureData.getBoolean(Config.DATA_ALLOW_PICTURE_OVER_LAYOUT, Config.DATA_DEFAULT_ALLOW_PICTURE_OVER_LAYOUT);
+                    bitmap = ImageMethods.getShowBitmap(requireContext(), PictureId);
+                    default_zoom = ImageMethods.getDefaultZoom(requireContext(), bitmap, false);
+                    zoom = pictureData.getFloat(Config.DATA_PICTURE_ZOOM, default_zoom);
+                    floatImageView = ImageMethods.getFloatImageViewById(requireContext(), PictureId);
+                } else {
+                    //New
+                    PictureId = ImageMethods.setNewImage(getActivity(), intent.getData());
+                    pictureData.setDataControl(PictureId);
+                    PictureName = getString(R.string.new_picture_name);
+                    position_x = Config.DATA_DEFAULT_PICTURE_POSITION_X;
+                    position_y = Config.DATA_DEFAULT_PICTURE_POSITION_Y;
+                    picture_alpha = Config.DATA_DEFAULT_PICTURE_ALPHA;
+                    picture_degree = Config.DATA_DEFAULT_PICTURE_DEGREE;
+                    touch_and_move = Config.DATA_DEFAULT_PICTURE_TOUCH_AND_MOVE;
+                    allow_picture_over_layout = Config.DATA_DEFAULT_ALLOW_PICTURE_OVER_LAYOUT;
+                    bitmap = ImageMethods.getShowBitmap(requireContext(), PictureId);
+                    default_zoom = ImageMethods.getDefaultZoom(requireContext(), bitmap, false);
+                    zoom = default_zoom;
+                    floatImageView = ImageMethods.createPictureView(requireContext(), bitmap, touch_and_move, allow_picture_over_layout, zoom, picture_degree);
+                    floatImageView.setAlpha(picture_alpha);
+                    floatImageView.setPictureId(PictureId);
                 }
+                alertDialog.cancel();
             }
         }).start();
     }
 
+    @NonNull
+    private Preference requirePreference(CharSequence key) {
+        return Objects.requireNonNull(findPreference(key));
+    }
+
     private void PreferenceSet() {
-        Objects.requireNonNull(findPreference(Config.PREFERENCE_PICTURE_NAME)).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                setPictureName();
-                return true;
-            }
+        requirePreference(Config.PREFERENCE_PICTURE_NAME).setOnPreferenceClickListener(preference -> {
+            setPictureName();
+            return true;
         });
-        Objects.requireNonNull(findPreference(Config.PREFERENCE_PICTURE_RESIZE)).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                setPictureSize();
-                return true;
-            }
+        requirePreference(Config.PREFERENCE_PICTURE_RESIZE).setOnPreferenceClickListener(preference -> {
+            setPictureSize();
+            return true;
         });
-        Objects.requireNonNull(findPreference(Config.PREFERENCE_PICTURE_DEGREE)).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                setPictureDegree();
-                return true;
-            }
+        requirePreference(Config.PREFERENCE_PICTURE_DEGREE).setOnPreferenceClickListener(preference -> {
+            setPictureDegree();
+            return true;
         });
-        Objects.requireNonNull(findPreference(Config.PREFERENCE_PICTURE_ALPHA)).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                setPictureAlpha();
-                return true;
-            }
+        requirePreference(Config.PREFERENCE_PICTURE_ALPHA).setOnPreferenceClickListener(preference -> {
+            setPictureAlpha();
+            return true;
         });
         CheckBoxPreference preference_touch_and_move = findPreference(Config.PREFERENCE_PICTURE_TOUCH_AND_MOVE);
         assert preference_touch_and_move != null;
         preference_touch_and_move.setChecked(touch_and_move);
-        preference_touch_and_move.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                if ((boolean) newValue) {
-                    PictureTouchAndMoveAlert();
-                    return false;
-                } else {
-                    setPictureTouchAndMove(false);
-                    return true;
-                }
+        preference_touch_and_move.setOnPreferenceChangeListener((preference, newValue) -> {
+            if ((boolean) newValue) {
+                PictureTouchAndMoveAlert();
+                return false;
+            } else {
+                setPictureTouchAndMove(false);
+                return true;
             }
         });
         CheckBoxPreference preference_over_layout = findPreference(Config.PREFERENCE_ALLOW_PICTURE_OVER_LAYOUT);
         assert preference_over_layout != null;
         preference_over_layout.setChecked(allow_picture_over_layout);
-        preference_over_layout.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                if ((boolean) newValue) {
-                    setAllowPictureOverLayout(true);
-                    return true;
-                } else {
-                    setAllowPictureOverLayout(false);
-                    return true;
-                }
-            }
+        preference_over_layout.setOnPreferenceChangeListener((preference, newValue) -> {
+            setAllowPictureOverLayout((boolean) newValue);
+            return true;
         });
-        Objects.requireNonNull(findPreference(Config.PREFERENCE_PICTURE_POSITION)).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                setPicturePosition();
-                return true;
-            }
+        requirePreference(Config.PREFERENCE_PICTURE_POSITION).setOnPreferenceClickListener(preference -> {
+            setPicturePosition();
+            return true;
         });
     }
 
@@ -237,43 +207,34 @@ public class PictureSettingsFragment extends PreferenceFragmentCompat {
     }
 
     private void PictureTouchAndMoveAlert() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setTitle(R.string.settings_picture_touchable_and_moveable);
         builder.setMessage(R.string.settings_picture_touchable_and_moveable_warn);
         builder.setCancelable(false);
-        builder.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                ((androidx.preference.CheckBoxPreference) Objects.requireNonNull(findPreference(Config.PREFERENCE_PICTURE_TOUCH_AND_MOVE))).setChecked(true);
-                setPictureTouchAndMove(true);
-            }
+        builder.setPositiveButton(R.string.done, (dialog, which) -> {
+            ((CheckBoxPreference) Objects.requireNonNull(findPreference(Config.PREFERENCE_PICTURE_TOUCH_AND_MOVE))).setChecked(true);
+            setPictureTouchAndMove(true);
         });
         builder.setNegativeButton(R.string.cancel, null);
         builder.show();
     }
 
     private void setPictureName() {
-        View mView = inflater.inflate(R.layout.dialog_edit_text, (ViewGroup) Objects.requireNonNull(getActivity()).findViewById(R.id.layout_dialog_edit_text));
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        View mView = inflater.inflate(R.layout.dialog_edit_text, requireActivity().findViewById(R.id.layout_dialog_edit_text));
+        AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
         dialog.setTitle(R.string.settings_picture_name);
         final EditText editText = mView.findViewById(R.id.edittext_dialog);
         editText.setText(PictureName);
-        dialog.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (editText.getText().toString().isEmpty()) {
-                    Toast.makeText(getActivity(), R.string.settings_picture_name_warn, Toast.LENGTH_SHORT).show();
-                } else {
-                    PictureName = editText.getText().toString();
-                }
+        dialog.setPositiveButton(R.string.done, (dialog12, which) -> {
+            if (editText.getText().toString().isEmpty()) {
+                Toast.makeText(getActivity(), R.string.settings_picture_name_warn, Toast.LENGTH_SHORT).show();
+            } else {
+                PictureName = editText.getText().toString();
             }
         });
-        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (editText.getText().toString().isEmpty()) {
-                    Toast.makeText(getActivity(), R.string.settings_picture_name_warn, Toast.LENGTH_SHORT).show();
-                }
+        dialog.setNegativeButton(R.string.cancel, (dialog1, which) -> {
+            if (editText.getText().toString().isEmpty()) {
+                Toast.makeText(getActivity(), R.string.settings_picture_name_warn, Toast.LENGTH_SHORT).show();
             }
         });
         dialog.setView(mView);
@@ -285,11 +246,11 @@ public class PictureSettingsFragment extends PreferenceFragmentCompat {
         floatImageView_Edit = ImageMethods.createPictureView(getActivity(), bitmap_Edit, touch_and_move, allow_picture_over_layout, zoom, picture_degree);
         onEditPicture(floatImageView_Edit);
 
-        View mView = inflater.inflate(R.layout.dialog_set_size, (ViewGroup) Objects.requireNonNull(getActivity()).findViewById(R.id.layout_dialog_set_size));
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        View mView = inflater.inflate(R.layout.dialog_set_size, requireActivity().findViewById(R.id.layout_dialog_set_size));
+        AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
         dialog.setTitle(R.string.settings_picture_resize);
         dialog.setCancelable(false);
-        final float Max_Size = ImageMethods.getDefaultZoom(getActivity(), bitmap, true) * 100;
+        final float Max_Size = ImageMethods.getDefaultZoom(requireContext(), bitmap, true) * 100;
         TextView name = mView.findViewById(R.id.textview_set_size);
         name.setText(R.string.settings_picture_resize_size);
         final SeekBar seekBar = mView.findViewById(R.id.seekbar_set_size);
@@ -316,44 +277,33 @@ public class PictureSettingsFragment extends PreferenceFragmentCompat {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                float edittext_temp = Float.valueOf(v.getText().toString());
-                if (edittext_temp > 0 && (allow_picture_over_layout || edittext_temp <= Max_Size)) {
-                    zoom_temp = edittext_temp;
-                    if (!allow_picture_over_layout) {
-                        seekBar.setProgress((int) (zoom_temp * 100));
-                    }
-                    WindowsMethods.updateWindow(windowManager, floatImageView_Edit, bitmap_Edit, touch_and_move, allow_picture_over_layout, zoom_temp, picture_degree, position_x, position_y);
-                } else {
-                    Toast.makeText(getActivity(), R.string.settings_picture_resize_warn, Toast.LENGTH_SHORT).show();
+        editText.setOnEditorActionListener((v, actionId, event) -> {
+            float edittext_temp = Float.parseFloat(v.getText().toString());
+            if (edittext_temp > 0 && (allow_picture_over_layout || edittext_temp <= Max_Size)) {
+                zoom_temp = edittext_temp;
+                if (!allow_picture_over_layout) {
+                    seekBar.setProgress((int) (zoom_temp * 100));
                 }
-                return false;
+                WindowsMethods.updateWindow(windowManager, floatImageView_Edit, bitmap_Edit, touch_and_move, allow_picture_over_layout, zoom_temp, picture_degree, position_x, position_y);
+            } else {
+                Toast.makeText(getActivity(), R.string.settings_picture_resize_warn, Toast.LENGTH_SHORT).show();
             }
+            return false;
         });
-        dialog.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (allow_picture_over_layout) {
-                    try {
-                        zoom = Float.valueOf(editText.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        zoom = zoom_temp;
-                    }
-                } else {
+        dialog.setPositiveButton(R.string.done, (__, which) -> {
+            if (allow_picture_over_layout) {
+                try {
+                    zoom = Float.parseFloat(editText.getText().toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
                     zoom = zoom_temp;
                 }
-                onSuccessEditPicture(floatImageView_Edit, bitmap_Edit);
+            } else {
+                zoom = zoom_temp;
             }
+            onSuccessEditPicture(floatImageView_Edit, bitmap_Edit);
         });
-        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                onFailedEditPicture(floatImageView_Edit, bitmap_Edit);
-            }
-        });
+        dialog.setNegativeButton(R.string.cancel, (__, which) -> onFailedEditPicture(floatImageView_Edit, bitmap_Edit));
         dialog.setView(mView);
         dialog.show();
     }
@@ -363,8 +313,8 @@ public class PictureSettingsFragment extends PreferenceFragmentCompat {
         floatImageView_Edit = ImageMethods.createPictureView(getActivity(), bitmap_Edit, touch_and_move, allow_picture_over_layout, zoom, picture_degree);
         onEditPicture(floatImageView_Edit);
 
-        View mView = inflater.inflate(R.layout.dialog_set_size, (ViewGroup) Objects.requireNonNull(getActivity()).findViewById(R.id.layout_dialog_set_size));
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        View mView = inflater.inflate(R.layout.dialog_set_size, requireActivity().findViewById(R.id.layout_dialog_set_size));
+        AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
         dialog.setTitle(R.string.settings_picture_degree);
         dialog.setCancelable(false);
         TextView name = mView.findViewById(R.id.textview_set_size);
@@ -391,40 +341,29 @@ public class PictureSettingsFragment extends PreferenceFragmentCompat {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                float edittext_temp = Float.valueOf(v.getText().toString());
-                if (edittext_temp >= 0 && edittext_temp <= 360) {
-                    picture_degree_temp = edittext_temp;
-                    seekBar.setProgress((int) (picture_degree_temp * 10));
-                    WindowsMethods.updateWindow(windowManager, floatImageView_Edit, bitmap_Edit, touch_and_move, allow_picture_over_layout, zoom, picture_degree_temp, position_x, position_y);
-                } else {
-                    Toast.makeText(getActivity(), R.string.settings_number_warn, Toast.LENGTH_SHORT).show();
-                }
-                return false;
+        editText.setOnEditorActionListener((v, actionId, event) -> {
+            float edittext_temp = Float.parseFloat(v.getText().toString());
+            if (edittext_temp >= 0 && edittext_temp <= 360) {
+                picture_degree_temp = edittext_temp;
+                seekBar.setProgress((int) (picture_degree_temp * 10));
+                WindowsMethods.updateWindow(windowManager, floatImageView_Edit, bitmap_Edit, touch_and_move, allow_picture_over_layout, zoom, picture_degree_temp, position_x, position_y);
+            } else {
+                Toast.makeText(getActivity(), R.string.settings_number_warn, Toast.LENGTH_SHORT).show();
             }
+            return false;
         });
-        dialog.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                picture_degree = picture_degree_temp;
-                onSuccessEditPicture(floatImageView_Edit, bitmap_Edit);
-            }
+        dialog.setPositiveButton(R.string.done, (__, which) -> {
+            picture_degree = picture_degree_temp;
+            onSuccessEditPicture(floatImageView_Edit, bitmap_Edit);
         });
-        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                onFailedEditPicture(floatImageView_Edit, bitmap_Edit);
-            }
-        });
+        dialog.setNegativeButton(R.string.cancel, (__, which) -> onFailedEditPicture(floatImageView_Edit, bitmap_Edit));
         dialog.setView(mView);
         dialog.show();
     }
 
     private void setPictureAlpha() {
-        View mView = inflater.inflate(R.layout.dialog_set_size, (ViewGroup) Objects.requireNonNull(getActivity()).findViewById(R.id.layout_dialog_set_size));
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        View mView = inflater.inflate(R.layout.dialog_set_size, requireActivity().findViewById(R.id.layout_dialog_set_size));
+        AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
         dialog.setTitle(R.string.settings_picture_alpha);
         dialog.setCancelable(false);
         TextView name = mView.findViewById(R.id.textview_set_size);
@@ -452,42 +391,33 @@ public class PictureSettingsFragment extends PreferenceFragmentCompat {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                float edittext_temp = Float.valueOf(v.getText().toString());
-                if (edittext_temp >= 0 && edittext_temp <= 100) {
-                    picture_alpha_temp = edittext_temp;
-                    seekBar.setProgress((int) (picture_alpha_temp * 100));
-                    floatImageView.setAlpha(picture_alpha_temp);
-                    WindowsMethods.updateWindow(windowManager, floatImageView, touch_and_move, allow_picture_over_layout, position_x, position_y);
-                } else {
-                    Toast.makeText(getActivity(), R.string.settings_number_warn, Toast.LENGTH_SHORT).show();
-                }
-                return false;
-            }
-        });
-        dialog.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                picture_alpha = picture_alpha_temp;
-                floatImageView.setAlpha(picture_alpha);
+        editText.setOnEditorActionListener((v, actionId, event) -> {
+            float edittext_temp = Float.parseFloat(v.getText().toString());
+            if (edittext_temp >= 0 && edittext_temp <= 100) {
+                picture_alpha_temp = edittext_temp;
+                seekBar.setProgress((int) (picture_alpha_temp * 100));
+                floatImageView.setAlpha(picture_alpha_temp);
                 WindowsMethods.updateWindow(windowManager, floatImageView, touch_and_move, allow_picture_over_layout, position_x, position_y);
+            } else {
+                Toast.makeText(getActivity(), R.string.settings_number_warn, Toast.LENGTH_SHORT).show();
             }
+            return false;
         });
-        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                floatImageView.setAlpha(picture_alpha);
-                WindowsMethods.updateWindow(windowManager, floatImageView, touch_and_move, allow_picture_over_layout, position_x, position_y);
-            }
+        dialog.setPositiveButton(R.string.done, (__, which) -> {
+            picture_alpha = picture_alpha_temp;
+            floatImageView.setAlpha(picture_alpha);
+            WindowsMethods.updateWindow(windowManager, floatImageView, touch_and_move, allow_picture_over_layout, position_x, position_y);
+        });
+        dialog.setNegativeButton(R.string.cancel, (__, which) -> {
+            floatImageView.setAlpha(picture_alpha);
+            WindowsMethods.updateWindow(windowManager, floatImageView, touch_and_move, allow_picture_over_layout, position_x, position_y);
         });
         dialog.setView(mView);
         dialog.show();
     }
 
     private void setPicturePosition() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         final boolean touchable_edit = (touch_and_move || sharedPreferences.getBoolean(Config.PREFERENCE_TOUCHABLE_POSITION_EDIT, false));
         bitmap_Edit = ImageMethods.getEditBitmap(getActivity(), bitmap);
         floatImageView_Edit = ImageMethods.createPictureView(getActivity(), bitmap_Edit, touchable_edit, allow_picture_over_layout, zoom, picture_degree);
@@ -496,12 +426,12 @@ public class PictureSettingsFragment extends PreferenceFragmentCompat {
             WindowsMethods.updateWindow(windowManager, floatImageView_Edit, bitmap_Edit, true, allow_picture_over_layout, zoom, picture_degree, position_x, position_y);
         }
 
-        View mView = inflater.inflate(R.layout.dialog_set_position, (ViewGroup) Objects.requireNonNull(getActivity()).findViewById(R.id.layout_dialog_set_position));
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        View mView = inflater.inflate(R.layout.dialog_set_position, requireActivity().findViewById(R.id.layout_dialog_set_position));
+        AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
         dialog.setTitle(R.string.settings_picture_position);
         dialog.setCancelable(false);
         Point size = new Point();
-        getActivity().getWindowManager().getDefaultDisplay().getSize(size);
+        requireActivity().getWindowManager().getDefaultDisplay().getSize(size);
         final int Max_X = size.x;
         final int Max_Y = size.y;
         final SeekBar seekBar_x = mView.findViewById(R.id.seekbar_set_position_x);
@@ -540,25 +470,22 @@ public class PictureSettingsFragment extends PreferenceFragmentCompat {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-        editText_x.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                try {
-                    int edittext_temp = Integer.valueOf(v.getText().toString());
-                    if (allow_picture_over_layout || (edittext_temp >= 0 && edittext_temp <= Max_X)) {
-                        position_x_temp = edittext_temp;
-                        if (!allow_picture_over_layout) {
-                            seekBar_x.setProgress(edittext_temp);
-                        }
-                        WindowsMethods.updateWindow(windowManager, floatImageView_Edit, bitmap_Edit, touchable_edit, allow_picture_over_layout, zoom, picture_degree, position_x_temp, position_y_temp);
-                    } else {
-                        Toast.makeText(getActivity(), R.string.settings_picture_position_warn, Toast.LENGTH_SHORT).show();
+        editText_x.setOnEditorActionListener((v, actionId, event) -> {
+            try {
+                int edittext_temp = Integer.parseInt(v.getText().toString());
+                if (allow_picture_over_layout || (edittext_temp >= 0 && edittext_temp <= Max_X)) {
+                    position_x_temp = edittext_temp;
+                    if (!allow_picture_over_layout) {
+                        seekBar_x.setProgress(edittext_temp);
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    WindowsMethods.updateWindow(windowManager, floatImageView_Edit, bitmap_Edit, touchable_edit, allow_picture_over_layout, zoom, picture_degree, position_x_temp, position_y_temp);
+                } else {
+                    Toast.makeText(getActivity(), R.string.settings_picture_position_warn, Toast.LENGTH_SHORT).show();
                 }
-                return false;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            return false;
         });
         seekBar_y.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -576,65 +503,51 @@ public class PictureSettingsFragment extends PreferenceFragmentCompat {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-        editText_y.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                try {
-                    int edittext_temp = Integer.valueOf(v.getText().toString());
-                    if (allow_picture_over_layout || (edittext_temp >= 0 && edittext_temp <= Max_Y)) {
-                        position_y_temp = edittext_temp;
-                        if (!allow_picture_over_layout) {
-                            seekBar_y.setProgress(edittext_temp);
-                        }
-                        WindowsMethods.updateWindow(windowManager, floatImageView_Edit, bitmap_Edit, touchable_edit, allow_picture_over_layout, zoom, picture_degree, position_x_temp, position_y_temp);
-                    } else {
-                        Toast.makeText(getActivity(), R.string.settings_picture_position_warn, Toast.LENGTH_SHORT).show();
+        editText_y.setOnEditorActionListener((v, actionId, event) -> {
+            try {
+                int edittext_temp = Integer.parseInt(v.getText().toString());
+                if (allow_picture_over_layout || (edittext_temp >= 0 && edittext_temp <= Max_Y)) {
+                    position_y_temp = edittext_temp;
+                    if (!allow_picture_over_layout) {
+                        seekBar_y.setProgress(edittext_temp);
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    WindowsMethods.updateWindow(windowManager, floatImageView_Edit, bitmap_Edit, touchable_edit, allow_picture_over_layout, zoom, picture_degree, position_x_temp, position_y_temp);
+                } else {
+                    Toast.makeText(getActivity(), R.string.settings_picture_position_warn, Toast.LENGTH_SHORT).show();
                 }
-                return false;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            return false;
         });
         if (allow_picture_over_layout) {
             seekBar_x.setEnabled(false);
             seekBar_y.setEnabled(false);
         }
         if (touchable_edit) {
-            dialog.setNeutralButton(R.string.save_moved_position, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    position_x = (int) floatImageView_Edit.getMovedPositionX();
-                    position_y = (int) floatImageView_Edit.getMovedPositionY();
-                    onSuccessEditPicture(floatImageView_Edit, bitmap_Edit);
-                }
+            dialog.setNeutralButton(R.string.save_moved_position, (dialog1, which) -> {
+                position_x = (int) floatImageView_Edit.getMovedPositionX();
+                position_y = (int) floatImageView_Edit.getMovedPositionY();
+                onSuccessEditPicture(floatImageView_Edit, bitmap_Edit);
             });
         }
-        dialog.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (allow_picture_over_layout) {
-                    try {
-                        position_x = Integer.valueOf(editText_x.getText().toString());
-                        position_y = Integer.valueOf(editText_y.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        position_x = position_x_temp;
-                        position_y = position_y_temp;
-                    }
-                } else {
+        dialog.setPositiveButton(R.string.done, (__, which) -> {
+            if (allow_picture_over_layout) {
+                try {
+                    position_x = Integer.parseInt(editText_x.getText().toString());
+                    position_y = Integer.parseInt(editText_y.getText().toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
                     position_x = position_x_temp;
                     position_y = position_y_temp;
                 }
-                onSuccessEditPicture(floatImageView_Edit, bitmap_Edit);
+            } else {
+                position_x = position_x_temp;
+                position_y = position_y_temp;
             }
+            onSuccessEditPicture(floatImageView_Edit, bitmap_Edit);
         });
-        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                onFailedEditPicture(floatImageView_Edit, bitmap_Edit);
-            }
-        });
+        dialog.setNegativeButton(R.string.cancel, (__, which) -> onFailedEditPicture(floatImageView_Edit, bitmap_Edit));
         dialog.setView(mView);
         dialog.show();
     }
@@ -685,7 +598,7 @@ public class PictureSettingsFragment extends PreferenceFragmentCompat {
         pictureData.put(Config.DATA_ALLOW_PICTURE_OVER_LAYOUT, allow_picture_over_layout);
         pictureData.commit(PictureName);
         WindowsMethods.updateWindow(windowManager, floatImageView, bitmap, touch_and_move, allow_picture_over_layout, zoom, picture_degree, position_x, position_y);
-        ImageMethods.saveFloatImageViewById(Objects.requireNonNull(getActivity()), PictureId, floatImageView);
+        ImageMethods.saveFloatImageViewById(requireActivity(), PictureId, floatImageView);
     }
 
     public void clearEditView() {
@@ -703,7 +616,7 @@ public class PictureSettingsFragment extends PreferenceFragmentCompat {
                 bitmap.recycle();
                 floatImageView = null;
             }
-            ImageMethods.clearAllTemp(Objects.requireNonNull(getActivity()), PictureId);
+            ImageMethods.clearAllTemp(requireActivity(), PictureId);
         } else {
             float original_zoom = pictureData.getFloat(Config.DATA_PICTURE_ZOOM, zoom);
             float original_alpha = pictureData.getFloat(Config.DATA_PICTURE_ALPHA, picture_alpha);

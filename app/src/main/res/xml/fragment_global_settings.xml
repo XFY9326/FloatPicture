@@ -1,29 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="@string/settings_general">
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/settings_general">
         <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="boot_auto_run"
-            android:summary="@string/settings_global_start_on_boot_sum"
-            android:title="@string/settings_global_start_on_boot" />
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="boot_auto_run"
+            app:summary="@string/settings_global_start_on_boot_sum"
+            app:title="@string/settings_global_start_on_boot" />
         <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="show_notification_control"
-            android:summary="@string/settings_global_show_notification_control_sum"
-            android:title="@string/settings_global_show_notification_control" />
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="show_notification_control"
+            app:summary="@string/settings_global_show_notification_control_sum"
+            app:title="@string/settings_global_show_notification_control" />
         <Preference
-            android:key="new_picture_quality"
-            android:summary="@string/settings_global_picture_quality_sum"
-            android:title="@string/settings_global_picture_quality" />
+            app:iconSpaceReserved="false"
+            app:key="new_picture_quality"
+            app:summary="@string/settings_global_picture_quality_sum"
+            app:title="@string/settings_global_picture_quality" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/settings_global_advanced">
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/settings_global_advanced">
         <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="touchable_position_edit"
-            android:summary="@string/settings_global_advanced_touchable_position_edit_sum"
-            android:title="@string/settings_global_advanced_touchable_position_edit" />
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="touchable_position_edit"
+            app:summary="@string/settings_global_advanced_touchable_position_edit_sum"
+            app:title="@string/settings_global_advanced_touchable_position_edit" />
     </PreferenceCategory>
 
 </PreferenceScreen>

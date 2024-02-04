@@ -2,7 +2,6 @@ package tool.xfy9326.floatpicture.Activities;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -44,7 +43,7 @@ public class LicenseActivity extends AppCompatActivity {
     }
 
     private void addLicense(String title, String url, String data, LinearLayout main_layout) {
-        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.widget_card_license, (ViewGroup) findViewById(R.id.layout_license_card));
+        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.widget_card_license, findViewById(R.id.layout_license_card));
         TextView textview_title = layout.findViewById(R.id.licence_title);
         textview_title.setText(title);
         TextView textview_url = layout.findViewById(R.id.licence_url);

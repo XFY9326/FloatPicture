@@ -1,6 +1,8 @@
 package tool.xfy9326.floatpicture.Methods;
 
 
+import static tool.xfy9326.floatpicture.Methods.WindowsMethods.getWindowManager;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,8 +18,6 @@ import tool.xfy9326.floatpicture.MainApplication;
 import tool.xfy9326.floatpicture.Utils.Config;
 import tool.xfy9326.floatpicture.Utils.PictureData;
 import tool.xfy9326.floatpicture.View.FloatImageView;
-
-import static tool.xfy9326.floatpicture.Methods.WindowsMethods.getWindowManager;
 
 
 public class ManageMethods {
@@ -35,8 +35,7 @@ public class ManageMethods {
             LinkedHashMap<String, String> list = pictureData.getListArray();
             WindowManager windowManager = getWindowManager(mContext);
             if (list.size() > 0) {
-                for (Object o : list.entrySet()) {
-                    LinkedHashMap.Entry entry = (LinkedHashMap.Entry) o;
+                for (LinkedHashMap.Entry<?, ?> entry : list.entrySet()) {
                     StartWin(mContext, windowManager, pictureData, entry.getKey().toString());
                 }
             }
@@ -81,8 +80,7 @@ public class ManageMethods {
         WindowManager windowManager = getWindowManager(mContext);
         PictureData pictureData = new PictureData();
         if (hashMap.size() > 0) {
-            for (Object o : hashMap.entrySet()) {
-                HashMap.Entry entry = (HashMap.Entry) o;
+            for (HashMap.Entry<?, ?> entry : hashMap.entrySet()) {
                 pictureData.setDataControl(entry.getKey().toString());
                 if (pictureData.getBoolean(Config.DATA_PICTURE_SHOW_ENABLED, Config.DATA_DEFAULT_PICTURE_SHOW_ENABLED)) {
                     FloatImageView floatImageView = (FloatImageView) entry.getValue();
@@ -100,9 +98,9 @@ public class ManageMethods {
     public static void setAllWindowsVisible(Context context, boolean visible) {
         String id;
         PictureData pictureData = new PictureData();
-        LinkedHashMap linkedHashMap = pictureData.getListArray();
-        for (Object o : linkedHashMap.entrySet()) {
-            id = ((Map.Entry) o).getKey().toString();
+        LinkedHashMap<String, String> linkedHashMap = pictureData.getListArray();
+        for (Map.Entry<?, ?> o : linkedHashMap.entrySet()) {
+            id = o.getKey().toString();
             setWindowVisible(context, pictureData, id, visible);
         }
     }
@@ -138,7 +136,7 @@ public class ManageMethods {
         int positionY = pictureData.getInt(Config.DATA_PICTURE_POSITION_Y, Config.DATA_DEFAULT_PICTURE_POSITION_Y);
         boolean touch_and_move = pictureData.getBoolean(Config.DATA_PICTURE_TOUCH_AND_MOVE, Config.DATA_DEFAULT_PICTURE_TOUCH_AND_MOVE);
         boolean over_layout = pictureData.getBoolean(Config.DATA_ALLOW_PICTURE_OVER_LAYOUT, Config.DATA_DEFAULT_ALLOW_PICTURE_OVER_LAYOUT);
-        WindowManager.LayoutParams layoutParams = WindowsMethods.getDefaultLayout(positionX, positionY, touch_and_move, over_layout);
+        WindowManager.LayoutParams layoutParams = WindowsMethods.getDefaultLayout(mContext, positionX, positionY, touch_and_move, over_layout);
         getWindowManager(mContext).addView(floatImageView, layoutParams);
     }
 

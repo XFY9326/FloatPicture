@@ -3,6 +3,7 @@
     <string name="done">Done</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
+    <string name="add">Add</string>
     <string name="permission_warn">Permission Warning</string>
     <string name="permission_warn_explanation">The application need this permission to work properly!</string>
     <string name="permission_warn_overlay_explanation">The application need overlay permission to show pictures!</string>
