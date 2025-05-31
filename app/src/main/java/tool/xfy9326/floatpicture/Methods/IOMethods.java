@@ -18,9 +18,6 @@ import java.util.Objects;
 
 import tool.xfy9326.floatpicture.Utils.Config;
 
-/**
- * @noinspection IOStreamConstructor
- */
 public class IOMethods {
 
     static Bitmap readImageByUri(Context context, Uri uri) {

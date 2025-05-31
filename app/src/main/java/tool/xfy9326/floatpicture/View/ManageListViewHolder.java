@@ -9,7 +9,7 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import tool.xfy9326.floatpicture.R;
 
-class ManageListViewHolder extends AdvancedRecyclerView.ViewHolder {
+public class ManageListViewHolder extends AdvancedRecyclerView.ViewHolder {
     final ImageView imageView_Picture_Preview;
     final SwitchCompat switch_Picture_Show;
     final TextView textView_Picture_Name;

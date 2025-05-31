@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppTheme" parent="AppTheme.Base" />
+    <style name="AppTheme" parent="AppTheme.Base" ></style>
 
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowFullscreen">false</item>
@@ -11,7 +11,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="DrawerActivity" parent="AppTheme" />
+    <style name="DrawerActivity" parent="AppTheme" ></style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

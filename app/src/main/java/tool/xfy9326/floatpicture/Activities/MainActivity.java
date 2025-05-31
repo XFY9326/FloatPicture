@@ -54,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void init(Bundle savedInstanceState) {
         BackClickTime = System.currentTimeMillis();
-        PermissionMethods.askOverlayPermission(this, Config.REQUEST_CODE_PERMISSION_OVERLAY);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PermissionMethods.askOverlayPermission(this, Config.REQUEST_CODE_PERMISSION_OVERLAY);
+        }
         PermissionMethods.askPermission(this, PermissionMethods.StoragePermission, Config.REQUEST_CODE_PERMISSION_STORAGE);
         ViewSet();
         MainApplication mainApplication = (MainApplication) getApplicationContext();
@@ -129,9 +131,9 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, PictureSettingsActivity.class);
                 intent.putExtra(Config.INTENT_PICTURE_EDIT_MODE, false);
                 intent.setData(data.getData());
-                startActivityForResult(intent, Config.REQUEST_CODE_ACTIVITY_PICTURE_SETTINGS_ADD);
+                ActivityCompat.startActivityForResult(this, intent, Config.REQUEST_CODE_ACTIVITY_PICTURE_SETTINGS_ADD, null);
             }
-        } else if (requestCode == Config.REQUEST_CODE_PERMISSION_OVERLAY) {
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && requestCode == Config.REQUEST_CODE_PERMISSION_OVERLAY) {
             PermissionMethods.delayOverlayPermissionCheck(this);
         }
         super.onActivityResult(requestCode, resultCode, data);

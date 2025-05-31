@@ -2,11 +2,11 @@ apply plugin: 'com.android.application'
 
 android {
     namespace "tool.xfy9326.floatpicture"
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "tool.xfy9326.floatpicture"
-        minSdkVersion 19
+        minSdkVersion 21
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 29
         versionCode 12
@@ -64,9 +64,9 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.preference:preference:1.2.1'
-    implementation 'androidx.exifinterface:exifinterface:1.3.7'
-    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.exifinterface:exifinterface:1.4.1'
+    implementation 'com.google.android.material:material:1.12.0'
 }

@@ -38,9 +38,11 @@ public class ManageListAdapter extends AdvancedRecyclerView.Adapter<ManageListVi
         pictureInfo = pictureData.getListArray();
         PictureId_Array = new ArrayList<>();
         PictureName_Array = new ArrayList<>();
-        for (Map.Entry<?, ?> entry : pictureInfo.entrySet()) {
-            PictureId_Array.add(entry.getKey().toString());
-            PictureName_Array.add(entry.getValue().toString());
+        if (pictureInfo != null) {
+            for (Map.Entry<?, ?> entry : pictureInfo.entrySet()) {
+                PictureId_Array.add(entry.getKey().toString());
+                PictureName_Array.add(entry.getValue().toString());
+            }
         }
     }
 

@@ -89,7 +89,7 @@ public class ApplicationMethods {
             if (dir.exists() && dirList != null) {
                 if (dirList.length > 0) {
                     HashMap<String, View> hashMap = ((MainApplication) mContext.getApplicationContext()).getRegister();
-                    if (hashMap.size() > 0) {
+                    if (!hashMap.isEmpty()) {
                         File[] pictures = dir.listFiles();
                         if (pictures != null) {
                             for (File pic_file : pictures) {

@@ -34,7 +34,7 @@ public class ManageMethods {
             PictureData pictureData = new PictureData();
             LinkedHashMap<String, String> list = pictureData.getListArray();
             WindowManager windowManager = getWindowManager(mContext);
-            if (list.size() > 0) {
+            if (!list.isEmpty()) {
                 for (LinkedHashMap.Entry<?, ?> entry : list.entrySet()) {
                     StartWin(mContext, windowManager, pictureData, entry.getKey().toString());
                 }
@@ -79,7 +79,7 @@ public class ManageMethods {
         HashMap<String, View> hashMap = ((MainApplication) mContext.getApplicationContext()).getRegister();
         WindowManager windowManager = getWindowManager(mContext);
         PictureData pictureData = new PictureData();
-        if (hashMap.size() > 0) {
+        if (!hashMap.isEmpty()) {
             for (HashMap.Entry<?, ?> entry : hashMap.entrySet()) {
                 pictureData.setDataControl(entry.getKey().toString());
                 if (pictureData.getBoolean(Config.DATA_PICTURE_SHOW_ENABLED, Config.DATA_DEFAULT_PICTURE_SHOW_ENABLED)) {
